@@ -43,12 +43,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">FRIDAY</a>
+          <a class="navbar-brand" href="/">FRIDAY</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
+            <li class="active"><a href="/input">Input</a></li>
+            <li><a href="/output">Output</a></li>
+            <li><a href="#about">Slides</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -58,27 +59,17 @@
 
     <div class="starter-template">
         <br>
+        <h1> <center> </center> </h1>
 	<br>
 	<br>
-        <h1>Select your match-up!</h1>
     </div>
 
     <div class = "container">
 
       <form  action="/output" method="GET">
-
-        <div class="form-group">
-          <label for="team1name">[Team 1 Name]</label>
-          <input type="text" id="team1name" name='team1name'
-          placeholder="Michigan State Spartans">
-	  <label for="team2name">[Team 2 Name]</label>
-          <input type="text" id="team2name" name='team2name'
-	  placeholder="San Jose State Spartans">
+        <div align="center">
+          <button type="submit" class="btn btn-default btn-lg" > Predict the Winner!!!</button>
         </div>
-        <div>
-          <button type="submit" class="btn btn-default btn-lg"> Who wins?!?</button>
-        </div>
-
       </form>
     </div>
 

@@ -7,7 +7,7 @@ from sqlalchemy_utils import database_exists, create_database
 import psycopg2
 import pandas as pd
 import numpy as np
-from ModelBase import base_model, final_prob
+from ModelBase import base_model
 
 
 #setting up the SQL connection
@@ -20,6 +20,9 @@ con = psycopg2.connect(database = dbname, user = user)
 
 
 @app.route('/')
+def home_page():
+    return render_template("index.html")
+
 
 
 @app.route('/input')
@@ -31,38 +34,12 @@ def teams_input():
 def teams_output():
     totry = np.arange(0,130,1)
 
-    team1 = request.args.get('team1name')
-    sql_query = '''
-                SELECT pts, wl_int 
-                FROM %s LEFT JOIN %s ON (%s.wl=%s.wl)
-                WHERE team_name = '%s';
-                ''' % ('teams1415', 'winloss', 'teams1415', 'winloss', team1)
-    team1_sql = pd.read_sql_query(sql_query,con)
-    team1_XS = list(team1_sql['pts'].values)   
-    team1_XS = np.array([team1_XS]).transpose()
-    team1_YS = list(team1_sql['wl_int'].values)    
-    team1_YS = np.array(team1_YS)
-    team1_prob = base_model(team1_XS, team1_YS, totry)
-
-    
+    team1 = request.args.get('team1name')    
     team2 = request.args.get('team2name')
-    sql_query = '''
-                SELECT pts, wl_int 
-                FROM %s LEFT JOIN %s ON (%s.wl=%s.wl)
-                WHERE team_name = '%s';
-                ''' % ('teams1415', 'winloss', 'teams1415', 'winloss', team2)
-    team2_sql = pd.read_sql_query(sql_query,con)
-    team2_sql = pd.read_sql_query(sql_query,con)
-    team2_XS = list(team2_sql['pts'].values)   
-    team2_XS = np.array([team2_XS]).transpose()
-    team2_YS = list(team2_sql['wl_int'].values)    
-    team2_YS = np.array(team2_YS)
-    team2_prob = base_model(team2_XS, team2_YS, totry)
+    winprob = base_model(team1, team2)
+    winprob = str(winprob*100.0)[0:5] + '%'
 
-    myfinalprob = final_prob(team1_prob, team2_prob)
-
-    mydict = {'mytry':totry, 'myfinalprob':myfinalprob}
-    return render_template("output.html", team1=team1, team2=team2, mydict=mydict)
+    return render_template("output.html", team1=team1, team2=team2, winprob=winprob)
 
 
 
@@ -74,7 +51,7 @@ def index():
 @app.route('/db')
 def team_page_fancy():
     sql_query = """
-                SELECT pts, fgper, reb FROM teams1415 WHERE team_name='Wisconsin Badgers';          
+                SELECT pts, fgper, reb FROM teams1415 WHERE team_name='Michigan State Spartans';          
                 """
     query_results=pd.read_sql_query(sql_query,con)
     stats = []

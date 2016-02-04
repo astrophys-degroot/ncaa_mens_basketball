@@ -9,11 +9,12 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Friday</title>
+    <title>FRIDAY</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
-
+    <!-- Bootstrap theme -->
+    <link href="../static/css/bootstrap-theme.min.css" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
@@ -57,79 +58,15 @@
     <div class="container">
 
     <div class="starter-template">
-        <br>
-	<br>
-	<br>
-        <h1> <center> Select your match-up! </center> </h1>
-	<br>
     </div>
 
     <div class = "container">
-
-      <form  action="/output" method="GET">
-
-        <div class="form-group" align="center">
-          <label for="team1name">[Team 1 Name]</label>
-          <input type="text" id="team1name" style="width:20%" name='team1name'
-          placeholder="Michigan State Spartans">
-	  <label for="team2name">[Team 2 Name]</label>
-          <input type="text" id="team2name" style="width:20%" name='team2name'
-	  placeholder="San Jose State Spartans">
-        </div>
-	<br>
-
-        <div align="center">
-          <button type="submit" class="btn btn-default btn-lg" > Predict Winner</button>
-        </div>
-
-      </form>
     </div>
 
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
+
   </div> <!-- /.container-->
-
-  <hr color="black" width="80%", size="30">
-  <div class="container">
-    <div class="starter-template">
-      <p align="center" class="lead"> The probability of the {{team1}} defeating "{{team2}}" is:</p>
-
-      <h1 align="center"> Win Probability: {{winprob}} </h1>
-
-      <table style="width:80%" align="center">
-	<tr>
-	  <td><img src="../static/images/pts_plot.png" class="img-rounded"></td>
-	  <td><img src="../static/images/ast_plot.png" class="img-rounded"></td> 
-	</tr>
-	<tr>
-	  <td><img src="../static/images/reb_plot.png" alt="" class="img-rounded"></td>
-	  <td><img src="../static/images/oreb_plot.png" alt="" class="img-rounded"></td> 
-	</tr>
-	<tr>
-	  <td><img src="../static/images/dreb_plot.png" alt="" class="img-rounded"></td>
-	  <td><img src="../static/images/stl_plot.png" alt="" class="img-rounded"></td> 
-	</tr>
-	<tr>
-	  <td><img src="../static/images/blk_plot.png" alt="" class="img-rounded"></td>
-	  <td><img src="../static/images/pf_plot.png" alt="" class="img-rounded"></td> 
-	</tr>
-	<tr>
-	  <td><img src="../static/images/fga_plot.png" alt="" class="img-rounded"></td>
-	  <td><img src="../static/images/fgm_plot.png" alt="" class="img-rounded"></td> 
-	</tr>
-	<tr>
-	  <td><img src="../static/images/fgper_plot.png" alt="" class="img-rounded"></td>
-	  <td><img src="../static/images/tpper_plot.png" alt="" class="img-rounded"></td> 
-	</tr>
-	<tr>
-	  <td><img src="../static/images/tpa_plot.png" alt="" class="img-rounded"></td>
-	  <td><img src="../static/images/tpm_plot.png" alt="" class="img-rounded"></td> 
-	</tr>
-      </table>
-       
-    </div>
-  </div><!-- /.container -->
-
 
 
     <!-- Bootstrap core JavaScript
