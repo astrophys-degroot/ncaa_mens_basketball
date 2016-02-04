@@ -14,15 +14,18 @@ from ModelBase import base_model
 user = 'smaug'
 host = 'localhost'
 dbname = 'ncaa_mbb_db'
-db = create_engine('postgres://%s%s/%s'%(user,host,dbname))
-con = None
-con = psycopg2.connect(database = dbname, user = user)
+try:
+    db = create_engine('postgres://%s%s/%s'%(user,host,dbname))
+    con = None
+    con = psycopg2.connect(database = dbname, user = user)
+except:
+    con = None
+    db = None
 
 
 @app.route('/')
 def home_page():
     return render_template("index.html")
-
 
 
 @app.route('/input')

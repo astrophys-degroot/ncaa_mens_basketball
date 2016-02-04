@@ -298,10 +298,10 @@ def base_model(team1_name, team2_name):
             #print first, second, first - second
             XS_entry.append(first - second)
 
-            chk = sample_plots(cur_samp, bins, bdict, pdf_fitted, 
-                                team1_name, team1_use[season_sql_tag], 
-                                team2_name, team2_use[season_sql_tag], 
-                                season_sql_tag)
+            #chk = sample_plots(cur_samp, bins, bdict, pdf_fitted, 
+            #                    team1_name, team1_use[season_sql_tag], 
+            #                    team2_name, team2_use[season_sql_tag], 
+            #                    season_sql_tag)
 
         #print XS_entry
 
