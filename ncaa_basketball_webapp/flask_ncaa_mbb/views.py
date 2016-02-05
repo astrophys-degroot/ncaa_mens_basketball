@@ -11,6 +11,7 @@ from ModelBase import base_model
 import plotly.plotly as py
 import plotly.tools as tls
 
+
 #setting up the SQL connection
 user = 'smaug'
 host = 'localhost'
@@ -29,21 +30,27 @@ def home_page():
     return render_template("index.html")
 
 
-@app.route('/input')
+@app.route('/input', methods=['POST', 'GET'])
 def teams_input():
     return render_template("input.html")
 
 
-@app.route('/output')
+@app.route('/output', methods=['POST', 'GET'])
 def teams_output():
-    totry = np.arange(0,130,1)
-    team1 = request.args.get('team1name')    
-    team2 = request.args.get('team2name')
+    #totry = np.arange(0,130,1)
 
-    team1="UCLA Bruins"
-    team1_png = team1.replace(' ', '_')
-    team2="Michigan State Spartans"
-    team2_png = team2.replace(' ', '_')
+     
+    team1_png = request.args.get('team1')
+    if team1_png is None:
+        team1_png = 'Ohio_State_Buckeyes'
+    team1 = team1_png.replace('_', ' ')
+
+    
+    team2_png = request.args.get('team2')
+    if team2_png is None:
+        team2_png = 'Michigan_State_Spartans'
+    team2 = team2_png.replace('_', ' ')
+
 
     win_dict = base_model(team1, team2)
     winprob = win_dict['prob']
@@ -54,8 +61,11 @@ def teams_output():
     else:
         winprob = 'LOSE'
         teamwin=team1_png
-    #print '***********', win_dict['url']
     myplot = tls.get_embed(win_dict['url'])
+    #print myplot
+    myplot = myplot.replace('525', '400')
+    myplot = myplot.replace('100%', '65%')
+    #print myplot
     return render_template("output.html", team1_png=team1_png, team2_png=team2_png,
                            teamwin=teamwin, myplot=myplot, winprob=winprob)
 

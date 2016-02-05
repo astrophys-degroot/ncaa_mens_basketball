@@ -54,264 +54,502 @@
   <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
+
       <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/"><font face="krungthep"> FRIDAY </font></a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="/input">Input</a></li>
-            <li><a href="/output">Output</a></li>
-            <li><a href="#about">Slides</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
+	
+      <div class="navbar-header">
+	
+	<button type="button" class="navbar-toggle collapsed"
+	data-toggle="collapse"  data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	<span class="sr-only">Toggle navigation</span>
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+	</button>
+	<a class="navbar-brand" href="/"><font face="krungthep"> FRIDAY </font></a>
       </div>
-    </nav>
-
-    <div class="container">
-
-    <div class="starter-template">
-        <br>
-        <h1> <center> </center> </h1>
-	<br>
-	<br>
-    </div>
-
-    <div class = "container">
-
-      <form  action="/output" method="GET">
-        <div align="center">
-          <button type="submit" class="btn btn-default btn-lg"> Predict the Winner!!!</button>
-        </div>
-      </form>
-    </div>
-    <br>
-    <br>
-
-    <table style="width:100%" align="center">
-      <tr>
-	<td>
-	<table style="width:95%" align="center">
-	  <tr>
-	    <p align="center" style="font-size:20px;color:white" style="">America East <p>
-	  </tr>
-	  <tr>
-	    <td> <img src=../static/logos/Albany_Great_Danes.png></td> 
-	    <td> <img src=../static/logos/Binghamton_Bearcats.png></td> 
-	    <td> <img src=../static/logos/Hartford_Hawks.png></td> 
-	    <td> <img src=../static/logos/Maine_Black_Bears.png></td> 
-	    <td> <img src=../static/logos/New_Hampshire_Wildcats.png></td> 
-	  </tr>
-	  <tr>
-	    <td> <img src=../static/logos/Stony_Brook_Seawolves.png></td> 
-	    <td> <img src=../static/logos/Umass_Lowell_Red_Hawks.png></td> 
-	    <td> <img src=../static/logos/UMBC_Retrievers.png></td> 
-	    <td> <img src=../static/logos/Vermont_Catamounts.png></td> 
-	  </tr>
-	</table>
-	</td>
-	
-      	<td>
-	<table style="width:95%" align="center">
-	  <tr>
-	    <p align="center" style="font-size:20px;color:white" style="">Atlantic-10<p>
-	  </tr>
-	  <tr>
-	    <td> <img src=../static/logos/Davidson_Wildcats.png></td> 
-	    <td> <img src=../static/logos/Dayton_Flyers.png></td> 
-	    <td> <img src=../static/logos/Duquesne_Dukes.png></td> 
-	    <td> <img src=../static/logos/George_Mason_Patriots.png></td> 
-	    <td> <img src=../static/logos/George_Washington_Colonials.png></td> 
-	    <td> <img src=../static/logos/Fordham_Rams.png></td> 
-	    <td> <img src=../static/logos/La_Salle_Explorers.png></td> 
-	  </tr>
-	  <tr>
-	    <td> <img src=../static/logos/Massachusetts_Minutemen.png></td> 
-	    <td> <img src=../static/logos/Rhode_Island_Rams.png></td> 
-	    <td> <img src=../static/logos/Richmond_Spiders.png></td> 
-	    <td> <img src=../static/logos/Saint_Joseph's_Hawks.png></td> 
-	    <td> <img src=../static/logos/Saint_Louis_Billikens.png></td> 
-	    <td> <img src=../static/logos/St_Bonaventure_Bonnies.png></td> 
-	    <td> <img src=../static/logos/VCU_Rams.png></td> 
-	  </tr>
-	</table>
-      </td>
       
-      <td>
-	<table style="width:95%" align="center">
-	  <tr>
-	    <p align="center" style="font-size:20px;color:white" style="">Big-12<p>
-	  </tr>
-	  <tr>
-	    <td> <img src=../static/logos/Baylor_Bears.png></td> 
-	    <td> <img src=../static/logos/Iowa_State_Cyclones.png></td> 
-	    <td> <img src=../static/logos/Kansas_Jayhawks.png></td> 
-	    <td> <img src=../static/logos/Kansas_State_Wildcats.png></td> 
-	    <td> <img src=../static/logos/Oklahoma_Sooners.png></td> 
-	  </tr>
-	  <tr>
-	    <td> <img src=../static/logos/Oklahoma_State_Cowboys.png></td> 
-	    <td> <img src=../static/logos/TCU_Horned_Frogs.png></td> 
-	    <td> <img src=../static/logos/Texas_Longhorns.png></td> 
-	    <td> <img src=../static/logos/Texas_Tech_Red_Raiders.png></td> 
-	    <td> <img src=../static/logos/West_Virginia_Mountaineers.png></td> 
-	  </tr>
-	</table>
-      </td>
-    </tr>
-
-    <tr>
-      <td><br></td>
-    </tr>
-    
-     <tr>
-	<td>
-	<table style="width:90%" align="center">
-	  <tr>
-	    <p align="center" style="font-size:20px;color:white" style="">Big-10<p>
-	  </tr>
-	  <tr>
-	    <td> <img src=../static/logos/Illinois_Fighting_Illini.png></td> 
-	    <td> <img src=../static/logos/Indiana_Hoosiers.png></td>
-	    <td> <img src=../static/logos/Iowa_Hawkeyes.png></td> 
-	    <td> <img src=../static/logos/Maryland_Terrapins.png></td> 
-	    <td> <img src=../static/logos/Michigan_State_Spartans.png></td> 
-	    <td> <img src=../static/logos/Michigan_Wolverines.png></td> 
-	    <td> <img src=../static/logos/Minnesota_Golden_Gophers.png></td> 
-	  </tr>
-	  <tr>
-	    <td onclick="myFunction()"> <img src=../static/logos/Nebraska_Cornhuskers.png></td> 
-	    <td> <img src=../static/logos/Northwestern_Wildcats.png></td> 
-	    <td> <img src=../static/logos/Ohio_State_Buckeyes.png></td> 
-	    <td> <img src=../static/logos/Penn_State_Nittany_Lions.png></td> 
-	    <td> <img src=../static/logos/Purdue_Boilermakers.png></td> 
-	    <td> <img src=../static/logos/Rutgers_Scarlett_Knights.png></td> 
-	    <td> <img src=../static/logos/Wisconsin_Badgers.png></td> 
-	  </tr>
-	</table>
-      </td>
+      <div id="navbar" class="collapse navbar-collapse">
+	<ul class="nav navbar-nav">
+	  <li class="active"><a href="/input">Input</a></li>
+	  <li><a href="/output">Output</a></li>
+	  <li><a href="#about">Slides</a></li>
+	</ul>
+      </div><!--/.nav-collapse -->
+      </div>
+      </nav>
+      
+      <div class="container">
 	
-      <td>
-	<table style="width:90%" align="center" id="pac10" onclick="myboxFunction()">
-	    <p align="center" style="font-size:20px;color:white" style="">Pac-10<p>
-	  <tr>
-	    <td> <img src=../static/logos/Arizona_State_Sun_Devils.png></td> 
-	    <td> <img src=../static/logos/Arizona_Wildcats.png></td> 
-	    <td> <img src=../static/logos/Colorado_Buffaloes.png></td> 
-	    <td> <img src=../static/logos/California_Golden_Bears.png></td> 
-	    <td> <img src=../static/logos/Oregon_Ducks.png></td> 
-	    <td> <img src=../static/logos/Oregon_State_Beavers.png></td> 
-	    <td> </td> 
-	  </tr>
-	  <tr>
-	    <td> <img src=../static/logos/Stanford_Cardinal.png></td> 
-	    <td> <img src=../static/logos/UCLA_Bruins.png></td> 
-	    <td> <img src=../static/logos/USC_Trojans.png></td>
-	    <td> <img src=../static/logos/Utah_Utes.png></td> 
-	    <td> <img src=../static/logos/Washington_Huskies.png></td> 
-	    <td> <img src=../static/logos/Washington_State_Cougars.png></td> 
-	    <td> </td> 
-	  </tr>
-	</table>
-      </td>
+      <div class="starter-template">
+	<br>
+	<h1> <center> </center> </h1>
+	<br>
+	<br>
+      </div>
 
-      <td>
-	<table style="width:90%" align="center" id="pac10" onclick="myboxFunction()">
-	    <p align="center" style="font-size:20px;color:white" style="">ACC<p>
+      <div class = "container">
+	<form  action="/output" method=["POST", "GET"]>
+      <div align="center">
+	<button type="submit" class="btn btn-default btn-lg"> Predict the Winner!!!</button>
+      </div>
+      <br>
+      <div class="form-group" align="center">
+          <label for="team1" style="font-size:20px;color:white">Team 1</label>
+          <input type="text" id="team1" name="team1" placeholder="Team1 Name" style="font-size:20px;color:black;width:25%" value="">
+          <label for="team2" style="font-size:20px;color:white">[Team 2]</label>
+          <input type="text" id="team2" name="team2" placeholder="Team2 Name" style="font-size:20px;color:black;width:25%" value="">
+      </div>
+      </div>
+
+      <br>
+
+      <script>
+      function myteamFunc(team1name) {
+      if (document.getElementById("team1").value == "") {
+      document.getElementById("team1").value = team1name;
+      } else if (document.getElementById("team2").value == "") {
+      document.getElementById("team2").value = team1name;
+      } else {
+      <!-- Do nothing for the moment!!-->
+      }
+      }
+      </script>
+
+      
+      <table style="width:100%" align="center">
+	<tr>
+	  <td>
+	    <table style="width:95%" align="center">
+	      <tr>
+		<p align="center" style="font-size:20px;color:white" style="">America East <p>
+	      </tr>
+	      <tr>
+		<td id="Albany_Great_Danes"> <img
+		  onclick="myteamFunc(document.getElementById('Albany_Great_Danes').id)"
+		  src=../static/logos/Albany_Great_Danes.png></td> 
+		<td id="Binghamton_Bearcats"> <img
+		  onclick="myteamFunc(document.getElementById('Binghamton_Bearcats').id)"
+		  src=../static/logos/Binghamton_Bearcats.png></td> 
+		<td id="Hartford_Hawks"> <img
+		  onclick="myteamFunc(document.getElementById('Hartford_Hawks').id)"
+		  src=../static/logos/Hartford_Hawks.png></td>
+		<td id="Maine_Black_Bears"> <img
+		  onclick="myteamFunc(document.getElementById('Maine_Black_Bears').id)"
+		  src=../static/logos/Maine_Black_Bears.png></td>
+		<td id="New_Hampshire_Wildcats"> <img
+		  onclick="myteamFunc(document.getElementById('New_Hampshire_Wildcats').id)"
+		  src=../static/logos/New_Hampshire_Wildcats.png></td>
+	      </tr>
+	      <tr>
+		<td id="Stony_Brook_Seawolves"> <img
+		  onclick="myteamFunc(document.getElementById('Stony_Brook_Seawolves').id)"
+		  src=../static/logos/Stony_Brook_Seawolves.png></td>
+		<td id="Umass_Lowell_Red_Hawks"> <img
+		  onclick="myteamFunc(document.getElementById('Umass_Lowell_Red_Hawks').id)"
+		  src=../static/logos/Umass_Lowell_Red_Hawks.png></td>
+		<td id="UMBC_Retrievers"> <img
+		  onclick="myteamFunc(document.getElementById('UMBC_Retrievers').id)"
+		  src=../static/logos/UMBC_Retrievers.png></td>
+		<td id="Vermont_Catamounts"> <img
+		  onclick="myteamFunc(document.getElementById('Vermont_Catamounts').id)"
+		  src=../static/logos/Vermont_Catamounts.png></td>
+	      </tr>
+	    </table>
+	  </td>
+	  
+	  <td>
+	    <table style="width:95%" align="center">
+	      <tr>
+		<p align="center" style="font-size:20px;color:white" style="">Atlantic-10<p>
+	      </tr>
+	      <tr>
+		<td id="Davidson_Wildcats"> <img
+		  onclick="myteamFunc(document.getElementById('Davidson_Wildcats').id)"
+		  src=../static/logos/Davidson_Wildcats.png>
+		</td>
+		<td id="Dayton_Flyers"> <img
+		  onclick="myteamFunc(document.getElementById('Dayton_Flyers').id)"
+		  src=../static/logos/Dayton_Flyers.png>
+		</td>
+		<td id="Duquesne_Dukes"> <img
+		  onclick="myteamFunc(document.getElementById('Duquesne_Dukes').id)"
+		  src=../static/logos/Duquesne_Dukes.png>
+		</td>
+		<td id="George_Mason_Patriots"> <img
+		  onclick="myteamFunc(document.getElementById('George_Mason_Patriots').id)"
+		  src=../static/logos/George_Mason_Patriots.png>
+		</td>
+		<td id="George_Washington_Colonials"> <img
+		  onclick="myteamFunc(document.getElementById('George_Washington_Colonials').id)"
+		  src=../static/logos/George_Washington_Colonials.png>
+		</td>
+		<td id="Fordham_Rams"> <img
+		  onclick="myteamFunc(document.getElementById('Fordham_Rams').id)"
+		  src=../static/logos/Fordham_Rams.png>
+		</td>
+		<td id="La_Salle_Explorers"> <img
+		  onclick="myteamFunc(document.getElementById('La_Salle_Explorers').id)"
+		  src=../static/logos/La_Salle_Explorers.png>
+		</td>
+	      </tr>
+	      <tr>
+		<td id="Massachusetts_Minutemen"> <img
+		  onclick="myteamFunc(document.getElementById('Massachusetts_Minutemen').id)"
+		  src=../static/logos/Massachusetts_Minutemen.png>
+		</td>
+		<td id="Rhode_Island_Rams"> <img
+		  onclick="myteamFunc(document.getElementById('Rhode_Island_Rams').id)"
+		  src=../static/logos/Rhode_Island_Rams.png>
+		</td>
+		<td id="Richmond_Spiders"> <img
+		  onclick="myteamFunc(document.getElementById('Richmond_Spiders').id)"
+		  src=../static/logos/Richmond_Spiders.png>
+		</td>
+		<td id="Saint_Joseph's_Hawks"> <img
+		  onclick="myteamFunc(document.getElementById('Saint_Joseph's_Hawks').id)"
+		  src=../static/logos/Saint_Joseph's_Hawks.png>
+		</td>
+		<td id="Saint_Louis_Billikens"> <img
+		  onclick="myteamFunc(document.getElementById('Saint_Louis_Billikens').id)"
+		  src=../static/logos/Saint_Louis_Billikens.png>
+		</td>
+		<td id="St_Bonaventure_Bonnies"> <img
+		  onclick="myteamFunc(document.getElementById('St_Bonaventure_Bonnies').id)"
+		  src=../static/logos/St_Bonaventure_Bonnies.png>
+		</td>
+		<td id="VCU_Rams"> <img
+		  onclick="myteamFunc(document.getElementById('VCU_Rams').id)"
+		    src=../static/logos/VCU_Rams.png>
+		</td>
+	      </tr>
+	    </table>
+	  </td>
+	    
+	  <td>
+	    <table style="width:90%" align="center">
+	      <tr>
+		<p align="center" style="font-size:20px;color:white" style="">A-Sun<p>
+	      </tr>
+	      <tr>
+		<td id="Florida_Gulf_Coast_Eagles"> <img
+		  onclick="myteamFunc(document.getElementById('Florida_Gulf_Coast_Eagles').id)"
+		    src=../static/logos/Florida_Gulf_Coast_Eagles.png>
+		</td>
+		<td id="Jacksonville_Dolphins"> <img
+		  onclick="myteamFunc(document.getElementById('Jacksonville_Dolphins').id)"
+		    src=../static/logos/Jacksonville_Dolphins.png>
+		</td>
+		<td id="Kennesaw_State_Owls"> <img
+		  onclick="myteamFunc(document.getElementById('Kennesaw_State_Owls').id)"
+		    src=../static/logos/Kennesaw_State_Owls.png>
+		</td>
+		<td id="Lipscomb_Bison"> <img
+		  onclick="myteamFunc(document.getElementById('Lipscomb_Bison').id)"
+		    src=../static/logos/Lipscomb_Bison.png>
+		</td>
+	      </tr>
+	      <tr>
+		<td id="NJIT_Highlanders"> <img
+		  onclick="myteamFunc(document.getElementById('NJIT_Highlanders').id)"
+		  src=../static/logos/NJIT_Highlanders.png>
+		</td>
+		<td id="North_Florida_Ospreys"> <img
+		  onclick="myteamFunc(document.getElementById('North_Florida_Ospreys').id)"
+		  src=../static/logos/North_Florida_Ospreys.png>
+		</td>
+		<td id="South_Carolina_Upstate_Spartans"> <img
+		  onclick="myteamFunc(document.getElementById('South_Carolina_Upstate_Spartans').id)"
+		  src=../static/logos/South_Carolina_Upstate_Spartans.png>
+		</td>
+		<td id="Stetson_Hatters"> <img
+		  onclick="myteamFunc(document.getElementById('Stetson_Hatters').id)"
+		  src=../static/logos/Stetson_Hatters.png>
+		</td>
+		<tr>
+		</tr>
+	      </table>
+	    </td>
+	  </tr>
+	
+	<tr>
+	  <td><br></td>
+	</tr>
+	
+	<tr>
+	  <td>
+	    <table style="width:90%" align="center" id="pac10" onclick="myboxFunction()">
+	      <p align="center" style="font-size:20px;color:white" style="">ACC<p>
+	      <tr>
+		<td id="Boston_College_Eagles"> <img
+		  onclick="myteamFunc(document.getElementById('Boston_College_Eagles').id)"
+		  src=../static/logos/Boston_College_Eagles.png>
+		</td>
+		<td id="Clemson_Tigers"> <img
+		  onclick="myteamFunc(document.getElementById('Clemson_Tigers').id)"
+		  src=../static/logos/Clemson_Tigers.png>
+		</td>
+		<td id="Duke_Blue_Devils"> <img
+		  onclick="myteamFunc(document.getElementById('Duke_Blue_Devils').id)"
+		  src=../static/logos/Duke_Blue_Devils.png>
+		</td>
+		<td id="Miami_Hurricanes"> <img
+		  onclick="myteamFunc(document.getElementById('Miami_Hurricanes').id)"
+		  src=../static/logos/Miami_Hurricanes.png>
+		</td>
+		<td id="Georgia_Tech_Yellow_Jackets"> <img
+		  onclick="myteamFunc(document.getElementById('Georgia_Tech_Yellow_Jackets').id)"
+		  src=../static/logos/Georgia_Tech_Yellow_Jackets.png>
+		</td>
+		<td id="Florida_State_Seminoles"> <img
+		  onclick="myteamFunc(document.getElementById('Florida_State_Seminoles').id)"
+		  src=../static/logos/Florida_State_Seminoles.png>
+		</td>
+		<td id="NC_State_Wolfpack"> <img
+		  onclick="myteamFunc(document.getElementById('NC_State_Wolfpack').id)"
+		  src=../static/logos/NC_State_Wolfpack.png>
+		</td>
+		<td id="Louisville_Cardinals"> <img
+		  onclick="myteamFunc(document.getElementById('Louisville_Cardinals').id)"
+		  src=../static/logos/Louisville_Cardinals.png>
+		</td>
+	      </tr>
+	      <tr>
+		<td id="North_Carolina_Tar_Heels"> <img
+		  onclick="myteamFunc(document.getElementById('North_Carolina_Tar_Heels').id)"
+		  src=../static/logos/North_Carolina_Tar_Heels.png>
+		</td>
+		<td id="Notre_Dame_Fighting_Irish"> <img
+		  onclick="myteamFunc(document.getElementById('Notre_Dame_Fighting_Irish').id)"
+		  src=../static/logos/Notre_Dame_Fighting_Irish.png>
+		</td>
+		<td id="Pittsburgh_Panthers"> <img
+		  onclick="myteamFunc(document.getElementById('Pittsburgh_Panthers').id)"
+		  src=../static/logos/Pittsburgh_Panthers.png>
+		</td>
+		<td id="Syracuse_Orange"> <img
+		  onclick="myteamFunc(document.getElementById('Syracuse_Orange').id)"
+		  src=../static/logos/Syracuse_Orange.png>
+		</td>
+		<td id="Virginia_Cavaliers"> <img
+		  onclick="myteamFunc(document.getElementById('Virginia_Cavaliers').id)"
+		  src=../static/logos/Virginia_Cavaliers.png>
+		</td>
+		<td id="Virginia_Tech_Hokies"> <img
+		  onclick="myteamFunc(document.getElementById('Virginia_Tech_Hokies').id)"
+		  src=../static/logos/Virginia_Tech_Hokies.png>
+		</td>
+		<td id="Wake_Forest_Demon_Decons"> <img
+		  onclick="myteamFunc(document.getElementById('Wake_Forest_Demon_Decons').id)"
+		  src=../static/logos/Wake_Forest_Demon_Decons.png>
+		</td>
+	      </tr>
+	    </table>
+	  </td>
+	  
+	  <td>
+	    <table style="width:90%" align="center">
+	      <tr>
+		<p align="center" style="font-size:20px;color:white" style="">Big-10<p>
+	      </tr>
+	      <tr>
+		<td id="Illinois_Fighting_Illini"> <img
+		  onclick="myteamFunc(document.getElementById('Illinois_Fighting_Illini').id)"
+		  src=../static/logos/Illinois_Fighting_Illini.png>
+		</td>
+		<td id="Indiana_Hoosiers"> <img
+		  onclick="myteamFunc(document.getElementById('Indiana_Hoosiers').id)"
+		  src=../static/logos/Indiana_Hoosiers.png>
+		</td>
+		<td id="Iowa_Hawkeyes"> <img
+		  onclick="myteamFunc(document.getElementById('Iowa_Hawkeyes').id)"
+		  src=../static/logos/Iowa_Hawkeyes.png>
+		</td>
+		<td id="Maryland_Terrapins"> <img
+		  onclick="myteamFunc(document.getElementById('Maryland_Terrapins').id)"
+		  src=../static/logos/Maryland_Terrapins.png>
+		</td>
+		<td id="Michigan_State_Spartans"> <img
+		  onclick="myteamFunc(document.getElementById('Michigan_State_Spartans').id)"
+		  src=../static/logos/Michigan_State_Spartans.png>
+		</td>
+		<td id="Michigan_Wolverines"> <img
+		  onclick="myteamFunc(document.getElementById('Michigan_Wolverines').id)"
+		  src=../static/logos/Michigan_Wolverines.png>
+		</td>
+		<td id="Minnesota_Golden_Gophers"> <img
+		  onclick="myteamFunc(document.getElementById('Minnesota_Golden_Gophers').id)"
+		  src=../static/logos/Minnesota_Golden_Gophers.png>
+		</td>
+	      </tr>
+	      <tr>
+		<td id="Nebraska_Cornhuskers"> <img
+		  onclick="myteamFunc(document.getElementById('Nebraska_Cornhuskers').id)"
+		  src=../static/logos/Nebraska_Cornhuskers.png>
+		</td>
+		<td id="Northwestern_Wildcats"> <img
+		  onclick="myteamFunc(document.getElementById('Northwestern_Wildcats').id)"
+		  src=../static/logos/Northwestern_Wildcats.png>
+		</td>
+		<td id="Ohio_State_Buckeyes"> <img
+		  onclick="myteamFunc(document.getElementById('Ohio_State_Buckeyes').id)"
+		  src=../static/logos/Ohio_State_Buckeyes.png>
+		</td>
+		<td id="Penn_State_Nittany_Lions"> <img
+		  onclick="myteamFunc(document.getElementById('Penn_State_Nittany_Lions').id)"
+		  src=../static/logos/Penn_State_Nittany_Lions.png>
+		</td>
+		<td id="Purdue_Boilermakers"> <img
+		  onclick="myteamFunc(document.getElementById('Purdue_Boilermakers').id)"
+		  src=../static/logos/Purdue_Boilermakers.png>
+		</td>
+		<td id="Rutgers_Scarlett_Knights"> <img
+		  onclick="myteamFunc(document.getElementById('Rutgers_Scarlett_Knights').id)"
+		  src=../static/logos/Rutgers_Scarlett_Knights.png>
+		</td>
+		<td id="Wisconsin_Badgers"> <img
+		  onclick="myteamFunc(document.getElementById('Wisconsin_Badgers').id)"
+		  src=../static/logos/Wisconsin_Badgers.png>
+		</td>
+	      </tr>
+	    </table>
+	  </td>
+	    
+	    <td>
+	      <table style="width:95%" align="center">
+		<tr>
+		  <p align="center" style="font-size:20px;color:white" style="">Big-12<p>
+		</tr>
+		<tr>
+		<td id="Baylor_Bears"> <img
+		  onclick="myteamFunc(document.getElementById('Baylor_Bears').id)"
+		  src=../static/logos/Baylor_Bears.png>
+		</td>
+		<td id="Iowa_State_Cyclones"> <img
+		  onclick="myteamFunc(document.getElementById('Iowa_State_Cyclones').id)"
+		  src=../static/logos/Iowa_State_Cyclones.png>
+		</td>
+		<td id="Kansas_Jayhawks"> <img
+		  onclick="myteamFunc(document.getElementById('Kansas_Jayhawks').id)"
+		  src=../static/logos/Kansas_Jayhawks.png>
+		</td>
+		<td id="Kansas_State_Wildcats"> <img
+		  onclick="myteamFunc(document.getElementById('Kansas_State_Wildcats').id)"
+		  src=../static/logos/Kansas_State_Wildcats.png>
+		</td>
+		<td id="Oklahoma_Sooners"> <img
+		  onclick="myteamFunc(document.getElementById('Oklahoma_Sooners').id)"
+		  src=../static/logos/Oklahoma_Sooners.png>
+		</td>
+	      </tr>
+	      <tr>
+		<td id="Oklahoma_State_Cowboys"> <img
+		  onclick="myteamFunc(document.getElementById('Oklahoma_State_Cowboys').id)"
+		  src=../static/logos/Oklahoma_State_Cowboys.png>
+		</td>
+		<td id="TCU_Horned_Frogs"> <img
+		  onclick="myteamFunc(document.getElementById('TCU_Horned_Frogs').id)"
+		  src=../static/logos/TCU_Horned_Frogs.png>
+		</td>
+		<td id="Texas_Longhorns"> <img
+		  onclick="myteamFunc(document.getElementById('Texas_Longhorns').id)"
+		  src=../static/logos/Texas_Longhorns.png>
+		</td>
+		<td id="Texas_Tech_Red_Raiders"> <img
+		  onclick="myteamFunc(document.getElementById('Texas_Tech_Red_Raiders').id)"
+		  src=../static/logos/Texas_Tech_Red_Raiders.png>
+		</td>
+		<td id="West_Virginia_Mountaineers"> <img
+		  onclick="myteamFunc(document.getElementById('West_Virginia_Mountaineers').id)"
+		  src=../static/logos/West_Virginia_Mountaineers.png>
+		</td>
+		</tr>
+	      </table>
+	    </td>
+	  </tr>
+	  
 	  <tr>
-	    <td> <img src=../static/logos/Boston_College_Eagles.png></td> 
-	    <td> <img src=../static/logos/Clemson_Tigers.png></td> 
-	    <td> <img src=../static/logos/Duke_Blue_Devils.png></td> 
-	    <td> <img src=../static/logos/Miami_Hurricanes.png></td> 
-	    <td> <img src=../static/logos/Georgia_Tech_Yellow_Jackets.png></td> 
-	    <td> <img src=../static/logos/Florida_State_Seminoles.png></td> 
-	    <td> <img src=../static/logos/NC_State_Wolfpack.png></td> 
-	    <td> <img src=../static/logos/Louisville_Cardinals.png></td> 
+	    <td><br></td>
 	  </tr>
-	    <td> <img src=../static/logos/North_Carolina_Tar_Heels.png></td> 
-	    <td> <img src=../static/logos/Notre_Dame_Fighting_Irish.png></td> 
-	    <td> <img src=../static/logos/Pittsburgh_Panthers.png></td> 
-	    <td> <img src=../static/logos/Syracuse_Orange.png></td> 
-	    <td> <img src=../static/logos/Virginia_Cavaliers.png></td> 
-	    <td> <img src=../static/logos/Virginia_Tech_Hokies.png></td> 
-	    <td> <img src=../static/logos/Wake_Forest_Demon_Decons.png></td> 
-	    <td> </td>
-	    <tr>
-	  </tr>
-	</table>
-      </td>
-      </tr>
-
-      <tr>
-	<td><br></td>
-      </tr>
-
-      <tr>
 	<td>
-	<table style="width:90%" align="center">
-	  <tr>
-	    <p align="center" style="font-size:20px;color:white" style="">A-Sun<p>
-	  </tr>
-	  <tr>
-	    <td> <img src=../static/logos/Florida_Gulf_Coast_Eagles.png></td>
-	    <td> <img src=../static/logos/Jacksonville_Dolphins.png></td> 
-	    <td> <img src=../static/logos/Kennesaw_State_Owls.png></td>
-	    <td> <img src=../static/logos/Lipscomb_Bison.png></td>
-	  </tr>
-	    <td> <img src=../static/logos/NJIT_Highlanders.png></td>
-	    <td> <img src=../static/logos/North_Florida_Ospreys.png></td>
-	    <td> <img src=../static/logos/South_Carolina_Upstate_Spartans.png></td>
-	    <td> <img src=../static/logos/Stetson_Hatters.png></td>
-	  <tr>
-	  </tr>
-	</table>
-      </td>
+	  <table style="width:90%" align="center" id="pac10">
+	    <p align="center" style="font-size:20px;color:white" style="">Pac-10<p>
+	    <tr>
+	      <td id="Arizona_State_Sun_Devils"> <img
+		onclick="myteamFunc(document.getElementById('Arizona_State_Sun_Devils').id)"
+		src=../static/logos/Arizona_State_Sun_Devils.png>
+	      </td>
+	      <td id="Arizona_Wildcats"> <img
+		onclick="myteamFunc(document.getElementById('Arizona_Wildcats').id)"
+		src=../static/logos/Arizona_Wildcats.png>
+	      </td>
+	      <td id="Colorado_Buffaloes"> <img
+		onclick="myteamFunc(document.getElementById('Colorado_Buffaloes').id)"
+		src=../static/logos/Colorado_Buffaloes.png>
+	      </td>
+	      <td id="California_Golden_Bears"> <img
+		onclick="myteamFunc(document.getElementById('California_Golden_Bears').id)"
+		src=../static/logos/California_Golden_Bears.png>
+	      </td>
+	      <td id="Oregon_Ducks"> <img
+		onclick="myteamFunc(document.getElementById('Oregon_Ducks').id)"
+		src=../static/logos/Oregon_Ducks.png>
+	      </td>
+	      <td id="Oregon_State_Beavers"> <img
+		onclick="myteamFunc(document.getElementById('Oregon_State_Beavers').id)"
+		src=../static/logos/Oregon_State_Beavers.png>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td id="Stanford_Cardinal"> <img
+		onclick="myteamFunc(document.getElementById('Stanford_Cardinal').id)"
+		src=../static/logos/Stanford_Cardinal.png>
+	      </td>
+	      <td id="UCLA_Bruins"> <img
+		onclick="myteamFunc(document.getElementById('UCLA_Bruins').id)"
+		src=../static/logos/UCLA_Bruins.png>
+	      </td>
+	      <td id="USC_Trojans"> <img
+		onclick="myteamFunc(document.getElementById('USC_Trojans').id)"
+		src=../static/logos/USC_Trojans.png>
+	      </td>
+	      <td id="Utah_Utes"> <img
+		onclick="myteamFunc(document.getElementById('Utah_Utes').id)"
+		src=../static/logos/Utah_Utes.png>
+	      </td>
+	      <td id="Washington_Huskies"> <img
+		onclick="myteamFunc(document.getElementById('Washington_Huskies').id)"
+		src=../static/logos/Washington_Huskies.png>
+	      </td>
+	      <td id="Washington_State_Cougars"> <img
+		onclick="myteamFunc(document.getElementById('Washington_State_Cougars').id)"
+		src=../static/logos/Washington_State_Cougars.png>
+	      </td>
+	    </tr>
+	  </table>
+	</td>
+	<tr>
+	</table>      
+	
+	<br>
+	
 
 
-  </table>
+	</form>
+      </div>
 
-
-    <br>
-
-
-
-    <script>
-    function myboxFunction() {
-    document.getElementById("pac10").border = "1";
-    }
-    </script>
- 
-
-  <script>
-    function mytextFunction() {
-    document.getElementById("demo").style.color = "red";
-    }
-    </script>
-    <p id="demo" onclick="mytextFunction()">Click me to change my text color.</p>
-
+	
+      
+	
   <p>This example demonstrates how to assign an "onclick" event to the window object.</p>
-
   <p>Click anywhere in this window to change the background color of body.</p>
-
   <script>
   window.onclick = myFunction;
-
   function myFunction() {
   document.getElementsByTagName("BODY")[0].style.backgroundColor = "yellow";
   }
   </script>
-
-  
- <cell>
-  Something
-  </cell>
-  
+ 
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
 

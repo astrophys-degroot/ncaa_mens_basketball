@@ -37,9 +37,9 @@
        left:0;
        right:0;
        bottom:0;
-       top:-225px;
+       top:-125px;
        overflow:hidden;
-       z-index:0;
+       z-index:-1;
    }
    #bg img {
        width:100%;
@@ -52,9 +52,9 @@
   </style>
 
   <body>
-   <!--<div id="bg">
+   <div id="bg">
       <img style="display:block;" src="../static/images/partial_bracket.png">
-    </div>-->
+    </div>
     <div id="content">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -93,12 +93,13 @@
   <div class="container">
     <div class="starter-template">
 
-    <img style="position:absolute; TOP:120px; LEFT:325px" width="10%" HEIGHT="auto" src="../static/logos/{{team1_png}}.png">
-    <img style="position:absolute; TOP:575px; LEFT:325px" width="10%" HEIGHT="auto" src="../static/logos/{{team2_png}}.png">
-    <img style="position:absolute; TOP:350px; LEFT:600px" width="10%" HEIGHT="auto" src="../static/logos/{{teamwin}}.png">
+    <img style="position:absolute; TOP:130px; LEFT:70px" width="8%" HEIGHT="auto" src="../static/logos/{{team1_png}}.png">
+    <img style="position:absolute; TOP:350px; LEFT:70px" width="8%" HEIGHT="auto" src="../static/logos/{{team2_png}}.png">
+    <img style="position:absolute; TOP:240px; LEFT:325px" width="8%" HEIGHT="auto" src="../static/logos/{{teamwin}}.png">
 
-    {{myplot|safe}}
-
+     <div id="contentframe" style="position:relative; top:200px; left:390px;" width="100px">
+       {{myplot|safe}}
+     </div>
     </div>
   </div><!-- /.container -->
 

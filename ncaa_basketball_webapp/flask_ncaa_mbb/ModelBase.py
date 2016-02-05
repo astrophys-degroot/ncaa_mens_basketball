@@ -176,11 +176,11 @@ def sample_plots(cur_samp, bins, bdict, pdf_fitted,
 
 #==============================================================================
 def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
-    
+
     my_df_first = pd.DataFrame({'factors':XS_first, "index":np.arange(len(XS_first)), 'names':season_sql_tags})
     #print my_df_first
-    my_df_first['factors'] = -1.0*my_df_first['factors']
-    print my_df_first
+    #my_df_first['factors'] = -1.0*my_df_first['factors']
+    #print my_df_first
 
     my_df_second = pd.DataFrame({'factors':XS_second, "index":np.arange(len(XS_second)), 'names':season_sql_tags})
     #print my_df_second
@@ -191,27 +191,37 @@ def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
         x=my_df_first['names'],
         y=my_df_first['factors'],
         name=team1,
-        marker=dict(color='rgb(49,130,189)')
+        marker=dict(color='rgb(49,130,189)'),
+        text=dict(
+            family='sans serif',
+            size=18,
+            color='#ffffff'
+        ),
         )
     
     trace1 = go.Bar(
         x=my_df_second['names'],
         y=my_df_second['factors'],
         name=team2,
-        marker=dict(color='rgb(204,204,204)')
+        marker=dict(color='rgb(204,204,204)'),
         )
     
     data = [trace0, trace1]
     layout = go.Layout(
-    xaxis=dict(
-            # set x-axis' labels direction at 45 degree angle
-            tickangle=-45,
-        ),
+        #autosize=False, 
+        #height=200,
+        #width=300,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)', 
+        xaxis=dict(
+                # set x-axis' labels direction at 45 degree angle
+                tickangle=-45,
+            ),
         barmode='group',
     )
     fig = go.Figure(data=data, layout=layout)
-    plot_url = py.plot(fig, filename='angled-text-bar')
-    #plot_url = py.plot_mpl(fig)
+    #plot_url = py.plot(fig, filename='angled-text-bar', auto_open=False)
+    plot_url = 'https://plot.ly/~astrophys.degroot/20/ohio-state-buckeyes-vs-michigan-state-spartans/'
     print plot_url
     
     #filename = 'flask_ncaa_mbb/static/images/test_plot.jpeg'
@@ -357,7 +367,6 @@ def base_model(team1_name, team2_name):
             XS_first.append(first)
             XS_second.append(second)
             XS_entry.append(first - second)
-
 
             #chk = sample_plots(cur_samp, bins, bdict, pdf_fitted, 
             #                    team1_name, team1_use[season_sql_tag], 
