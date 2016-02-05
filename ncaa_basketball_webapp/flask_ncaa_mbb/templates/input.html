@@ -32,7 +32,26 @@
     <![endif]-->
   </head>
 
-  <body background="../static/images/basketball-court_landscape.jpg">
+  <style>
+  body { 
+      margin:0; padding:0;
+      background-image: url("../static/images/basketball-court_landscape.jpg");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center; 
+  }
+  cell {
+        width: 100px;
+        height: 300px;
+        padding: 25px;
+        border: 10px solid blue;
+        margin: 10px;
+       }
+
+  </style>
+
+
+  <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -78,7 +97,7 @@
     <table style="width:100%" align="center">
       <tr>
 	<td>
-	<table style="width:90%" align="center">
+	<table style="width:95%" align="center">
 	  <tr>
 	    <p align="center" style="font-size:20px;color:white" style="">America East <p>
 	  </tr>
@@ -94,13 +113,12 @@
 	    <td> <img src=../static/logos/Umass_Lowell_Red_Hawks.png></td> 
 	    <td> <img src=../static/logos/UMBC_Retrievers.png></td> 
 	    <td> <img src=../static/logos/Vermont_Catamounts.png></td> 
-	    <td> </td> 
 	  </tr>
 	</table>
 	</td>
 	
       	<td>
-	<table style="width:90%" align="center">
+	<table style="width:95%" align="center">
 	  <tr>
 	    <p align="center" style="font-size:20px;color:white" style="">Atlantic-10<p>
 	  </tr>
@@ -126,7 +144,7 @@
       </td>
       
       <td>
-	<table style="width:90%" align="center">
+	<table style="width:95%" align="center">
 	  <tr>
 	    <p align="center" style="font-size:20px;color:white" style="">Big-12<p>
 	  </tr>
@@ -136,7 +154,6 @@
 	    <td> <img src=../static/logos/Kansas_Jayhawks.png></td> 
 	    <td> <img src=../static/logos/Kansas_State_Wildcats.png></td> 
 	    <td> <img src=../static/logos/Oklahoma_Sooners.png></td> 
-	    <td> </td> 
 	  </tr>
 	  <tr>
 	    <td> <img src=../static/logos/Oklahoma_State_Cowboys.png></td> 
@@ -144,12 +161,15 @@
 	    <td> <img src=../static/logos/Texas_Longhorns.png></td> 
 	    <td> <img src=../static/logos/Texas_Tech_Red_Raiders.png></td> 
 	    <td> <img src=../static/logos/West_Virginia_Mountaineers.png></td> 
-	    <td> </td> 
 	  </tr>
 	</table>
       </td>
     </tr>
-     
+
+    <tr>
+      <td><br></td>
+    </tr>
+    
      <tr>
 	<td>
 	<table style="width:90%" align="center">
@@ -175,10 +195,10 @@
 	    <td> <img src=../static/logos/Wisconsin_Badgers.png></td> 
 	  </tr>
 	</table>
-	</td>
+      </td>
 	
-	<td>
-	<table style="width:90%" align="center" >
+      <td>
+	<table style="width:90%" align="center" id="pac10" onclick="myboxFunction()">
 	    <p align="center" style="font-size:20px;color:white" style="">Pac-10<p>
 	  <tr>
 	    <td> <img src=../static/logos/Arizona_State_Sun_Devils.png></td> 
@@ -190,8 +210,8 @@
 	    <td> </td> 
 	  </tr>
 	  <tr>
-	    <td onclick="myFunction()"> <img src=../static/logos/UCLA_Bruins.png></td> 
 	    <td> <img src=../static/logos/Stanford_Cardinal.png></td> 
+	    <td> <img src=../static/logos/UCLA_Bruins.png></td> 
 	    <td> <img src=../static/logos/USC_Trojans.png></td>
 	    <td> <img src=../static/logos/Utah_Utes.png></td> 
 	    <td> <img src=../static/logos/Washington_Huskies.png></td> 
@@ -201,8 +221,57 @@
 	</table>
       </td>
 
-
+      <td>
+	<table style="width:90%" align="center" id="pac10" onclick="myboxFunction()">
+	    <p align="center" style="font-size:20px;color:white" style="">ACC<p>
+	  <tr>
+	    <td> <img src=../static/logos/Boston_College_Eagles.png></td> 
+	    <td> <img src=../static/logos/Clemson_Tigers.png></td> 
+	    <td> <img src=../static/logos/Duke_Blue_Devils.png></td> 
+	    <td> <img src=../static/logos/Miami_Hurricanes.png></td> 
+	    <td> <img src=../static/logos/Georgia_Tech_Yellow_Jackets.png></td> 
+	    <td> <img src=../static/logos/Florida_State_Seminoles.png></td> 
+	    <td> <img src=../static/logos/NC_State_Wolfpack.png></td> 
+	    <td> <img src=../static/logos/Louisville_Cardinals.png></td> 
+	  </tr>
+	    <td> <img src=../static/logos/North_Carolina_Tar_Heels.png></td> 
+	    <td> <img src=../static/logos/Notre_Dame_Fighting_Irish.png></td> 
+	    <td> <img src=../static/logos/Pittsburgh_Panthers.png></td> 
+	    <td> <img src=../static/logos/Syracuse_Orange.png></td> 
+	    <td> <img src=../static/logos/Virginia_Cavaliers.png></td> 
+	    <td> <img src=../static/logos/Virginia_Tech_Hokies.png></td> 
+	    <td> <img src=../static/logos/Wake_Forest_Demon_Decons.png></td> 
+	    <td> </td>
+	    <tr>
+	  </tr>
+	</table>
+      </td>
       </tr>
+
+      <tr>
+	<td><br></td>
+      </tr>
+
+      <tr>
+	<td>
+	<table style="width:90%" align="center">
+	  <tr>
+	    <p align="center" style="font-size:20px;color:white" style="">A-Sun<p>
+	  </tr>
+	  <tr>
+	    <td> <img src=../static/logos/Florida_Gulf_Coast_Eagles.png></td>
+	    <td> <img src=../static/logos/Jacksonville_Dolphins.png></td> 
+	    <td> <img src=../static/logos/Kennesaw_State_Owls.png></td>
+	    <td> <img src=../static/logos/Lipscomb_Bison.png></td>
+	  </tr>
+	    <td> <img src=../static/logos/NJIT_Highlanders.png></td>
+	    <td> <img src=../static/logos/North_Florida_Ospreys.png></td>
+	    <td> <img src=../static/logos/South_Carolina_Upstate_Spartans.png></td>
+	    <td> <img src=../static/logos/Stetson_Hatters.png></td>
+	  <tr>
+	  </tr>
+	</table>
+      </td>
 
 
   </table>
@@ -210,14 +279,39 @@
 
     <br>
 
+
+
     <script>
-    function myFunction() {
+    function myboxFunction() {
+    document.getElementById("pac10").border = "1";
+    }
+    </script>
+ 
+
+  <script>
+    function mytextFunction() {
     document.getElementById("demo").style.color = "red";
     }
     </script>
-    <p id="demo" onclick="myFunction()">Click me to change my text color.</p>
+    <p id="demo" onclick="mytextFunction()">Click me to change my text color.</p>
 
-    
+  <p>This example demonstrates how to assign an "onclick" event to the window object.</p>
+
+  <p>Click anywhere in this window to change the background color of body.</p>
+
+  <script>
+  window.onclick = myFunction;
+
+  function myFunction() {
+  document.getElementsByTagName("BODY")[0].style.backgroundColor = "yellow";
+  }
+  </script>
+
+  
+ <cell>
+  Something
+  </cell>
+  
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
 

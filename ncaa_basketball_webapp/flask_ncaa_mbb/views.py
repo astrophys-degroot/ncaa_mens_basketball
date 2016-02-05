@@ -8,7 +8,8 @@ import psycopg2
 import pandas as pd
 import numpy as np
 from ModelBase import base_model
-
+import plotly.plotly as py
+import plotly.tools as tls
 
 #setting up the SQL connection
 user = 'smaug'
@@ -36,13 +37,27 @@ def teams_input():
 @app.route('/output')
 def teams_output():
     totry = np.arange(0,130,1)
-
     team1 = request.args.get('team1name')    
     team2 = request.args.get('team2name')
-    winprob = base_model(team1, team2)
-    winprob = str(winprob*100.0)[0:5] + '%'
 
-    return render_template("output.html", team1=team1, team2=team2, winprob=winprob)
+    team1="UCLA Bruins"
+    team1_png = team1.replace(' ', '_')
+    team2="Michigan State Spartans"
+    team2_png = team2.replace(' ', '_')
+
+    win_dict = base_model(team1, team2)
+    winprob = win_dict['prob']
+    #print '***********', winprob
+    if winprob <= 0.5:
+        winprob = 'WIN'
+        teamwin=team2_png
+    else:
+        winprob = 'LOSE'
+        teamwin=team1_png
+    #print '***********', win_dict['url']
+    myplot = tls.get_embed(win_dict['url'])
+    return render_template("output.html", team1_png=team1_png, team2_png=team2_png,
+                           teamwin=teamwin, myplot=myplot, winprob=winprob)
 
 
 

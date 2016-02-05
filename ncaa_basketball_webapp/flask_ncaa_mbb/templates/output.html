@@ -31,8 +31,31 @@
     <![endif]-->
   </head>
 
-  <body background="../static/images/basketball_bracket3.png">
+  <style>
+   #bg {
+       position:absolute; 
+       left:0;
+       right:0;
+       bottom:0;
+       top:-225px;
+       overflow:hidden;
+       z-index:0;
+   }
+   #bg img {
+       width:100%;
+       min-width:100%;
+       min-height:100%;
+   }
+   #content {
+       z-index:1;
+   }
+  </style>
 
+  <body>
+   <!--<div id="bg">
+      <img style="display:block;" src="../static/images/partial_bracket.png">
+    </div>-->
+    <div id="content">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -66,21 +89,18 @@
     <script src="static/js/bootstrap.min.js"></script>
   </div> <!-- /.container-->
 
+
   <div class="container">
     <div class="starter-template">
-      <br>
-      <br>
-      <br>
-      <div class="boxed" align="center" style="font-size:20pt;color:black">
-	This text is enclosed in a box.
-      </div>
-      <p align="center" class="lead"> The probability of the {{team1}} defeating "{{team2}}" is:</p>
 
-      <h1 align="center"> Win Probability: {{winprob}} </h1>
-       
+    <img style="position:absolute; TOP:120px; LEFT:325px" width="10%" HEIGHT="auto" src="../static/logos/{{team1_png}}.png">
+    <img style="position:absolute; TOP:575px; LEFT:325px" width="10%" HEIGHT="auto" src="../static/logos/{{team2_png}}.png">
+    <img style="position:absolute; TOP:350px; LEFT:600px" width="10%" HEIGHT="auto" src="../static/logos/{{teamwin}}.png">
+
+    {{myplot|safe}}
+
     </div>
   </div><!-- /.container -->
-
 
 
     <!-- Bootstrap core JavaScript
@@ -88,6 +108,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="static/js/bootstrap.min.js"></script>
-    
+    </div>
   </body>
 </html>
