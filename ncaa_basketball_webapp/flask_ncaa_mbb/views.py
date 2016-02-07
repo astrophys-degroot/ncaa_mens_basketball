@@ -10,7 +10,7 @@ import numpy as np
 from ModelBase import base_model
 import plotly.plotly as py
 import plotly.tools as tls
-
+import urllib2
 
 #setting up the SQL connection
 user = 'smaug'
@@ -61,10 +61,15 @@ def teams_output():
     else:
         winprob = 'LOSE'
         teamwin=team1_png
+    #part_url = win_dict['url']
+    #full_url = 'http://localhost:5000/plot' + '?' + part_url
+    #req = urllib2.Request(full_url)
+    #myplot = urllib2.urlopen(req)
+
     myplot = tls.get_embed(win_dict['url'])
     #print myplot
     myplot = myplot.replace('525', '400')
-    myplot = myplot.replace('100%', '65%')
+    myplot = myplot.replace('100%', '56%')
     #print myplot
     return render_template("output.html", team1_png=team1_png, team2_png=team2_png,
                            teamwin=teamwin, myplot=myplot, winprob=winprob)

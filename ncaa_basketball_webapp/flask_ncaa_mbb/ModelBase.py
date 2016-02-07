@@ -8,6 +8,7 @@ import matplotlib.gridspec as gridspec
 import plotly.plotly as py
 import plotly.graph_objs as go
 
+import urllib
 import re
 import pickle
 
@@ -191,7 +192,7 @@ def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
         x=my_df_first['names'],
         y=my_df_first['factors'],
         name=team1,
-        marker=dict(color='rgb(49,130,189)'),
+        marker=dict(color='rgb(0,200,100)'),
         text=dict(
             family='sans serif',
             size=18,
@@ -203,7 +204,7 @@ def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
         x=my_df_second['names'],
         y=my_df_second['factors'],
         name=team2,
-        marker=dict(color='rgb(204,204,204)'),
+        marker=dict(color='rgb(200,0,100)'),
         )
     
     data = [trace0, trace1]
@@ -213,16 +214,22 @@ def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
         #width=300,
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)', 
-        xaxis=dict(
-                # set x-axis' labels direction at 45 degree angle
-                tickangle=-45,
-            ),
+        xaxis=dict(tickangle=-45),
+        yaxis=dict(range=[0.0,1.0],ticktext=[0.0,0.2,0.4,0.6,0.8,1.0]),
+        font=dict(family='Courier New, monospace', size=18, color='#ffffff'),
+        legend=dict(x=0.0,y=1.25),
         barmode='group',
     )
     fig = go.Figure(data=data, layout=layout)
-    #plot_url = py.plot(fig, filename='angled-text-bar', auto_open=False)
-    plot_url = 'https://plot.ly/~astrophys.degroot/20/ohio-state-buckeyes-vs-michigan-state-spartans/'
-    print plot_url
+
+    try:
+        plot_url = py.plot(fig, filename='angled-text-bar', auto_open=False)
+    except:
+        plot_url = 'https://plot.ly/~astrophys.degroot/20/ohio-state-buckeyes-vs-michigan-state-spartans/'
+    #print plot_url
+
+    #plot_html = urllib.urlencode(fig)
+    #print plot_html
     
     #filename = 'flask_ncaa_mbb/static/images/test_plot.jpeg'
     #plt.savefig(filename)
