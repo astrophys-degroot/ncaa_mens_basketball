@@ -1,0 +1,255 @@
+Retrieving logs...
+============= i-436b1ac3 ==============
+-------------------------------------
+/var/log/eb-version-deployment.log
+-------------------------------------
+2016-02-10 20:28:11,828 [INFO] Found the latest version manifest file <Key: elasticbeanstalk-us-east-1-783475056347,resources/environments/e-4vjkfc8jff/_runtime/versions/manifest_1455135760280> from bucket elasticbeanstalk-us-east-1-783475056347 and prefix resources/environments/e-4vjkfc8jff/_runtime/versions/
+2016-02-10 20:28:11,952 [INFO] Downloaded the manifest file to /tmp/version_file_manifest
+2016-02-10 20:28:12,311 [INFO] Downloaded version label app-160210_152101 from s3 key <Key: elasticbeanstalk-us-east-1-783475056347,resources/environments/e-4vjkfc8jff/_runtime/_versions/ncaa_basketball_webapp/app-160210_152101>
+
+
+
+-------------------------------------
+/var/log/httpd/error_log
+-------------------------------------
+[Wed Feb 10 20:28:24.059992 2016] [suexec:notice] [pid 2730] AH01232: suEXEC mechanism enabled (wrapper: /usr/sbin/suexec)
+[Wed Feb 10 20:28:24.070338 2016] [auth_digest:notice] [pid 2730] AH01757: generating secret for digest authentication ...
+[Wed Feb 10 20:28:24.070885 2016] [lbmethod_heartbeat:notice] [pid 2730] AH02282: No slotmem from mod_heartmonitor
+[Wed Feb 10 20:28:24.070916 2016] [:warn] [pid 2730] mod_wsgi: Compiled for Python/2.7.9.
+[Wed Feb 10 20:28:24.070921 2016] [:warn] [pid 2730] mod_wsgi: Runtime using Python/2.7.10.
+[Wed Feb 10 20:28:24.072382 2016] [mpm_prefork:notice] [pid 2730] AH00163: Apache/2.4.16 (Amazon) mod_wsgi/3.5 Python/2.7.10 configured -- resuming normal operations
+[Wed Feb 10 20:28:24.072396 2016] [core:notice] [pid 2730] AH00094: Command line: '/usr/sbin/httpd -D FOREGROUND'
+
+
+
+-------------------------------------
+/opt/python/log/supervisord.log
+-------------------------------------
+2016-02-10 20:28:20,971 CRIT Supervisor running as root (no user in config file)
+2016-02-10 20:28:21,015 INFO RPC interface 'supervisor' initialized
+2016-02-10 20:28:21,015 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2016-02-10 20:28:21,016 INFO supervisord started with pid 2651
+2016-02-10 20:28:22,018 INFO spawned: 'httpd' with pid 2730
+2016-02-10 20:28:23,019 INFO success: httpd entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+
+
+
+-------------------------------------
+/var/log/httpd/access_log
+-------------------------------------
+172.31.49.236 - - [10/Feb/2016:20:36:23 +0000] "GET / HTTP/1.1" 200 161 "-" "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.91 Safari/534.30"
+
+
+
+-------------------------------------
+/var/log/eb-activity.log
+-------------------------------------
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Washington_Huskies_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Washington_State_Cougars.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Washington_State_Cougars_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Weber_State_Wildcats.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Weber_State_Wildcats_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/West_Virginia_Mountaineers.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/West_Virginia_Mountaineers_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Western_Carolina_Catamounts.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Western_Carolina_Catamounts_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Western_Illinois_Leathernecks.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Western_Illinois_Leathernecks_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Western_Kentucky_Hilltoppers.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Western_Kentucky_Hilltoppers_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Western_Michigan_Broncos.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Western_Michigan_Broncos_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Wichita_St_Shockers.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Wichita_St_Shockers_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/William_&_Mary_Tribe.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/William_&_Mary_Tribe_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Winthrop_Eagles.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Winthrop_Eagles_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Wisconsin_Badgers.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Wisconsin_Badgers_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Wofford_Terriers.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Wofford_Terriers_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Wright_State_Raiders.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Wright_State_Raiders_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Wyoming_Cowboys.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Wyoming_Cowboys_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Xavier_Muskateers.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Xavier_Muskateers_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Yale_Bulldogs.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Yale_Bulldogs_large.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Youngstown_State_Penguins.png  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/static/logos/Youngstown_State_Penguins_large.png  
+     creating: /opt/python/ondeck/app/flask_ncaa_mbb/templates/
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/templates/.DS_Store  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/templates/home.html  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/templates/index.html  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/templates/input.html  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/templates/output.html  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/templates/starter-template.css  
+    inflating: /opt/python/ondeck/app/flask_ncaa_mbb/templates/team.html  
+[2016-02-10T20:29:19.034Z] INFO  [2750]  - [Application deployment/StartupStage0/AppDeployPreHook/03deploy.py] : Starting activity...
+[2016-02-10T20:29:20.290Z] INFO  [2750]  - [Application deployment/StartupStage0/AppDeployPreHook/03deploy.py] : Activity execution failed, because: Collecting abstract-rendering==0.5.1 (from -r /opt/python/ondeck/app/requirements.txt (line 1))
+    Downloading abstract_rendering-0.5.1.tar.gz
+      Complete output from command python setup.py egg_info:
+      Traceback (most recent call last):
+        File "<string>", line 20, in <module>
+        File "/tmp/pip-build-MPdLnm/abstract-rendering/setup.py", line 6, in <module>
+          from numpy import get_include
+      ImportError: No module named numpy
+      
+      ----------------------------------------
+  Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-build-MPdLnm/abstract-rendering
+  You are using pip version 7.1.2, however version 8.0.2 is available.
+  You should consider upgrading via the 'pip install --upgrade pip' command.
+  2016-02-10 20:29:20,285 ERROR    Error installing dependencies: Command '/opt/python/run/venv/bin/pip install -r /opt/python/ondeck/app/requirements.txt' returned non-zero exit status 1
+  Traceback (most recent call last):
+    File "/opt/elasticbeanstalk/hooks/appdeploy/pre/03deploy.py", line 22, in main
+      install_dependencies()
+    File "/opt/elasticbeanstalk/hooks/appdeploy/pre/03deploy.py", line 18, in install_dependencies
+      check_call('%s install -r %s' % (os.path.join(APP_VIRTUAL_ENV, 'bin', 'pip'), requirements_file), shell=True)
+    File "/usr/lib64/python2.7/subprocess.py", line 540, in check_call
+      raise CalledProcessError(retcode, cmd)
+  CalledProcessError: Command '/opt/python/run/venv/bin/pip install -r /opt/python/ondeck/app/requirements.txt' returned non-zero exit status 1 (ElasticBeanstalk::ExternalInvocationError)
+caused by: Collecting abstract-rendering==0.5.1 (from -r /opt/python/ondeck/app/requirements.txt (line 1))
+    Downloading abstract_rendering-0.5.1.tar.gz
+      Complete output from command python setup.py egg_info:
+      Traceback (most recent call last):
+        File "<string>", line 20, in <module>
+        File "/tmp/pip-build-MPdLnm/abstract-rendering/setup.py", line 6, in <module>
+          from numpy import get_include
+      ImportError: No module named numpy
+      
+      ----------------------------------------
+  Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-build-MPdLnm/abstract-rendering
+  You are using pip version 7.1.2, however version 8.0.2 is available.
+  You should consider upgrading via the 'pip install --upgrade pip' command.
+  2016-02-10 20:29:20,285 ERROR    Error installing dependencies: Command '/opt/python/run/venv/bin/pip install -r /opt/python/ondeck/app/requirements.txt' returned non-zero exit status 1
+  Traceback (most recent call last):
+    File "/opt/elasticbeanstalk/hooks/appdeploy/pre/03deploy.py", line 22, in main
+      install_dependencies()
+    File "/opt/elasticbeanstalk/hooks/appdeploy/pre/03deploy.py", line 18, in install_dependencies
+      check_call('%s install -r %s' % (os.path.join(APP_VIRTUAL_ENV, 'bin', 'pip'), requirements_file), shell=True)
+    File "/usr/lib64/python2.7/subprocess.py", line 540, in check_call
+      raise CalledProcessError(retcode, cmd)
+  CalledProcessError: Command '/opt/python/run/venv/bin/pip install -r /opt/python/ondeck/app/requirements.txt' returned non-zero exit status 1 (Executor::NonZeroExitStatus)
+
+
+[2016-02-10T20:29:20.290Z] INFO  [2750]  - [Application deployment/StartupStage0/AppDeployPreHook/03deploy.py] : Activity failed.
+[2016-02-10T20:29:20.291Z] INFO  [2750]  - [Application deployment/StartupStage0/AppDeployPreHook] : Activity failed.
+[2016-02-10T20:29:20.291Z] INFO  [2750]  - [Application deployment/StartupStage0] : Activity failed.
+[2016-02-10T20:29:20.291Z] INFO  [2750]  - [Application deployment] : Completed activity. Result:
+  Application deployment - Command CMD-Startup failed
+[2016-02-10T20:37:16.067Z] INFO  [2919]  - [CMD-TailLogs - stage ] : Starting activity...
+[2016-02-10T20:37:16.338Z] INFO  [2919]  - [CMD-TailLogs - stage /AddonsBefore] : Starting activity...
+[2016-02-10T20:37:16.338Z] INFO  [2919]  - [CMD-TailLogs - stage /AddonsBefore] : Completed activity.
+[2016-02-10T20:37:16.338Z] INFO  [2919]  - [CMD-TailLogs - stage /TailLogs] : Starting activity...
+[2016-02-10T20:37:16.338Z] INFO  [2919]  - [CMD-TailLogs - stage /TailLogs/TailLogs] : Starting activity...
+
+
+
+-------------------------------------
+/var/log/eb-commandprocessor.log
+-------------------------------------
+[2016-02-10T20:29:16.820Z] INFO  [2750]  : Executing Application deployment
+[2016-02-10T20:29:16.820Z] INFO  [2750]  : Executing command: CMD-Startup...
+[2016-02-10T20:29:16.820Z] DEBUG [2750]  : Reading config file: /etc/elasticbeanstalk/.aws-eb-stack.properties
+[2016-02-10T20:29:16.820Z] DEBUG [2750]  : Refreshing metadata..
+[2016-02-10T20:29:17.088Z] DEBUG [2750]  : Refreshed environment metadata.
+[2016-02-10T20:29:17.088Z] DEBUG [2750]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_ContainerConfigFileContent||commands..
+[2016-02-10T20:29:17.089Z] DEBUG [2750]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_API||_Commands..
+[2016-02-10T20:29:17.090Z] INFO  [2750]  : Found enabled addons: ["logpublish"].
+[2016-02-10T20:29:17.091Z] INFO  [2750]  : Updating Command definition of addon logpublish.
+[2016-02-10T20:29:17.091Z] DEBUG [2750]  : Loaded definition of Command CMD-Startup.
+[2016-02-10T20:29:17.091Z] INFO  [2750]  : Executing command CMD-Startup activities...
+[2016-02-10T20:29:17.091Z] DEBUG [2750]  : Setting environment variables..
+[2016-02-10T20:29:17.091Z] INFO  [2750]  : Running AddonsBefore for command CMD-Startup...
+[2016-02-10T20:29:17.091Z] DEBUG [2750]  : Running stages of Command CMD-Startup from stage 0 to stage 1...
+[2016-02-10T20:29:17.091Z] INFO  [2750]  : Running stage 0 of command CMD-Startup...
+[2016-02-10T20:29:17.091Z] INFO  [2750]  : Running leader election...
+[2016-02-10T20:29:17.376Z] INFO  [2750]  : Instance is Leader.
+[2016-02-10T20:29:17.378Z] DEBUG [2750]  : Loaded 7 actions for stage 0.
+[2016-02-10T20:29:17.378Z] INFO  [2750]  : Running 1 of 7 actions: HealthdLogRotation...
+[2016-02-10T20:29:17.395Z] INFO  [2750]  : Running 2 of 7 actions: HealthdHTTPDLogging...
+[2016-02-10T20:29:17.408Z] INFO  [2750]  : Running 3 of 7 actions: HealthdNginxLogging...
+[2016-02-10T20:29:17.411Z] INFO  [2750]  : Running 4 of 7 actions: EbExtensionPreBuild...
+[2016-02-10T20:29:17.954Z] INFO  [2750]  : Running 5 of 7 actions: AppDeployPreHook...
+[2016-02-10T20:29:20.291Z] ERROR [2750]  : Command execution failed: Activity failed. (ElasticBeanstalk::ActivityFatalError)
+caused by: Collecting abstract-rendering==0.5.1 (from -r /opt/python/ondeck/app/requirements.txt (line 1))
+    Downloading abstract_rendering-0.5.1.tar.gz
+      Complete output from command python setup.py egg_info:
+      Traceback (most recent call last):
+        File "<string>", line 20, in <module>
+        File "/tmp/pip-build-MPdLnm/abstract-rendering/setup.py", line 6, in <module>
+          from numpy import get_include
+      ImportError: No module named numpy
+      
+      ----------------------------------------
+  Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-build-MPdLnm/abstract-rendering
+  You are using pip version 7.1.2, however version 8.0.2 is available.
+  You should consider upgrading via the 'pip install --upgrade pip' command.
+  2016-02-10 20:29:20,285 ERROR    Error installing dependencies: Command '/opt/python/run/venv/bin/pip install -r /opt/python/ondeck/app/requirements.txt' returned non-zero exit status 1
+  Traceback (most recent call last):
+    File "/opt/elasticbeanstalk/hooks/appdeploy/pre/03deploy.py", line 22, in main
+      install_dependencies()
+    File "/opt/elasticbeanstalk/hooks/appdeploy/pre/03deploy.py", line 18, in install_dependencies
+      check_call('%s install -r %s' % (os.path.join(APP_VIRTUAL_ENV, 'bin', 'pip'), requirements_file), shell=True)
+    File "/usr/lib64/python2.7/subprocess.py", line 540, in check_call
+      raise CalledProcessError(retcode, cmd)
+  CalledProcessError: Command '/opt/python/run/venv/bin/pip install -r /opt/python/ondeck/app/requirements.txt' returned non-zero exit status 1 (ElasticBeanstalk::ExternalInvocationError)
+caused by: Collecting abstract-rendering==0.5.1 (from -r /opt/python/ondeck/app/requirements.txt (line 1))
+    Downloading abstract_rendering-0.5.1.tar.gz
+      Complete output from command python setup.py egg_info:
+      Traceback (most recent call last):
+        File "<string>", line 20, in <module>
+        File "/tmp/pip-build-MPdLnm/abstract-rendering/setup.py", line 6, in <module>
+          from numpy import get_include
+      ImportError: No module named numpy
+      
+      ----------------------------------------
+  Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-build-MPdLnm/abstract-rendering
+  You are using pip version 7.1.2, however version 8.0.2 is available.
+  You should consider upgrading via the 'pip install --upgrade pip' command.
+  2016-02-10 20:29:20,285 ERROR    Error installing dependencies: Command '/opt/python/run/venv/bin/pip install -r /opt/python/ondeck/app/requirements.txt' returned non-zero exit status 1
+  Traceback (most recent call last):
+    File "/opt/elasticbeanstalk/hooks/appdeploy/pre/03deploy.py", line 22, in main
+      install_dependencies()
+    File "/opt/elasticbeanstalk/hooks/appdeploy/pre/03deploy.py", line 18, in install_dependencies
+      check_call('%s install -r %s' % (os.path.join(APP_VIRTUAL_ENV, 'bin', 'pip'), requirements_file), shell=True)
+    File "/usr/lib64/python2.7/subprocess.py", line 540, in check_call
+      raise CalledProcessError(retcode, cmd)
+  CalledProcessError: Command '/opt/python/run/venv/bin/pip install -r /opt/python/ondeck/app/requirements.txt' returned non-zero exit status 1 (Executor::NonZeroExitStatus)
+
+
+[2016-02-10T20:29:20.291Z] ERROR [2750]  : Command CMD-Startup failed!
+[2016-02-10T20:29:20.292Z] INFO  [2750]  : Command processor returning results: 
+{"status":"FAILURE","api_version":"1.0","results":[{"status":"FAILURE","msg":"(TRUNCATED)...)\n  File \"/usr/lib64/python2.7/subprocess.py\", line 540, in check_call\n    raise CalledProcessError(retcode, cmd)\nCalledProcessError: Command '/opt/python/run/venv/bin/pip install -r /opt/python/ondeck/app/requirements.txt' returned non-zero exit status 1. \nHook /opt/elasticbeanstalk/hooks/appdeploy/pre/03deploy.py failed. For more detail, check /var/log/eb-activity.log using console or EB CLI","returncode":1,"events":[{"msg":"Your requirements.txt is invalid. Snapshot your logs for details.","severity":"ERROR","timestamp":1455136160},{"msg":"Error installing dependencies: Command '/opt/python/run/venv/bin/pip install -r /opt/python/ondeck/app/requirements.txt' returned non-zero exit status 1","severity":"SYSTEM","timestamp":1455136160}]}],"truncated":"true"}
+[2016-02-10T20:37:16.064Z] DEBUG [2919]  : Reading config file: /etc/elasticbeanstalk/.aws-eb-stack.properties
+[2016-02-10T20:37:16.065Z] DEBUG [2919]  : Checking if the command processor should execute...
+[2016-02-10T20:37:16.067Z] DEBUG [2919]  : Checking whether the command is applicable to instance (i-436b1ac3)..
+[2016-02-10T20:37:16.067Z] INFO  [2919]  : Command is applicable to this instance (i-436b1ac3)..
+[2016-02-10T20:37:16.067Z] DEBUG [2919]  : Checking if the received command stage is valid..
+[2016-02-10T20:37:16.067Z] INFO  [2919]  : No stage_num in command. Valid stage..
+[2016-02-10T20:37:16.067Z] INFO  [2919]  : Received command CMD-TailLogs: {"execution_data":"{\"aws_access_key_id\":\"ASIAICJB5IBCNRLCHI3A\",\"signature\":\"R96lzTunjBcuZRCZBVyYYv0gSVo=\",\"security_token\":\"AQoDYXdzEPb\\\/\\\/\\\/\\\/\\\/\\\/\\\/\\\/\\\/\\\/wEawAJw5\\\/GZYqI22yhlmtUREY1woQAE\\\/jr\\\/p\\\/Z1JR1739tnQnq0OdtijHThkhypjP3xc0gw6XEhZcEcSDaO2wW+srZPdiQGBY\\\/gDGZZDigtsKX8DxNGFOsPILBtmLLZdv7mnsI1AXmarcEt6JH0d7sH+5dgwwyyh3bXbKAhRukgv\\\/+7nZPSZYz0jeNRmt65XcOXW+NwjwLe0lqGvALP6H6hZ0qd+ZLFBkEsbNy7LjRyJjz3bEAr+GEDUUfLoMqWHwXBbGSPuVlu3jcttLZvbW9JpBkB1O+pGjO3dpBSgYW7wytKcHCHAfDzX1+FBaMbzkp53A4Wm8gn3nntdVLjcSgVl6x1a4pGmahPink\\\/INDgVn5GRfk91ZJ8HjMj8YH1mX5Cy194aKm1bpJmw\\\/l0sDFMbT\\\/1OOXTmxCOjnwYXr7npGQFXCD5vu61BQ==\",\"policy\":\"eyJleHBpcmF0aW9uIjoiMjAxNi0wMi0xMFQyMTowNzoxMy41NjVaIiwiY29uZGl0aW9ucyI6W1sic3RhcnRzLXdpdGgiLCIkeC1hbXotbWV0YS10aW1lX3N0YW1wIiwiIl0sWyJzdGFydHMtd2l0aCIsIiR4LWFtei1tZXRhLXB1Ymxpc2hfbWVjaGFuaXNtIiwiIl0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCJyZXNvdXJjZXNcL2Vudmlyb25tZW50c1wvbG9nc1wvIl0sWyJzdGFydHMtd2l0aCIsIiR4LWFtei1tZXRhLWJhdGNoX2lkIiwiIl0sWyJzdGFydHMtd2l0aCIsIiR4LWFtei1tZXRhLWZpbGVfbmFtZSIsIiJdLFsic3RhcnRzLXdpdGgiLCIkeC1hbXotc2VjdXJpdHktdG9rZW4iLCIiXSxbInN0YXJ0cy13aXRoIiwiJENvbnRlbnQtVHlwZSIsIiJdLFsiZXEiLCIkYnVja2V0IiwiZWxhc3RpY2JlYW5zdGFsay11cy1lYXN0LTEtNzgzNDc1MDU2MzQ3Il0sWyJlcSIsIiRhY2wiLCJwcml2YXRlIl1dfQ==\"}","instance_ids":["i-436b1ac3"],"data":"10d0f87f-d036-11e5-bd4d-5360184b5897","command_name":"CMD-TailLogs","api_version":"1.0","resource_name":"AWSEBAutoScalingGroup","request_id":"10d0f87f-d036-11e5-bd4d-5360184b5897","command_timeout":"600"}
+[2016-02-10T20:37:16.067Z] INFO  [2919]  : Command processor should execute command.
+[2016-02-10T20:37:16.067Z] DEBUG [2919]  : Storing current stage..
+[2016-02-10T20:37:16.067Z] DEBUG [2919]  : Stage_num does not exist. Not saving null stage. Returning..
+[2016-02-10T20:37:16.067Z] INFO  [2919]  : Executing CMD-TailLogs - stage 
+[2016-02-10T20:37:16.067Z] INFO  [2919]  : Executing command: CMD-TailLogs...
+[2016-02-10T20:37:16.067Z] DEBUG [2919]  : Reading config file: /etc/elasticbeanstalk/.aws-eb-stack.properties
+[2016-02-10T20:37:16.067Z] DEBUG [2919]  : Refreshing metadata..
+[2016-02-10T20:37:16.336Z] DEBUG [2919]  : Refreshed environment metadata.
+[2016-02-10T20:37:16.336Z] DEBUG [2919]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_ContainerConfigFileContent||commands..
+[2016-02-10T20:37:16.336Z] DEBUG [2919]  : Retrieving metadata for key: AWS::ElasticBeanstalk::Ext||_API||_Commands..
+[2016-02-10T20:37:16.337Z] INFO  [2919]  : Found enabled addons: ["logpublish"].
+[2016-02-10T20:37:16.338Z] INFO  [2919]  : Updating Command definition of addon logpublish.
+[2016-02-10T20:37:16.338Z] DEBUG [2919]  : Loaded definition of Command CMD-TailLogs.
+[2016-02-10T20:37:16.338Z] INFO  [2919]  : Executing command CMD-TailLogs activities...
+[2016-02-10T20:37:16.338Z] DEBUG [2919]  : Setting environment variables..
+[2016-02-10T20:37:16.338Z] INFO  [2919]  : Running AddonsBefore for command CMD-TailLogs...
+[2016-02-10T20:37:16.338Z] DEBUG [2919]  : Running stages of Command CMD-TailLogs from stage 0 to stage 0...
+[2016-02-10T20:37:16.338Z] INFO  [2919]  : Running stage 0 of command CMD-TailLogs...
+[2016-02-10T20:37:16.338Z] DEBUG [2919]  : Loaded 1 actions for stage 0.
+[2016-02-10T20:37:16.338Z] INFO  [2919]  : Running 1 of 1 actions: TailLogs...
+
+
+
