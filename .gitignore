@@ -4,3 +4,7 @@ sample*.csv
 *.png
 *.jpg
 *.jpeg
+boxscore_pages/*
+scoreboard_pages/*
+models/*
+
