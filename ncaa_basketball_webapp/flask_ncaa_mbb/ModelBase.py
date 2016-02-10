@@ -192,7 +192,7 @@ def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
         x=my_df_first['names'],
         y=my_df_first['factors'],
         name=team1,
-        marker=dict(color='rgb(0,200,100)'),
+        marker=dict(color='rgb(119,136,153)'),
         text=dict(
             family='sans serif',
             size=18,
@@ -204,7 +204,7 @@ def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
         x=my_df_second['names'],
         y=my_df_second['factors'],
         name=team2,
-        marker=dict(color='rgb(200,0,100)'),
+        marker=dict(color='rgb(5,184,204)'),
         )
     
     data = [trace0, trace1]
@@ -241,6 +241,56 @@ def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
 
 
 #==============================================================================
+def translate_keys(keys):
+    print 'hello world'
+    print keys
+
+    new_keys = []
+    for key in keys:
+        print key
+        if key == 'pts':
+            new_keys.append('Points')
+        elif key == 'reb':
+            new_keys.append('Rebounds')
+        elif key == 'oreb':
+            new_keys.append('Offensive Rebounds')
+        elif key == 'dreb':
+            new_keys.append('Defensive Rebounds')
+        elif key == 'ast':
+            new_keys.append('Assists')
+        elif key == 'stl':
+            new_keys.append('Steals')
+        elif key == 'to':
+            new_keys.append('Turnovers')
+        elif key == 'pf':
+            new_keys.append('Personal Fouls')
+        elif key == 'blk':
+            new_keys.append('Blocked Shots')
+        elif key == 'fga':
+            new_keys.append('Field Goal Attempts')
+        elif key == 'fgm':
+            new_keys.append('Field Goals Made')
+        elif key == 'fgper':
+            new_keys.append('Field Goal %')
+        elif key == 'tpa':
+            new_keys.append('3-Point Attemps')
+        elif key == 'tpm':
+            new_keys.append('3-Pointers Made')
+        elif key == 'tpper':
+            new_keys.append('3-Pointer %')
+        elif key == 'ftper':
+            new_keys.append('Free Throw %')
+            
+        else:
+            new_keys.append('Unknown')
+
+            
+    return new_keys
+#==============================================================================
+
+
+
+#==============================================================================
 def base_model(team1_name, team2_name):
 
     stat_allowed = ['ast', 'blk', 'dreb', 'fga', 'fgm', 'fta', 'ftm', 
@@ -253,6 +303,7 @@ def base_model(team1_name, team2_name):
                     'tpa', 'tpm', 
                     'fgper', 'ftper', 'tpper', 'stl', 'pf', 'blk', ]
     #print stats_to_use
+    the_table = 'teams1516'
 
     print team1_name
     print team2_name
@@ -276,7 +327,7 @@ def base_model(team1_name, team2_name):
     sql_query = '''
                 SELECT %s 
                 FROM %s LEFT JOIN %s ON (%s.wl=%s.wl)
-                ''' % (sql_cols, 'teams1415', 'winloss', 'teams1415', 'winloss')
+                ''' % (sql_cols, the_table, 'winloss', the_table, 'winloss')
     #print sql_query
     try:
         season_sql = pd.read_sql_query(sql_query, con)
@@ -292,12 +343,12 @@ def base_model(team1_name, team2_name):
     sql_query = '''
                 SELECT DISTINCT(game_id), date
                 FROM %s LEFT JOIN %s ON (CAST(%s.game_id as INT) = CAST(%s.id as INT)) 
-                ''' % ('teams1415', 'games', 'teams1415', 'games')
+                ''' % (the_table, 'games', the_table, 'games')
     #print sql_query
     #try:
     game_dates = pd.read_sql_query(sql_query, con)
     #except:
-    #    print '  team stats table, %s, does not exist' % ('teams1415')
+    #    print '  team stats table, %s, does not exist' % (the_table)
     #print game_dates.head(8)
 
 
@@ -308,8 +359,8 @@ def base_model(team1_name, team2_name):
                          LEFT JOIN %s ON (%s.wl=%s.wl)
                  WHERE team_name IN ('%s')
                  ORDER BY date DESC;
-                ''' % (new_sql_cols, 'teams1415', 'games', 'teams1415', 
-                       'games', 'winloss', 'teams1415', 'winloss', team1_name)
+                ''' % (new_sql_cols, the_table, 'games', the_table, 
+                       'games', 'winloss', the_table, 'winloss', team1_name)
     #print sql_query
     #try:
     team1_sql = pd.read_sql_query(sql_query, con)
@@ -327,8 +378,8 @@ def base_model(team1_name, team2_name):
                          LEFT JOIN %s ON (%s.wl=%s.wl)
                  WHERE team_name IN ('%s')
                  ORDER BY date DESC;
-                ''' % (new_sql_cols, 'teams1415', 'games', 'teams1415', 
-                       'games', 'winloss', 'teams1415', 'winloss', team2_name)
+                ''' % (new_sql_cols, the_table, 'games', the_table, 
+                       'games', 'winloss', the_table, 'winloss', team2_name)
     #print sql_query
     #try:
     team2_sql = pd.read_sql_query(sql_query, con)
@@ -385,7 +436,7 @@ def base_model(team1_name, team2_name):
                             team1_name, team2_name)
         #print XS_entry
 
-        my_model_again = pickle.load(open( "saved_model.p", "r" ) )
+        my_model_again = pickle.load(open( "../models/model_rfc2_16feature_1415.p", "r" ) )
         #print my_model_again.coef_
 
         predicted = my_model_again.predict(XS_entry)
@@ -394,5 +445,25 @@ def base_model(team1_name, team2_name):
         #print '  The probability that the model predicts:', probs
         #print ''
 
-    return {'prob':probs[0,1], 'url':my_url}
+
+        #this part is for getting 3 keys to the prediction
+        my_model_again = pickle.load(open( "../models/model_logreg_16feature_1415.p", "r" ) )
+        coeffs = my_model_again.coef_
+        keys_to_game = []
+        for ii in np.arange(len(coeffs[0])):
+            keys_to_game.append(coeffs[0][ii] * XS_entry[ii])
+
+        keys_df = pd.DataFrame(zip(season_sql_tags,keys_to_game), columns=['stat','weight'])
+        keys_df = keys_df.sort_values('weight', axis=0, ascending=False)
+        if probs[0,1] >= 0.5:
+            keys = list(keys_df.iloc[0:3,0])
+        else:
+            keys = list(keys_df.iloc[-3:,0])
+        print keys
+
+
+        new_keys = translate_keys(keys)
+        print new_keys
+        
+    return {'prob':probs[0,1], 'url':my_url, 'keys':new_keys}
 #==============================================================================

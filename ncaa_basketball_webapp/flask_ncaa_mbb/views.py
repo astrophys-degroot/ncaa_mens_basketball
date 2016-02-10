@@ -54,25 +54,24 @@ def teams_output():
 
     win_dict = base_model(team1, team2)
     winprob = win_dict['prob']
-    #print '***********', winprob
     if winprob <= 0.5:
-        winprob = 'WIN'
+        winprob = int(round((1.0-winprob)*100.0))
         teamwin=team2_png
+        winner = team2
+        keys = win_dict['keys']
     else:
-        winprob = 'LOSE'
+        winprob = int(round((winprob*100.0)))
         teamwin=team1_png
-    #part_url = win_dict['url']
-    #full_url = 'http://localhost:5000/plot' + '?' + part_url
-    #req = urllib2.Request(full_url)
-    #myplot = urllib2.urlopen(req)
+        winner = team1
+        keys = win_dict['keys']
+
 
     myplot = tls.get_embed(win_dict['url'])
-    #print myplot
     myplot = myplot.replace('525', '400')
     myplot = myplot.replace('100%', '56%')
-    #print myplot
     return render_template("output.html", team1_png=team1_png, team2_png=team2_png,
-                           teamwin=teamwin, myplot=myplot, winprob=winprob)
+                           teamwin=teamwin, winner=winner, myplot=myplot, winprob=winprob,
+                           key1=keys[0],key2=keys[1],key3=keys[2])
 
 
 
