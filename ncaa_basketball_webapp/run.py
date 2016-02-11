@@ -1,5 +1,5 @@
 #!/usr/bin/env python
 
-from flask_ncaa_mbb import app
+from flask_ncaa_mbb import application
 
-app.run(debug=True)
+application.run(debug=True)

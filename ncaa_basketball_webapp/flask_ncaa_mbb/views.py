@@ -1,7 +1,7 @@
 
 #importing a whole lot of packages
 from flask import render_template, request
-from flask_ncaa_mbb import app
+from flask_ncaa_mbb import application
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
 import psycopg2
@@ -25,17 +25,17 @@ except:
     db = None
 
 
-@app.route('/')
+@application.route('/')
 def home_page():
     return render_template("index.html")
 
 
-@app.route('/input', methods=['POST', 'GET'])
+@application.route('/input', methods=['POST', 'GET'])
 def teams_input():
     return render_template("input.html")
 
 
-@app.route('/output', methods=['POST', 'GET'])
+@application.route('/output', methods=['POST', 'GET'])
 def teams_output():
     #totry = np.arange(0,130,1)
 
@@ -75,12 +75,12 @@ def teams_output():
 
 
 
-@app.route('/index')
+@application.route('/index')
 def index():
     return 'Hello, big, bright, beautiful, bountiful, cosmos!'
 
 
-@app.route('/db')
+@application.route('/db')
 def team_page_fancy():
     sql_query = """
                 SELECT pts, fgper, reb FROM teams1415 WHERE team_name='Michigan State Spartans';          

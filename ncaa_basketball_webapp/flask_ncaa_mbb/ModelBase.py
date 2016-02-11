@@ -242,8 +242,6 @@ def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
 
 #==============================================================================
 def translate_keys(keys):
-    print 'hello world'
-    print keys
 
     new_keys = []
     for key in keys:
@@ -280,11 +278,10 @@ def translate_keys(keys):
             new_keys.append('3-Pointer %')
         elif key == 'ftper':
             new_keys.append('Free Throw %')
-            
         else:
             new_keys.append('Unknown')
 
-            
+    
     return new_keys
 #==============================================================================
 
@@ -459,11 +456,8 @@ def base_model(team1_name, team2_name):
             keys = list(keys_df.iloc[0:3,0])
         else:
             keys = list(keys_df.iloc[-3:,0])
-        print keys
-
 
         new_keys = translate_keys(keys)
-        print new_keys
         
     return {'prob':probs[0,1], 'url':my_url, 'keys':new_keys}
 #==============================================================================
