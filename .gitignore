@@ -8,3 +8,8 @@ boxscore_pages/*
 scoreboard_pages/*
 models/*
 
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
