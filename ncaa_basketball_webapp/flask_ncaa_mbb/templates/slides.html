@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>FRIDAY Results</title>
+    <title>FRIDAY Slides</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -31,31 +31,36 @@
     <![endif]-->
   </head>
 
-  <style>
-   #bg {
-       position:absolute; 
-       left:0;
-       right:0;
-       bottom:0;
-       top:-125px;
-       overflow:hidden;
-       z-index:-1;
-   }
-   #bg img {
-       width:100%;
-       min-width:100%;
-       min-height:100%;
-   }
-   #content {
-       z-index:1;
-   }
-  </style>
 
-  <body>
-   <div id="bg">
-      <img style="display:block;" src="../static/images/partial_bracket.png">
-    </div>
-    <div id="content">
+
+<style>
+#bg {
+position:absolute; 
+left:0;
+right:0;
+bottom:0;
+top:-125px;
+overflow:hidden;
+z-index:-1;
+}
+#nav {
+    line-height:30px;
+    height:300px;
+    width:100px;
+    float:left;
+    padding:5px; 
+}
+#section {
+    background-color:#ffffff;
+    width:69%;
+    float:center;
+    padding:10px; 
+}
+</style>
+
+
+  <body bgcolor="#FFFFFF" background="../static/images/basketball_court2.jpg">
+   <div id="content">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -70,8 +75,8 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="/input">Input</a></li>
-            <li class="active"><a href="/output">Output</a></li>
-            <li><a href="/slides">Slides</a></li>
+            <li><a href="/output">Output</a></li>
+	    <li class="active"><a href="/slides">Slides</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -81,51 +86,30 @@
 
     <div class="starter-template">
     </div>
-
+    
     <div class = "container">
     </div>
-
+    
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
-  </div> <!-- /.container-->
+    </div> <!-- /.container-->
 
 
-  <div class="container">
+    <div class="container">
     <div class="starter-template">
 
-      <p align="center" style="position:relative;top:100px;">
-      <b><font size="7", color="white">
-      <span title="Win Probability: {{winprob}} %"> Winner: {{winner}}
-      </span>
-      </font></b>
-      </p>      
-      
-      <img style="position:absolute; TOP:130px; LEFT:70px" width="8%" HEIGHT="auto" src="../static/logos/{{team1_png}}_large.png">
-      <img style="position:absolute; TOP:350px; LEFT:70px" width="8%" HEIGHT="auto" src="../static/logos/{{team2_png}}_large.png">
-      <img style="position:absolute; TOP:240px; LEFT:325px" width="8%" HEIGHT="auto" src="../static/logos/{{teamwin}}_large.png">
-      
-    <div id="contentframe" style="position:relative; top:100px; left:390px;" width="150px">
-      {{myplot|safe}}
+    <div id="section">
+      <br>
+      <br>
+      <br>
+      <script async class="speakerdeck-embed" data-id="f4a09b005fb64a69b23d7684f1c6fa07" data-ratio="1.29456384323641" src="//speakerdeck.com/assets/embed.js"></script>
     </div>
-
-    <p style="position:relative;top:-50px;left:170px;">
-    <b><font size="6", color="white">
-    <u>Keys to Victory</u>
-    </font>
-    <font size="4", color="white">
-    <p style="position:relative;top:-50px;left:190px;">1. {{key1}}</p>
-    <p style="position:relative;top:-50px;left:190px;">2. {{key2}}</p>
-    <p style="position:relative;top:-50px;left:190px;">3. {{key3}}</p>
-    </font>
-    </b>
-    </p>      
-
     </div>
     </div><!-- /.container -->
     
     
     <!-- Bootstrap core JavaScript
-    ================================================== -->
+  ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
@@ -133,3 +117,4 @@
   </body>
     
 </html>
+

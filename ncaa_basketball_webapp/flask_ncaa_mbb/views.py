@@ -75,6 +75,11 @@ def teams_output():
 
 
 
+@application.route('/slides', methods=['POST', 'GET'])
+def slides_output():
+    return render_template("slides.html")
+
+
 @application.route('/index')
 def index():
     return 'Hello, big, bright, beautiful, bountiful, cosmos!'
