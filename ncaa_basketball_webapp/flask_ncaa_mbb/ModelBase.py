@@ -433,7 +433,8 @@ def base_model(team1_name, team2_name):
                             team1_name, team2_name)
         #print XS_entry
 
-        my_model_again = pickle.load(open( "../models/model_rfc2_16feature_1415.p", "r" ) )
+        my_model_again = pickle.load(open( "../models/model_logreg_16feature_1415.p", "r" ) )
+        #my_model_again = pickle.load(open( "../models/model_rfc2_16feature_1415.p", "r" ) )
         #print my_model_again.coef_
 
         predicted = my_model_again.predict(XS_entry)
