@@ -1,4 +1,3 @@
-
 #importing a whole lot of packages
 from flask import render_template, request
 from flask_ncaa_mbb import application
@@ -11,6 +10,8 @@ from ModelBase import base_model
 import plotly.plotly as py
 import plotly.tools as tls
 import urllib2
+
+
 
 #setting up the SQL connection
 user = 'smaug'
@@ -66,9 +67,7 @@ def teams_output():
         keys = win_dict['keys']
 
 
-    myplot = tls.get_embed(win_dict['url'])
-    myplot = myplot.replace('525', '400')
-    myplot = myplot.replace('100%', '56%')
+    myplot = win_dict['url']
     return render_template("output.html", team1_png=team1_png, team2_png=team2_png,
                            teamwin=teamwin, winner=winner, myplot=myplot, winprob=winprob,
                            key1=keys[0],key2=keys[1],key3=keys[2])

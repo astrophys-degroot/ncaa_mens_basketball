@@ -93,29 +93,28 @@
   <div class="container">
     <div class="starter-template">
 
-      <p align="center" style="position:relative;top:100px;">
+      <p align="center" style="position:absolute;top:10%;LEFT:25%"">
       <b><font size="7", color="white">
       <span title="Win Probability: {{winprob}} %"> Winner: {{winner}}
       </span>
       </font></b>
       </p>      
       
-      <img style="position:absolute; TOP:130px; LEFT:70px" width="8%" HEIGHT="auto" src="../static/logos/{{team1_png}}_large.png">
-      <img style="position:absolute; TOP:350px; LEFT:70px" width="8%" HEIGHT="auto" src="../static/logos/{{team2_png}}_large.png">
-      <img style="position:absolute; TOP:240px; LEFT:325px" width="8%" HEIGHT="auto" src="../static/logos/{{teamwin}}_large.png">
-      
-    <div id="contentframe" style="position:relative; top:100px; left:390px;" width="150px">
-      {{myplot|safe}}
-    </div>
+      <img style="position:absolute; TOP:19%; LEFT:7%" width="8%" HEIGHT="auto" src="../static/logos/{{team1_png}}_large.png">
+      <img style="position:absolute; TOP:48%; LEFT:7%" width="8%" HEIGHT="auto" src="../static/logos/{{team2_png}}_large.png">
+      <img style="position:absolute; TOP:35%; LEFT:26%" width="8%" HEIGHT="auto" src="../static/logos/{{teamwin}}_large.png">
 
-    <p style="position:relative;top:-50px;left:170px;">
+      <img style="position:absolute; TOP:30%; LEFT:40%" width="40%" HEIGHT="auto" src="../static/images/160206/{{myplot}}">
+
+
+    <p style="position:absolute;top:55%;left:20.5%;">
     <b><font size="6", color="white">
     <u>Keys to Victory</u>
     </font>
-    <font size="4", color="white">
-    <p style="position:relative;top:-50px;left:190px;">1. {{key1}}</p>
-    <p style="position:relative;top:-50px;left:190px;">2. {{key2}}</p>
-    <p style="position:relative;top:-50px;left:190px;">3. {{key3}}</p>
+    <font size="5", color="white">
+    <p style="position:absolute;top:60%;left:21%;">1. {{key1}}</p>
+    <p style="position:absolute;top:65%;left:21%;">2. {{key2}}</p>
+    <p style="position:absolute;top:70%;left:21%;">3. {{key3}}</p>
     </font>
     </b>
     </p>      
