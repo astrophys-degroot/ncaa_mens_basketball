@@ -1,5 +1,5 @@
 #import our modules
-import sys
+#import sys
 import pandas as pd
 import numpy as np
 import scipy as sp
@@ -8,8 +8,8 @@ import matplotlib.gridspec as gridspec
 import plotly.plotly as py
 import plotly.graph_objs as go
 
-import urllib
-import re
+#import urllib
+#import re
 import pickle
 
 from sqlalchemy import create_engine
@@ -18,10 +18,10 @@ import psycopg2
 
 #import statsmodels.api as sm
 #from patsy import dmatrices
-from sklearn import metrics
-from sklearn.linear_model import LogisticRegression
-from sklearn.cross_validation import train_test_split
-from sklearn.cross_validation import cross_val_score
+#from sklearn import metrics
+#from sklearn.linear_model import LogisticRegression
+#from sklearn.cross_validation import train_test_split
+#from sklearn.cross_validation import cross_val_score
 
 
 #==============================================================================
@@ -222,10 +222,18 @@ def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
     )
     fig = go.Figure(data=data, layout=layout)
 
-    try:
-        plot_url = py.plot(fig, filename='angled-text-bar', auto_open=False)
-    except:
-        plot_url = 'https://plot.ly/~astrophys.degroot/20/ohio-state-buckeyes-vs-michigan-state-spartans/'
+
+    file_team1 = team1.replace(' ', '_')
+    file_team2 = team2.replace(' ', '_')
+    plotname =  file_team1 + '_' + file_team2 + '.png'
+    filename = 'flask_ncaa_mbb/static/images/160206/' + plotname
+    py.image.save_as({'data': data}, filename)
+
+    
+    #try:
+    #    plot_url = py.plot(fig, filename='angled-text-bar', auto_open=False)
+    #except:
+    #    plot_url = 'https://plot.ly/~astrophys.degroot/20/ohio-state-buckeyes-vs-michigan-state-spartans/'
     #print plot_url
 
     #plot_html = urllib.urlencode(fig)
@@ -235,7 +243,8 @@ def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
     #plt.savefig(filename)
     #plt.clf()
 
-    return plot_url
+    
+    return plotname
 #==============================================================================
 
 
@@ -245,7 +254,6 @@ def translate_keys(keys):
 
     new_keys = []
     for key in keys:
-        print key
         if key == 'pts':
             new_keys.append('Points')
         elif key == 'reb':
