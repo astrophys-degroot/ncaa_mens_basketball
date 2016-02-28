@@ -230,10 +230,10 @@ def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
     py.image.save_as({'data': data}, filename)
 
     
-    #try:
-    #    plot_url = py.plot(fig, filename='angled-text-bar', auto_open=False)
-    #except:
-    #    plot_url = 'https://plot.ly/~astrophys.degroot/20/ohio-state-buckeyes-vs-michigan-state-spartans/'
+    try:
+        plot_url = py.plot(fig, filename='ncaa_mbb_output', auto_open=False)
+    except:
+        plot_url = 'https://plot.ly/~astrophys.degroot/20/ohio-state-buckeyes-vs-michigan-state-spartans/'
     #print plot_url
 
     #plot_html = urllib.urlencode(fig)
@@ -244,7 +244,7 @@ def final_plot(XS_first, XS_second, season_sql_tags, team1, team2):
     #plt.clf()
 
     
-    return plotname
+    return plot_url
 #==============================================================================
 
 

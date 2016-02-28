@@ -67,7 +67,9 @@ def teams_output():
         keys = win_dict['keys']
 
 
-    myplot = win_dict['url']
+    myplot = tls.get_embed(win_dict['url'])
+    myplot = myplot.replace('525', '380')
+    myplot = myplot.replace('100%', '55%')
     return render_template("output.html", team1_png=team1_png, team2_png=team2_png,
                            teamwin=teamwin, winner=winner, myplot=myplot, winprob=winprob,
                            key1=keys[0],key2=keys[1],key3=keys[2])
