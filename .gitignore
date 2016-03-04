@@ -1,0 +1,7 @@
+*.txt
+*.csv
+*.zip
+
+models/*.p
+*.p
+*.png
