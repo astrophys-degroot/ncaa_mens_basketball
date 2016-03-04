@@ -1,0 +1,10 @@
+branch-defaults:
+  master:
+    environment: ncaa-basketball-webapp
+global:
+  application_name: ncaa_basketball_webapp
+  default_ec2_keyname: Insight2016a
+  default_platform: 64bit Amazon Linux 2015.09 v2.0.6 running Python 2.7
+  default_region: us-east-1
+  profile: eb-cli
+  sc: git
