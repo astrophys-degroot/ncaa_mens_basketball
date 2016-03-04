@@ -8,7 +8,7 @@ boxscore_pages/*
 scoreboard_pages/*
 models/*
 *.zip
-
+.*
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
