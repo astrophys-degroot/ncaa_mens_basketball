@@ -5,5 +5,6 @@
 
 
 *.p
+models/*.p
 *.png
 
