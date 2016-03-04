@@ -14,7 +14,7 @@ A repository to use past games of both teams to predict how one team should prep
 2. Execute ncaa_basketball_scoreboard to pull the not yet obtained
    webpages and save them. no options to set
 3. Execute ncaa_basketball_games with remake_db=True and get_games=True
-4. Execute ncaa_basketball_games with remake_db=True and year= 'Y1Y1Y2Y2' set
+4. Execute ncaa_basketball_gamestats with remake_db=True and year= 'Y1Y1Y2Y2' set
 
 
 #### Note: this project is currently in a high state of development and is subject to rapid change as I include more functions and move various functions between notebooks.  
