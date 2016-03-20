@@ -7,25 +7,30 @@
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[2]:
+# In[34]:
 
 #import packages
+
+#basic packages
 import sys
 import re
 import os
+
+#data analysis packages
 import numpy as np
 import pandas as pd
 
+#data visiualization packages
 import seaborn as sns
 
-
+#database packages
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
 import psycopg2
 
 
 
-# In[102]:
+# In[35]:
 
 ## class definition for the NCAA basketball database collection
 '''
@@ -48,9 +53,9 @@ class NcaaBballDb():
   
 
 
-# In[103]:
+# In[36]:
 
-## get and set attribute functions
+## get attribute functions
 
 def Getdbname(self):
     '''
@@ -64,9 +69,44 @@ def Getusername(self):
     '''    
     return self.username
 
+def Gettablenames(self):
+    '''
+    function to return the available database table names
+    '''    
+    return self.table_names
 
 
-# In[104]:
+
+# In[37]:
+
+## set attribute functions
+
+def Settablenames(self, table_names):
+    '''
+    function to set the available database table names
+    into the class object
+    '''
+    self.table_names = table_names
+
+
+# In[38]:
+
+## print attribute functions
+
+def Printtablenames(self):
+    '''
+    function to nicely print out database table names 
+    '''
+    table_names = Gettablenames(self)
+    print '    Tables available:'
+    for table_name in table_names:
+        print '      ', table_name
+
+
+
+
+
+# In[39]:
 
 def Connectdb(self):
     '''
@@ -86,7 +126,7 @@ def Connectdb(self):
     return con
 
 
-# In[105]:
+# In[40]:
 
 def Findtables(self):
     '''
@@ -110,17 +150,16 @@ def Findtables(self):
             tables_sql = pd.read_sql_query(sql_query, con)
             if tables_sql is not None:
                 exists = True
+                Settablenames(self, tables_sql['table_name'])
         except:
             exists = False
-        print '    Tables available:'
-        print '      ', tables_sql
         return 1
     except:
         return 0
     
 
 
-# In[106]:
+# In[41]:
 
 def peek_at_tables(table_names, username, dbname):
     
@@ -151,7 +190,7 @@ def peek_at_tables(table_names, username, dbname):
 # 
 # 
 
-# In[107]:
+# In[42]:
 
 def scoreboard_table(username, dbname, engine, lastdate):
         
@@ -241,7 +280,7 @@ def scoreboard_table(username, dbname, engine, lastdate):
     return created
 
 
-# In[108]:
+# In[43]:
 
 def do_test_scoreboard(username, dbname):
 
@@ -296,7 +335,7 @@ def do_test_scoreboard(username, dbname):
 # * database with info regarding all games played
 #         -filled with data scraped from scoreboard pages 
 
-# In[109]:
+# In[44]:
 
 def do_test_games(username, dbname):
     
@@ -326,7 +365,7 @@ def do_test_games(username, dbname):
 
 # ## For creating, testing the gamestats databases
 
-# In[110]:
+# In[45]:
 
 def do_test_gamestats(username, dbname, year):
         
@@ -367,7 +406,7 @@ def do_test_gamestats(username, dbname, year):
 # ## For creating, testing the winloss database
 # * a simple table to turn string values of win(w) and loss(l) to intergers win(1) and loss(-1)
 
-# In[111]:
+# In[46]:
 
 def winloss_table(username, dbname, engine):
     
@@ -395,7 +434,7 @@ def winloss_table(username, dbname, engine):
     return created
 
 
-# In[112]:
+# In[47]:
 
 def do_test_winloss(username, dbname):
 
@@ -425,9 +464,9 @@ def do_test_winloss(username, dbname):
     print ''
 
 
-# In[113]:
+# In[50]:
 
-def main(find_tables=False, peek_tables=False, 
+def main(find_tables=True, peek_tables=False, 
          make_scoreboard=False, make_games=None, 
          make_gamestats=False, make_winloss=False, 
          make_test=False, 
@@ -440,10 +479,10 @@ def main(find_tables=False, peek_tables=False,
     
     if myncaabball.find_tables:
         chk = Findtables(myncaabball)
-        print chk
+        if chk != 0:
+            Printtablenames(myncaabball)
+            
     
-    ### next task: store availabe tables names in the class
-    ### next task: make a function to print available table names nicely 
     ### next task: make function in the class to create engine to make new SQL databases
 
     
@@ -519,7 +558,7 @@ def main(find_tables=False, peek_tables=False,
 
 
 
-# In[114]:
+# In[51]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
