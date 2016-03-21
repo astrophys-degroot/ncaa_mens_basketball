@@ -7,7 +7,7 @@
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[34]:
+# In[18]:
 
 #import packages
 
@@ -30,7 +30,7 @@ import psycopg2
 
 
 
-# In[35]:
+# In[19]:
 
 ## class definition for the NCAA basketball database collection
 '''
@@ -53,23 +53,23 @@ class NcaaBballDb():
   
 
 
-# In[36]:
+# In[20]:
 
 ## get attribute functions
 
-def Getdbname(self):
+def getDbName(self):
     '''
     function to return the database name
     '''    
     return self.dbname
 
-def Getusername(self):
+def getUserName(self):
     '''
     function to return the database username
     '''    
     return self.username
 
-def Gettablenames(self):
+def getTableNames(self):
     '''
     function to return the available database table names
     '''    
@@ -77,27 +77,40 @@ def Gettablenames(self):
 
 
 
-# In[37]:
+# In[48]:
 
 ## set attribute functions
 
-def Settablenames(self, table_names):
+def setTableNames(self, table_names):
     '''
     function to set the available database table names
     into the class object
     '''
     self.table_names = table_names
 
+    
+def setDbEngine(self, engine):
+    '''
+    function to set the database engine in the class attributes
+    '''
+    self.db_engine = engine
+    
+def setDbExist(self, exists):
+    '''
+    function to set whether the database exists or not
+    '''
+    self.db_exist = exists
 
-# In[38]:
+
+# In[22]:
 
 ## print attribute functions
 
-def Printtablenames(self):
+def printTableNames(self):
     '''
     function to nicely print out database table names 
     '''
-    table_names = Gettablenames(self)
+    table_names = getTableNames(self)
     print '    Tables available:'
     for table_name in table_names:
         print '      ', table_name
@@ -106,9 +119,9 @@ def Printtablenames(self):
 
 
 
-# In[39]:
+# In[23]:
 
-def Connectdb(self):
+def connectDb(self):
     '''
     function to establish connection with the PostgreSQL
     database.
@@ -117,8 +130,8 @@ def Connectdb(self):
     function to ensure smooth usage
     '''
     
-    dbname = Getdbname(self)
-    username = Getusername(self)
+    dbname = getDbName(self)
+    username = getUserName(self)
     
     con = None
     con = psycopg2.connect(database=dbname, user=username)
@@ -126,17 +139,53 @@ def Connectdb(self):
     return con
 
 
-# In[40]:
+# In[49]:
 
-def Findtables(self):
+def makeDbEngine(self):
+    '''
+    function to establish engine with PostgreSQl database
+    so that additional tables can be made 
+    '''
+    
+    print 'now i am here'
+    
+    ## connect to Postgres
+    dbname = getDbName(self)
+    username = getUserName(self)
+ 
+    
+    engine = create_engine('postgres://%s@localhost/%s'%(username, dbname))
+    setDbEngine(self, engine)
+    
+    
+    #print '  DB url:', engine.url
+    db_exist = database_exists(engine.url)
+    setDbExist(self, db_exist)
+    
+    if not db_exist:
+        create_database(engine.url)
+    #print '  DB exists? %s' % db_exist
+    #print ''
+
+
+    ###clean this up
+    ### add try except
+    ### return chk value
+    
+ 
+
+
+# In[24]:
+
+def findTables(self):
     '''
     function to store and print all tables in the database 
     '''
 
     try:
         #get values
-        con = Connectdb(self)
-        dbname = Getdbname(self)
+        con = connectDb(self)
+        dbname = getDbName(self)
 
         #do the SQL query
         sql_query = '''
@@ -150,7 +199,7 @@ def Findtables(self):
             tables_sql = pd.read_sql_query(sql_query, con)
             if tables_sql is not None:
                 exists = True
-                Settablenames(self, tables_sql['table_name'])
+                setTableNames(self, tables_sql['table_name'])
         except:
             exists = False
         return 1
@@ -159,7 +208,22 @@ def Findtables(self):
     
 
 
-# In[41]:
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+### items between here and __main__() have not be brought into the class definition yet
+
+
+# In[ ]:
+
+
+
+
+# In[25]:
 
 def peek_at_tables(table_names, username, dbname):
     
@@ -190,7 +254,7 @@ def peek_at_tables(table_names, username, dbname):
 # 
 # 
 
-# In[42]:
+# In[26]:
 
 def scoreboard_table(username, dbname, engine, lastdate):
         
@@ -280,7 +344,7 @@ def scoreboard_table(username, dbname, engine, lastdate):
     return created
 
 
-# In[43]:
+# In[27]:
 
 def do_test_scoreboard(username, dbname):
 
@@ -335,7 +399,7 @@ def do_test_scoreboard(username, dbname):
 # * database with info regarding all games played
 #         -filled with data scraped from scoreboard pages 
 
-# In[44]:
+# In[28]:
 
 def do_test_games(username, dbname):
     
@@ -365,7 +429,7 @@ def do_test_games(username, dbname):
 
 # ## For creating, testing the gamestats databases
 
-# In[45]:
+# In[29]:
 
 def do_test_gamestats(username, dbname, year):
         
@@ -406,7 +470,7 @@ def do_test_gamestats(username, dbname, year):
 # ## For creating, testing the winloss database
 # * a simple table to turn string values of win(w) and loss(l) to intergers win(1) and loss(-1)
 
-# In[46]:
+# In[30]:
 
 def winloss_table(username, dbname, engine):
     
@@ -434,7 +498,7 @@ def winloss_table(username, dbname, engine):
     return created
 
 
-# In[47]:
+# In[31]:
 
 def do_test_winloss(username, dbname):
 
@@ -478,13 +542,18 @@ def main(find_tables=True, peek_tables=False,
     myncaabball = NcaaBballDb(find_tables=find_tables)
     
     if myncaabball.find_tables:
-        chk = Findtables(myncaabball)
+        chk = findTables(myncaabball)
         if chk != 0:
-            Printtablenames(myncaabball)
+            printTableNames(myncaabball)
             
     
+    chk = makeDbEngine(myncaabball)
+    if chk !=0:
+        print 'Engine made!!'
+    
+    
     ### next task: make function in the class to create engine to make new SQL databases
-
+    ### task: make a function for table peeks
     
     sys.exit(0)
     ### below this line has not been migrated into the class definition yet
@@ -506,15 +575,6 @@ def main(find_tables=True, peek_tables=False,
             year = str(year)
 
     
-    #connect to Postgres
-    engine = create_engine('postgres://%s@localhost/%s'%(username, dbname))
-    print '  DB url:', engine.url
-    db_exist = database_exists(engine.url)
-    if not db_exist:
-        create_database(engine.url)
-    print '  DB exists? %s' % db_exist
-    print ''
-
     
     #get available tables in the database
     if which_tables:
