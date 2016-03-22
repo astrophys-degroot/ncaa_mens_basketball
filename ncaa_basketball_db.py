@@ -7,7 +7,7 @@
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[18]:
+# In[73]:
 
 #import packages
 
@@ -30,7 +30,7 @@ import psycopg2
 
 
 
-# In[19]:
+# In[74]:
 
 ## class definition for the NCAA basketball database collection
 '''
@@ -53,7 +53,7 @@ class NcaaBballDb():
   
 
 
-# In[20]:
+# In[75]:
 
 ## get attribute functions
 
@@ -76,8 +76,14 @@ def getTableNames(self):
     return self.table_names
 
 
+def getDbEngine(self):
+    '''
+    function to return the status of the database engine
+    '''
+    return self.db_engine
 
-# In[48]:
+
+# In[76]:
 
 ## set attribute functions
 
@@ -102,7 +108,7 @@ def setDbExist(self, exists):
     self.db_exist = exists
 
 
-# In[22]:
+# In[77]:
 
 ## print attribute functions
 
@@ -116,10 +122,15 @@ def printTableNames(self):
         print '      ', table_name
 
 
+def printEngineStatus(self):
+    engine = getDbEngine(self)
+    print engine
+        
+    print '  Engine made!!'
 
 
 
-# In[23]:
+# In[78]:
 
 def connectDb(self):
     '''
@@ -139,7 +150,7 @@ def connectDb(self):
     return con
 
 
-# In[49]:
+# In[79]:
 
 def makeDbEngine(self):
     '''
@@ -147,35 +158,27 @@ def makeDbEngine(self):
     so that additional tables can be made 
     '''
     
-    print 'now i am here'
-    
-    ## connect to Postgres
-    dbname = getDbName(self)
-    username = getUserName(self)
- 
-    
-    engine = create_engine('postgres://%s@localhost/%s'%(username, dbname))
-    setDbEngine(self, engine)
-    
-    
-    #print '  DB url:', engine.url
-    db_exist = database_exists(engine.url)
-    setDbExist(self, db_exist)
-    
-    if not db_exist:
-        create_database(engine.url)
-    #print '  DB exists? %s' % db_exist
-    #print ''
+    try:
+        ## connect to Postgres
+        dbname = getDbName(self)
+        username = getUserName(self)
+
+        ## create and set 
+        engine = create_engine('postgres://%s@localhost/%s'%(username, dbname))
+        setDbEngine(self, engine)
+
+        ## test if it exists
+        db_exist = database_exists(engine.url)
+        if not db_exist:
+            create_database(engine.url)
+        db_exist = database_exists(engine.url)
+        setDbExist(self, db_exist)
+        return 1
+    except:
+        return 0
 
 
-    ###clean this up
-    ### add try except
-    ### return chk value
-    
- 
-
-
-# In[24]:
+# In[80]:
 
 def findTables(self):
     '''
@@ -213,7 +216,7 @@ def findTables(self):
 
 
 
-# In[ ]:
+# In[81]:
 
 ### items between here and __main__() have not be brought into the class definition yet
 
@@ -223,7 +226,7 @@ def findTables(self):
 
 
 
-# In[25]:
+# In[82]:
 
 def peek_at_tables(table_names, username, dbname):
     
@@ -254,7 +257,7 @@ def peek_at_tables(table_names, username, dbname):
 # 
 # 
 
-# In[26]:
+# In[83]:
 
 def scoreboard_table(username, dbname, engine, lastdate):
         
@@ -344,7 +347,7 @@ def scoreboard_table(username, dbname, engine, lastdate):
     return created
 
 
-# In[27]:
+# In[84]:
 
 def do_test_scoreboard(username, dbname):
 
@@ -399,7 +402,7 @@ def do_test_scoreboard(username, dbname):
 # * database with info regarding all games played
 #         -filled with data scraped from scoreboard pages 
 
-# In[28]:
+# In[85]:
 
 def do_test_games(username, dbname):
     
@@ -429,7 +432,7 @@ def do_test_games(username, dbname):
 
 # ## For creating, testing the gamestats databases
 
-# In[29]:
+# In[86]:
 
 def do_test_gamestats(username, dbname, year):
         
@@ -470,7 +473,7 @@ def do_test_gamestats(username, dbname, year):
 # ## For creating, testing the winloss database
 # * a simple table to turn string values of win(w) and loss(l) to intergers win(1) and loss(-1)
 
-# In[30]:
+# In[87]:
 
 def winloss_table(username, dbname, engine):
     
@@ -498,7 +501,7 @@ def winloss_table(username, dbname, engine):
     return created
 
 
-# In[31]:
+# In[88]:
 
 def do_test_winloss(username, dbname):
 
@@ -528,7 +531,7 @@ def do_test_winloss(username, dbname):
     print ''
 
 
-# In[50]:
+# In[89]:
 
 def main(find_tables=True, peek_tables=False, 
          make_scoreboard=False, make_games=None, 
@@ -541,15 +544,15 @@ def main(find_tables=True, peek_tables=False,
     
     myncaabball = NcaaBballDb(find_tables=find_tables)
     
+    chk = makeDbEngine(myncaabball)
+    if chk !=0:
+        print printEngineStatus(myncaabball)
+    
     if myncaabball.find_tables:
         chk = findTables(myncaabball)
         if chk != 0:
             printTableNames(myncaabball)
             
-    
-    chk = makeDbEngine(myncaabball)
-    if chk !=0:
-        print 'Engine made!!'
     
     
     ### next task: make function in the class to create engine to make new SQL databases
@@ -618,7 +621,7 @@ def main(find_tables=True, peek_tables=False,
 
 
 
-# In[51]:
+# In[90]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
