@@ -7,7 +7,7 @@
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[433]:
+# In[565]:
 
 #import packages
 
@@ -30,7 +30,7 @@ import psycopg2
 
 
 
-# In[434]:
+# In[566]:
 
 ## class definition for the NCAA basketball database collection
 '''
@@ -57,7 +57,7 @@ class NcaaBballDb():
   
 
 
-# In[435]:
+# In[567]:
 
 ## get attribute functions
 
@@ -113,41 +113,39 @@ def getDbEngine(self):
     return self.db_engine
 
 
-# In[436]:
+# In[568]:
 
 ## set attribute functions
 
 def setDefaults(self, lastdate=None, year=None, nhead=None):
     '''
-    function to set some default values fro this class
+    function to set some default values for this class
     '''
     
-    if lastdate is None:
-        self.lastdate = '20160204'
-    else:
-        if len(lastdate) != 8:
-            print 'Variable lastdate must be a string of form YYYYMMDD'
+    try:
+        if lastdate is None:
+            self.lastdate = '20160204'
         else:
-            self.lastdate = str(lastdate)
-                
-    if year is None:
-        self.year = '1516'
-    else:
-        if len(year) != 4:
-            print 'Variable year must be a string of form Y1Y1Y2Y2'
+            if len(lastdate) != 8:
+                print 'Variable lastdate must be a string of form YYYYMMDD'
+            else:
+                self.lastdate = str(lastdate)
+
+        if year is None:
+            self.year = '1516'
         else:
-            self.year = str(year)
+            if len(year) != 4:
+                print 'Variable year must be a string of form Y1Y1Y2Y2'
+            else:
+                self.year = str(year)
 
-    if nhead is None:
-        self.nhead = 6
-    else:
-        self.nhead = nhead
-
-
-    print getNhead(self)
-  
-
-
+        if nhead is None:
+            self.nhead = 6
+        else:
+            self.nhead = nhead
+        return 0
+    except:
+        return 1
 
 def setTableNames(self, table_names):
     '''
@@ -170,7 +168,7 @@ def setDbExist(self, exists):
     self.db_exist = exists
 
 
-# In[437]:
+# In[569]:
 
 ## print attribute functions
 
@@ -188,11 +186,11 @@ def printEngineStatus(self):
     engine_exist = getDbExist(self)
     print '    Engine exists: %s' % (engine_exist)
     engine = getDbEngine(self)
-    print '      The little engine that could: %s' % (engine) 
+    print '       The little engine that could: %s' % (engine) 
 
 
 
-# In[438]:
+# In[570]:
 
 def connectDb(self):
     '''
@@ -212,7 +210,7 @@ def connectDb(self):
     return con
 
 
-# In[439]:
+# In[571]:
 
 def makeDbEngine(self):
     '''
@@ -235,12 +233,12 @@ def makeDbEngine(self):
             create_database(engine.url)
         db_exist = database_exists(engine.url)
         setDbExist(self, db_exist)
-        return 1
-    except:
         return 0
+    except:
+        return 1
 
 
-# In[440]:
+# In[572]:
 
 def findTables(self):
     '''
@@ -267,13 +265,13 @@ def findTables(self):
                 setTableNames(self, tables_sql['table_name'])
         except:
             exists = False
-        return 1
-    except:
         return 0
+    except:
+        return 1
     
 
 
-# In[441]:
+# In[573]:
 
 def peekTables(self, nhead=False):
     '''
@@ -308,11 +306,12 @@ def peekTables(self, nhead=False):
                     exists = True
                 print '    Peek at the table named %r ' % table_name
                 print table_peek
+                print ''
             except:
                 exists = False
-        return 1
-    except:
         return 0
+    except:
+        return 1
 
 
 # In[ ]:
@@ -325,7 +324,7 @@ def peekTables(self, nhead=False):
 
 
 
-# In[442]:
+# In[574]:
 
 ### items between here and __main__() have not be brought into the class definition yet
 
@@ -345,7 +344,7 @@ def peekTables(self, nhead=False):
 # 
 # 
 
-# In[443]:
+# In[575]:
 
 def scoreboard_table(username, dbname, engine, lastdate):
         
@@ -435,7 +434,7 @@ def scoreboard_table(username, dbname, engine, lastdate):
     return created
 
 
-# In[444]:
+# In[576]:
 
 def do_test_scoreboard(username, dbname):
 
@@ -490,7 +489,7 @@ def do_test_scoreboard(username, dbname):
 # * database with info regarding all games played
 #         -filled with data scraped from scoreboard pages 
 
-# In[445]:
+# In[577]:
 
 def do_test_games(username, dbname):
     
@@ -520,7 +519,7 @@ def do_test_games(username, dbname):
 
 # ## For creating, testing the gamestats databases
 
-# In[446]:
+# In[578]:
 
 def do_test_gamestats(username, dbname, year):
         
@@ -561,7 +560,7 @@ def do_test_gamestats(username, dbname, year):
 # ## For creating, testing the winloss database
 # * a simple table to turn string values of win(w) and loss(l) to intergers win(1) and loss(-1)
 
-# In[447]:
+# In[579]:
 
 def winloss_table(username, dbname, engine):
     
@@ -589,7 +588,7 @@ def winloss_table(username, dbname, engine):
     return created
 
 
-# In[448]:
+# In[580]:
 
 def do_test_winloss(username, dbname):
 
@@ -619,7 +618,7 @@ def do_test_winloss(username, dbname):
     print ''
 
 
-# In[449]:
+# In[581]:
 
 def main(find_tables=False, peek_tables=False, 
          make_scoreboard=False, make_games=None, 
@@ -633,11 +632,11 @@ def main(find_tables=False, peek_tables=False,
     
     chk = setDefaults(myncaabball, lastdate=lastdate, year=year,
                      nhead=nhead)
-    print chk
-    sys.exit(0)
+    if chk !=0:
+        print 'Defaults may not be set correctly!!'
     
     chk = makeDbEngine(myncaabball)
-    if chk !=0:
+    if chk == 0:
         print printEngineStatus(myncaabball)
     else:
         print 'Make sure you have Postgres started!!'
@@ -645,7 +644,7 @@ def main(find_tables=False, peek_tables=False,
 
     if myncaabball.find_tables:
         chk = findTables(myncaabball)
-        if chk != 0:
+        if chk == 0:
             printTableNames(myncaabball)
     
     if myncaabball.peek_tables:
@@ -654,7 +653,8 @@ def main(find_tables=False, peek_tables=False,
         
     
     
-    ### task: make a function for table peeks
+    ### task: add function to make the scoreboard table database 
+    
     
     sys.exit(0)
     ### below this line has not been migrated into the class definition yet
@@ -705,7 +705,7 @@ def main(find_tables=False, peek_tables=False,
 
 
 
-# In[450]:
+# In[582]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
