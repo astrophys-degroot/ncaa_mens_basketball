@@ -7,7 +7,7 @@
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[61]:
+# In[94]:
 
 #import packages
 
@@ -30,7 +30,7 @@ import psycopg2
 
 
 
-# In[62]:
+# In[95]:
 
 ## class definition for the NCAA basketball database collection
 '''
@@ -42,7 +42,7 @@ to predict winners of games from past peformances
 class NcaaBballDb():
     
     
-    def __init__(self, find_tables=None):
+    def __init__(self, find_tables=None, peek_tables=None):
         self.dbname = 'ncaa_mbb_db'
         self.username = 'smaug'
 
@@ -50,10 +50,14 @@ class NcaaBballDb():
             self.find_tables = find_tables
         else:
             self.find_tables = False
+        if peek_tables:
+            self.peek_tables = peek_tables
+        else:
+            self.peek_tables = False
   
 
 
-# In[63]:
+# In[96]:
 
 ## get attribute functions
 
@@ -88,7 +92,7 @@ def getDbEngine(self):
     return self.db_engine
 
 
-# In[64]:
+# In[97]:
 
 ## set attribute functions
 
@@ -113,7 +117,7 @@ def setDbExist(self, exists):
     self.db_exist = exists
 
 
-# In[65]:
+# In[98]:
 
 ## print attribute functions
 
@@ -135,7 +139,7 @@ def printEngineStatus(self):
 
 
 
-# In[66]:
+# In[99]:
 
 def connectDb(self):
     '''
@@ -155,7 +159,7 @@ def connectDb(self):
     return con
 
 
-# In[67]:
+# In[100]:
 
 def makeDbEngine(self):
     '''
@@ -183,7 +187,7 @@ def makeDbEngine(self):
         return 0
 
 
-# In[68]:
+# In[101]:
 
 def findTables(self):
     '''
@@ -216,12 +220,59 @@ def findTables(self):
     
 
 
+# In[102]:
+
+def peekTables(self, nhead=False):
+    '''
+    function to return the head of the SQL tables that exist
+    
+    '''
+    
+    ## set values
+    if nhead is False:
+        nhead = 5
+    else:
+        nhead = nhead
+    
+    try:
+        ## database stuff
+        dbname = getDbName(self)
+        username = getUserName(self)
+        table_names = getTableNames(self)
+        con = None
+        con = psycopg2.connect(database=dbname, user=username)
+
+        ## print stuff
+        for table_name in table_names:
+            sql_query = '''
+                        SELECT *
+                          FROM %s
+                          LIMIT %i;
+                        ''' % (table_name, nhead)
+            try:
+                table_peek = pd.read_sql_query(sql_query, con)
+                if table_peek is not None:
+                    exists = True
+                print '    Peek at the table named %r ' % table_name
+                print table_peek
+            except:
+                exists = False
+        return 1
+    except:
+        return 0
+
+
 # In[ ]:
 
 
 
 
-# In[69]:
+# In[ ]:
+
+
+
+
+# In[103]:
 
 ### items between here and __main__() have not be brought into the class definition yet
 
@@ -231,30 +282,9 @@ def findTables(self):
 
 
 
-# In[70]:
+# In[ ]:
 
-def peek_at_tables(table_names, username, dbname):
-    
-    con = None
-    con = psycopg2.connect(database=dbname, user=username)
 
-    for table_name in table_names:
-        print table_name
-        
-        sql_query = '''
-                    SELECT *
-                      FROM %s
-                      LIMIT 5;
-                    ''' % (table_name)
-        #print sql_query
-        try:
-            table_peek = pd.read_sql_query(sql_query, con)
-            if table_peek is not None:
-                exists = True
-        except:
-            exists = False
-        print '    Peek at the table named %r ' % table_name
-        print table_peek
 
 
 # ## For creating, testing the base scoreboard database
@@ -262,7 +292,7 @@ def peek_at_tables(table_names, username, dbname):
 # 
 # 
 
-# In[71]:
+# In[104]:
 
 def scoreboard_table(username, dbname, engine, lastdate):
         
@@ -352,7 +382,7 @@ def scoreboard_table(username, dbname, engine, lastdate):
     return created
 
 
-# In[72]:
+# In[105]:
 
 def do_test_scoreboard(username, dbname):
 
@@ -407,7 +437,7 @@ def do_test_scoreboard(username, dbname):
 # * database with info regarding all games played
 #         -filled with data scraped from scoreboard pages 
 
-# In[73]:
+# In[106]:
 
 def do_test_games(username, dbname):
     
@@ -437,7 +467,7 @@ def do_test_games(username, dbname):
 
 # ## For creating, testing the gamestats databases
 
-# In[74]:
+# In[107]:
 
 def do_test_gamestats(username, dbname, year):
         
@@ -478,7 +508,7 @@ def do_test_gamestats(username, dbname, year):
 # ## For creating, testing the winloss database
 # * a simple table to turn string values of win(w) and loss(l) to intergers win(1) and loss(-1)
 
-# In[75]:
+# In[108]:
 
 def winloss_table(username, dbname, engine):
     
@@ -506,7 +536,7 @@ def winloss_table(username, dbname, engine):
     return created
 
 
-# In[76]:
+# In[109]:
 
 def do_test_winloss(username, dbname):
 
@@ -536,9 +566,9 @@ def do_test_winloss(username, dbname):
     print ''
 
 
-# In[77]:
+# In[110]:
 
-def main(find_tables=True, peek_tables=False, 
+def main(find_tables=False, peek_tables=False, 
          make_scoreboard=False, make_games=None, 
          make_gamestats=False, make_winloss=False, 
          make_test=False, 
@@ -546,18 +576,24 @@ def main(find_tables=True, peek_tables=False,
     
     
 
-    
-    myncaabball = NcaaBballDb(find_tables=find_tables)
+    myncaabball = NcaaBballDb(find_tables=find_tables, peek_tables=peek_tables)
     
     chk = makeDbEngine(myncaabball)
     if chk !=0:
         print printEngineStatus(myncaabball)
-    
+    else:
+        print 'Make sure you have Postgres started!!'
+        sys.exit(0)
+
     if myncaabball.find_tables:
         chk = findTables(myncaabball)
         if chk != 0:
             printTableNames(myncaabball)
-            
+    
+    if myncaabball.peek_tables:
+        chk = peekTables(myncaabball, nhead=5)
+        
+        
     
     
     ### task: make a function for table peeks
@@ -625,7 +661,7 @@ def main(find_tables=True, peek_tables=False,
 
 
 
-# In[78]:
+# In[111]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
