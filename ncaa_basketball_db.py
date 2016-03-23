@@ -7,7 +7,7 @@
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[73]:
+# In[61]:
 
 #import packages
 
@@ -30,7 +30,7 @@ import psycopg2
 
 
 
-# In[74]:
+# In[62]:
 
 ## class definition for the NCAA basketball database collection
 '''
@@ -53,7 +53,7 @@ class NcaaBballDb():
   
 
 
-# In[75]:
+# In[63]:
 
 ## get attribute functions
 
@@ -75,15 +75,20 @@ def getTableNames(self):
     '''    
     return self.table_names
 
+def getDbExist(self):
+    '''
+    function to return the status of the database engine
+    '''
+    return self.db_exist
 
 def getDbEngine(self):
     '''
-    function to return the status of the database engine
+    function to return the actual database engine
     '''
     return self.db_engine
 
 
-# In[76]:
+# In[64]:
 
 ## set attribute functions
 
@@ -108,7 +113,7 @@ def setDbExist(self, exists):
     self.db_exist = exists
 
 
-# In[77]:
+# In[65]:
 
 ## print attribute functions
 
@@ -123,14 +128,14 @@ def printTableNames(self):
 
 
 def printEngineStatus(self):
+    engine_exist = getDbExist(self)
+    print '    Engine exists: %s' % (engine_exist)
     engine = getDbEngine(self)
-    print engine
-        
-    print '  Engine made!!'
+    print '      The little engine that could: %s' % (engine) 
 
 
 
-# In[78]:
+# In[66]:
 
 def connectDb(self):
     '''
@@ -150,7 +155,7 @@ def connectDb(self):
     return con
 
 
-# In[79]:
+# In[67]:
 
 def makeDbEngine(self):
     '''
@@ -178,7 +183,7 @@ def makeDbEngine(self):
         return 0
 
 
-# In[80]:
+# In[68]:
 
 def findTables(self):
     '''
@@ -216,7 +221,7 @@ def findTables(self):
 
 
 
-# In[81]:
+# In[69]:
 
 ### items between here and __main__() have not be brought into the class definition yet
 
@@ -226,7 +231,7 @@ def findTables(self):
 
 
 
-# In[82]:
+# In[70]:
 
 def peek_at_tables(table_names, username, dbname):
     
@@ -257,7 +262,7 @@ def peek_at_tables(table_names, username, dbname):
 # 
 # 
 
-# In[83]:
+# In[71]:
 
 def scoreboard_table(username, dbname, engine, lastdate):
         
@@ -347,7 +352,7 @@ def scoreboard_table(username, dbname, engine, lastdate):
     return created
 
 
-# In[84]:
+# In[72]:
 
 def do_test_scoreboard(username, dbname):
 
@@ -402,7 +407,7 @@ def do_test_scoreboard(username, dbname):
 # * database with info regarding all games played
 #         -filled with data scraped from scoreboard pages 
 
-# In[85]:
+# In[73]:
 
 def do_test_games(username, dbname):
     
@@ -432,7 +437,7 @@ def do_test_games(username, dbname):
 
 # ## For creating, testing the gamestats databases
 
-# In[86]:
+# In[74]:
 
 def do_test_gamestats(username, dbname, year):
         
@@ -473,7 +478,7 @@ def do_test_gamestats(username, dbname, year):
 # ## For creating, testing the winloss database
 # * a simple table to turn string values of win(w) and loss(l) to intergers win(1) and loss(-1)
 
-# In[87]:
+# In[75]:
 
 def winloss_table(username, dbname, engine):
     
@@ -501,7 +506,7 @@ def winloss_table(username, dbname, engine):
     return created
 
 
-# In[88]:
+# In[76]:
 
 def do_test_winloss(username, dbname):
 
@@ -531,7 +536,7 @@ def do_test_winloss(username, dbname):
     print ''
 
 
-# In[89]:
+# In[77]:
 
 def main(find_tables=True, peek_tables=False, 
          make_scoreboard=False, make_games=None, 
@@ -555,7 +560,6 @@ def main(find_tables=True, peek_tables=False,
             
     
     
-    ### next task: make function in the class to create engine to make new SQL databases
     ### task: make a function for table peeks
     
     sys.exit(0)
@@ -621,7 +625,7 @@ def main(find_tables=True, peek_tables=False,
 
 
 
-# In[90]:
+# In[78]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
