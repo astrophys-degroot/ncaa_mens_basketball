@@ -7,7 +7,7 @@
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[379]:
+# In[433]:
 
 #import packages
 
@@ -30,7 +30,7 @@ import psycopg2
 
 
 
-# In[380]:
+# In[434]:
 
 ## class definition for the NCAA basketball database collection
 '''
@@ -57,7 +57,7 @@ class NcaaBballDb():
   
 
 
-# In[381]:
+# In[435]:
 
 ## get attribute functions
 
@@ -74,6 +74,13 @@ def getYear(self):
     various databases
     '''    
     return self.year
+
+def getNhead(self):
+    '''
+    function to return the (max) number of rows when looking
+    at a SQL table. 
+    '''    
+    return self.nhead
 
 def getDbName(self):
     '''
@@ -106,12 +113,14 @@ def getDbEngine(self):
     return self.db_engine
 
 
-# In[382]:
+# In[436]:
 
 ## set attribute functions
 
 def setDefaults(self, lastdate=None, year=None, nhead=None):
-    print 'now here'
+    '''
+    function to set some default values fro this class
+    '''
     
     if lastdate is None:
         self.lastdate = '20160204'
@@ -129,7 +138,13 @@ def setDefaults(self, lastdate=None, year=None, nhead=None):
         else:
             self.year = str(year)
 
-    print getYear(self)
+    if nhead is None:
+        self.nhead = 6
+    else:
+        self.nhead = nhead
+
+
+    print getNhead(self)
   
 
 
@@ -155,7 +170,7 @@ def setDbExist(self, exists):
     self.db_exist = exists
 
 
-# In[383]:
+# In[437]:
 
 ## print attribute functions
 
@@ -177,7 +192,7 @@ def printEngineStatus(self):
 
 
 
-# In[384]:
+# In[438]:
 
 def connectDb(self):
     '''
@@ -197,7 +212,7 @@ def connectDb(self):
     return con
 
 
-# In[385]:
+# In[439]:
 
 def makeDbEngine(self):
     '''
@@ -225,7 +240,7 @@ def makeDbEngine(self):
         return 0
 
 
-# In[386]:
+# In[440]:
 
 def findTables(self):
     '''
@@ -258,7 +273,7 @@ def findTables(self):
     
 
 
-# In[387]:
+# In[441]:
 
 def peekTables(self, nhead=False):
     '''
@@ -268,7 +283,7 @@ def peekTables(self, nhead=False):
     
     ## set values
     if nhead is False:
-        nhead = 5
+        nhead = getNhead(self)
     else:
         nhead = nhead
     
@@ -310,7 +325,7 @@ def peekTables(self, nhead=False):
 
 
 
-# In[388]:
+# In[442]:
 
 ### items between here and __main__() have not be brought into the class definition yet
 
@@ -330,7 +345,7 @@ def peekTables(self, nhead=False):
 # 
 # 
 
-# In[389]:
+# In[443]:
 
 def scoreboard_table(username, dbname, engine, lastdate):
         
@@ -420,7 +435,7 @@ def scoreboard_table(username, dbname, engine, lastdate):
     return created
 
 
-# In[390]:
+# In[444]:
 
 def do_test_scoreboard(username, dbname):
 
@@ -475,7 +490,7 @@ def do_test_scoreboard(username, dbname):
 # * database with info regarding all games played
 #         -filled with data scraped from scoreboard pages 
 
-# In[391]:
+# In[445]:
 
 def do_test_games(username, dbname):
     
@@ -505,7 +520,7 @@ def do_test_games(username, dbname):
 
 # ## For creating, testing the gamestats databases
 
-# In[392]:
+# In[446]:
 
 def do_test_gamestats(username, dbname, year):
         
@@ -546,7 +561,7 @@ def do_test_gamestats(username, dbname, year):
 # ## For creating, testing the winloss database
 # * a simple table to turn string values of win(w) and loss(l) to intergers win(1) and loss(-1)
 
-# In[393]:
+# In[447]:
 
 def winloss_table(username, dbname, engine):
     
@@ -574,7 +589,7 @@ def winloss_table(username, dbname, engine):
     return created
 
 
-# In[394]:
+# In[448]:
 
 def do_test_winloss(username, dbname):
 
@@ -604,7 +619,7 @@ def do_test_winloss(username, dbname):
     print ''
 
 
-# In[395]:
+# In[449]:
 
 def main(find_tables=False, peek_tables=False, 
          make_scoreboard=False, make_games=None, 
@@ -690,7 +705,7 @@ def main(find_tables=False, peek_tables=False,
 
 
 
-# In[396]:
+# In[450]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
