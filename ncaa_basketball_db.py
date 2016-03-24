@@ -7,7 +7,7 @@
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[565]:
+# In[38]:
 
 #import packages
 
@@ -30,7 +30,7 @@ import psycopg2
 
 
 
-# In[566]:
+# In[39]:
 
 ## class definition for the NCAA basketball database collection
 '''
@@ -42,7 +42,8 @@ to predict winners of games from past peformances
 class NcaaBballDb():
     
     
-    def __init__(self, find_tables=None, peek_tables=None):
+    def __init__(self, find_tables=None, peek_tables=None, make_scoreboard=None, 
+                scoreboard_name=None):
         self.dbname = 'ncaa_mbb_db'
         self.username = 'smaug'
 
@@ -54,10 +55,20 @@ class NcaaBballDb():
             self.peek_tables = peek_tables
         else:
             self.peek_tables = False
-  
+        if make_scoreboard:
+            self.make_scoreboard = make_scoreboard
+        else:
+            self.make_scoreboard = False
+
+        if scoreboard_name:
+            self.scoreboard_name = scoreboard_name
+        else:
+            self.scoreboard_name = 'scoreboard'
+
+ 
 
 
-# In[567]:
+# In[40]:
 
 ## get attribute functions
 
@@ -112,8 +123,14 @@ def getDbEngine(self):
     '''
     return self.db_engine
 
+def getScoreboardName(self):
+    '''
+    function to return the database table name for scoreboards
+    '''
+    return self.scoreboard_name
 
-# In[568]:
+
+# In[41]:
 
 ## set attribute functions
 
@@ -168,7 +185,7 @@ def setDbExist(self, exists):
     self.db_exist = exists
 
 
-# In[569]:
+# In[42]:
 
 ## print attribute functions
 
@@ -190,7 +207,7 @@ def printEngineStatus(self):
 
 
 
-# In[570]:
+# In[43]:
 
 def connectDb(self):
     '''
@@ -210,7 +227,7 @@ def connectDb(self):
     return con
 
 
-# In[571]:
+# In[44]:
 
 def makeDbEngine(self):
     '''
@@ -238,7 +255,7 @@ def makeDbEngine(self):
         return 1
 
 
-# In[572]:
+# In[45]:
 
 def findTables(self):
     '''
@@ -271,7 +288,7 @@ def findTables(self):
     
 
 
-# In[573]:
+# In[46]:
 
 def peekTables(self, nhead=False):
     '''
@@ -319,32 +336,121 @@ def peekTables(self, nhead=False):
 
 
 
-# In[ ]:
-
-
-
-
-# In[574]:
-
-### items between here and __main__() have not be brought into the class definition yet
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
 # ## For creating, testing the base scoreboard database
 #     * scoreboard database: info regarding the various ESPN scoreboard pages such as data and whether obtained
 # 
 # 
 
-# In[575]:
+# In[47]:
+
+def scoreboardTable(self):
+    print 'now here'
+    
+    
+    #scoreboard_table_name = 'scoreboard'
+    scoreboard_table_name = getScoreboardName(self)
+    print scoreboard_table_name
+    sys.exit()
+    
+    scoreboard_dir = 'scoreboard_pages/'
+    scoreboard_file = 'ncaa_mbb_scoreboard_full_YYYYMMDD.txt'
+    scoreboard_table_range = [['20021101','20030430'], 
+                              ['20031101','20040430'], 
+                              ['20041101','20050430'],
+                              ['20051101','20060430'],
+                              ['20061101','20070430'],
+                              ['20071101','20080430'],
+                              ['20081101','20090430'],
+                              ['20091101','20100430'],
+                              ['20101101','20110430'],
+                              ['20111101','20120430'],
+                              ['20121101','20130430'],
+                              ['20131101','20140430'],
+                              ['20141101','20150430'],
+                              #['20151101',lastdate],
+                               ] 
+
+    try:
+        #fire up the database engine
+        engine = create_engine('postgres://%s@localhost/%s'%(username, dbname))
+        db_exist = database_exists(engine.url)
+        if not db_exist:
+            create_database(engine.url)
+
+        #create empty arrays to fill
+        my_dates = []
+        my_years = []
+        my_months = []
+        my_days = []
+
+        #loop over the date ranges
+        for scoreboard in scoreboard_table_range:
+            dates_range = pd.date_range(start=scoreboard[0], end=scoreboard[1], freq='D')
+            for date_range in dates_range:
+                match = re.search('(\d\d\d\d)-(\d\d)-(\d\d)', str(date_range))
+                my_dates.append(match.group(0))
+                my_years.append(match.group(1))
+                my_months.append(match.group(2))
+                my_days.append(match.group(3))
+
+        #find which files have already been downloaded
+        in_hand = []
+        for ii in np.arange(len(my_dates)):
+            bit1 = scoreboard_file
+            bit1 = bit1.replace('YYYY', my_years[ii])
+            bit1 = bit1.replace('MM', my_months[ii])
+            bit1 = bit1.replace('DD', my_days[ii])
+            #print bit1
+
+            bit2 = scoreboard_dir  
+            if int(my_months[ii]) > 7:
+                bit2 = str(my_years[ii]) + '-' + str(int(my_years[ii])+1) + '/'
+            else:
+                bit2 = str(int(my_years[ii])-1) + '-' + str(my_years[ii]) + '/'
+            #print bit2
+
+            line = 'ls ' + scoreboard_dir + bit2 + bit1
+            #print line
+            f = os.popen(line)
+            try:
+                f.readlines()[0]
+                in_hand.append('yes')
+            except:
+                #print f.readlines()
+                in_hand.append('no')
+
+        #make a data frame of our info
+        scoreboard_df = pd.DataFrame({'date':my_dates, 
+                                      'year':my_years, 
+                                      'month':my_months,
+                                      'day':my_days,
+                                      'in_hand':in_hand,        
+                                    })
+        ##################################################################
+        ###are you really sure you want to rebuild the entire scoreboard database???
+        scoreboard_df.to_sql(scoreboard_table_name, engine, if_exists='replace')
+        ##################################################################
+        created = 1
+    except:
+        created = 0
+
+    return created
+
+
+# In[48]:
+
+### items between here and __main__() have not be brought into the class definition yet
+
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
 
 def scoreboard_table(username, dbname, engine, lastdate):
         
@@ -432,9 +538,7 @@ def scoreboard_table(username, dbname, engine, lastdate):
         created = 0
         
     return created
-
-
-# In[576]:
+# In[49]:
 
 def do_test_scoreboard(username, dbname):
 
@@ -489,7 +593,7 @@ def do_test_scoreboard(username, dbname):
 # * database with info regarding all games played
 #         -filled with data scraped from scoreboard pages 
 
-# In[577]:
+# In[50]:
 
 def do_test_games(username, dbname):
     
@@ -519,7 +623,7 @@ def do_test_games(username, dbname):
 
 # ## For creating, testing the gamestats databases
 
-# In[578]:
+# In[51]:
 
 def do_test_gamestats(username, dbname, year):
         
@@ -560,7 +664,7 @@ def do_test_gamestats(username, dbname, year):
 # ## For creating, testing the winloss database
 # * a simple table to turn string values of win(w) and loss(l) to intergers win(1) and loss(-1)
 
-# In[579]:
+# In[52]:
 
 def winloss_table(username, dbname, engine):
     
@@ -588,7 +692,7 @@ def winloss_table(username, dbname, engine):
     return created
 
 
-# In[580]:
+# In[53]:
 
 def do_test_winloss(username, dbname):
 
@@ -618,17 +722,18 @@ def do_test_winloss(username, dbname):
     print ''
 
 
-# In[581]:
+# In[54]:
 
 def main(find_tables=False, peek_tables=False, 
-         make_scoreboard=False, make_games=None, 
+         make_scoreboard=False, scoreboard_name=None,
+         make_games=None, 
          make_gamestats=False, make_winloss=False, 
          make_test=False, 
          lastdate=None, year=None, nhead=None):
     
     
-
-    myncaabball = NcaaBballDb(find_tables=find_tables, peek_tables=peek_tables)
+    myncaabball = NcaaBballDb(find_tables=find_tables, peek_tables=peek_tables, 
+                             make_scoreboard=make_scoreboard, scoreboard_name=scoreboard_name)
     
     chk = setDefaults(myncaabball, lastdate=lastdate, year=year,
                      nhead=nhead)
@@ -649,12 +754,19 @@ def main(find_tables=False, peek_tables=False,
     
     if myncaabball.peek_tables:
         chk = peekTables(myncaabball)
-        
-        
-    
+          
+    #whether to work on scoreboard table    
+    if myncaabball.make_scoreboard:
+        chk = scoreboardTable(myncaabball)
+        if chk == 1:
+            print '    Table, scoreboard, successfully created!'
+        else:
+            print '    Table, scoreboard, NOT created!'
+ 
     
     ### task: add function to make the scoreboard table database 
-    
+    ### this function needs to be evalutated on how some it fits here to make and access the db
+    ###  and some of if needs to go into the scoreboard class so that is can be built etc and then handed over
     
     sys.exit(0)
     ### below this line has not been migrated into the class definition yet
@@ -672,13 +784,6 @@ def main(find_tables=False, peek_tables=False,
     #if peek_tables:
     #    chk = peek_at_tables(avail_tables, username, dbname)
         
-    #whether to work on scoreboard table
-    if make_scoreboard:
-        chk = scoreboard_table(username, dbname, engine, lastdate)
-        if chk == 1:
-            print '    Table, scoreboard, successfully created!'
-        else:
-            print '    Table, scoreboard, NOT created!'
     if make_test:
         chk = do_test_scoreboard(username, dbname)
 
@@ -705,12 +810,12 @@ def main(find_tables=False, peek_tables=False,
 
 
 
-# In[582]:
+# In[55]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
     main(find_tables=True, peek_tables=True, 
-         make_scoreboard=False, make_winloss=False, 
+         make_scoreboard=True, make_winloss=False, 
          make_games=False, make_gamestats=False, 
          make_test=False, 
          lastdate='20160323', year='1516')
