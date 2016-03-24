@@ -7,7 +7,7 @@
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[38]:
+# In[57]:
 
 #import packages
 
@@ -30,7 +30,7 @@ import psycopg2
 
 
 
-# In[39]:
+# In[58]:
 
 ## class definition for the NCAA basketball database collection
 '''
@@ -68,7 +68,7 @@ class NcaaBballDb():
  
 
 
-# In[40]:
+# In[59]:
 
 ## get attribute functions
 
@@ -130,7 +130,7 @@ def getScoreboardName(self):
     return self.scoreboard_name
 
 
-# In[41]:
+# In[60]:
 
 ## set attribute functions
 
@@ -185,7 +185,7 @@ def setDbExist(self, exists):
     self.db_exist = exists
 
 
-# In[42]:
+# In[61]:
 
 ## print attribute functions
 
@@ -207,7 +207,7 @@ def printEngineStatus(self):
 
 
 
-# In[43]:
+# In[62]:
 
 def connectDb(self):
     '''
@@ -227,7 +227,7 @@ def connectDb(self):
     return con
 
 
-# In[44]:
+# In[63]:
 
 def makeDbEngine(self):
     '''
@@ -255,7 +255,7 @@ def makeDbEngine(self):
         return 1
 
 
-# In[45]:
+# In[64]:
 
 def findTables(self):
     '''
@@ -288,7 +288,7 @@ def findTables(self):
     
 
 
-# In[46]:
+# In[65]:
 
 def peekTables(self, nhead=False):
     '''
@@ -331,44 +331,37 @@ def peekTables(self, nhead=False):
         return 1
 
 
-# In[ ]:
-
-
-
-
-# ## For creating, testing the base scoreboard database
+# ## For creating, saving, testing the base scoreboard database
 #     * scoreboard database: info regarding the various ESPN scoreboard pages such as data and whether obtained
 # 
 # 
 
-# In[47]:
+# In[76]:
 
 def scoreboardTable(self):
-    print 'now here'
     
     
-    #scoreboard_table_name = 'scoreboard'
     scoreboard_table_name = getScoreboardName(self)
     print scoreboard_table_name
-    sys.exit()
+    sys.exit(0)
     
-    scoreboard_dir = 'scoreboard_pages/'
-    scoreboard_file = 'ncaa_mbb_scoreboard_full_YYYYMMDD.txt'
-    scoreboard_table_range = [['20021101','20030430'], 
-                              ['20031101','20040430'], 
-                              ['20041101','20050430'],
-                              ['20051101','20060430'],
-                              ['20061101','20070430'],
-                              ['20071101','20080430'],
-                              ['20081101','20090430'],
-                              ['20091101','20100430'],
-                              ['20101101','20110430'],
-                              ['20111101','20120430'],
-                              ['20121101','20130430'],
-                              ['20131101','20140430'],
-                              ['20141101','20150430'],
+    # needs to go to scoreboard class: scoreboard_dir = 'scoreboard_pages/'
+    # needs to go to scoreboard class: scoreboard_file = 'ncaa_mbb_scoreboard_full_YYYYMMDD.txt'
+    # needs to go to scoreboard class: scoreboard_table_range = [['20021101','20030430'], 
+                              #['20031101','20040430'], 
+                              #['20041101','20050430'],
+                              #['20051101','20060430'],
+                              #['20061101','20070430'],
+                              #['20071101','20080430'],
+                              #['20081101','20090430'],
+                              #['20091101','20100430'],
+                              #['20101101','20110430'],
+                              #['20111101','20120430'],
+                              #['20121101','20130430'],
+                              #['20131101','20140430'],
+                              #['20141101','20150430'],
                               #['20151101',lastdate],
-                               ] 
+                              # ] 
 
     try:
         #fire up the database engine
@@ -437,7 +430,7 @@ def scoreboardTable(self):
     return created
 
 
-# In[48]:
+# In[67]:
 
 ### items between here and __main__() have not be brought into the class definition yet
 
@@ -538,7 +531,7 @@ def scoreboard_table(username, dbname, engine, lastdate):
         created = 0
         
     return created
-# In[49]:
+# In[68]:
 
 def do_test_scoreboard(username, dbname):
 
@@ -593,7 +586,7 @@ def do_test_scoreboard(username, dbname):
 # * database with info regarding all games played
 #         -filled with data scraped from scoreboard pages 
 
-# In[50]:
+# In[69]:
 
 def do_test_games(username, dbname):
     
@@ -623,7 +616,7 @@ def do_test_games(username, dbname):
 
 # ## For creating, testing the gamestats databases
 
-# In[51]:
+# In[70]:
 
 def do_test_gamestats(username, dbname, year):
         
@@ -664,7 +657,7 @@ def do_test_gamestats(username, dbname, year):
 # ## For creating, testing the winloss database
 # * a simple table to turn string values of win(w) and loss(l) to intergers win(1) and loss(-1)
 
-# In[52]:
+# In[71]:
 
 def winloss_table(username, dbname, engine):
     
@@ -692,7 +685,7 @@ def winloss_table(username, dbname, engine):
     return created
 
 
-# In[53]:
+# In[72]:
 
 def do_test_winloss(username, dbname):
 
@@ -722,7 +715,7 @@ def do_test_winloss(username, dbname):
     print ''
 
 
-# In[54]:
+# In[73]:
 
 def main(find_tables=False, peek_tables=False, 
          make_scoreboard=False, scoreboard_name=None,
@@ -810,7 +803,7 @@ def main(find_tables=False, peek_tables=False,
 
 
 
-# In[55]:
+# In[74]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':

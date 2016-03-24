@@ -29,6 +29,20 @@ from sqlalchemy_utils import database_exists, create_database
 
 # In[2]:
 
+## class defintion for the NCAA basketball scoreboard object
+'''
+This class is intened to work with a ESPN scoreboard page including
+obtaining it, saving it, scraping info from it. 
+'''
+
+class NcaaBballScoreboard():
+    
+    def __init__():
+        a = 1
+
+
+# In[2]:
+
 def get_yester():
     '''
     funtion to get yesterday's date
