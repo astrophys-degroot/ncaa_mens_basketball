@@ -41,6 +41,21 @@ class NcaaBballScoreboard():
         a = 1
 
 
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+### items between here and __main__() have not be brought into the class definition yet
+
+
+# In[ ]:
+
+
+
+
 # In[2]:
 
 def get_yester():
