@@ -33,15 +33,13 @@ import psycopg2
 # In[58]:
 
 ## class definition for the NCAA basketball database collection
-'''
-This class if for organizing, access, setting and evaluating
-the databases that will be made for the NCAA basketball project
-to predict winners of games from past peformances
-'''
-
 class NcaaBballDb():
-    
-    
+    '''
+    This class if for organizing, access, setting and evaluating
+    the databases that will be made for the NCAA basketball project
+    to predict winners of games from past peformances
+    '''
+        
     def __init__(self, find_tables=None, peek_tables=None, make_scoreboard=None, 
                 scoreboard_name=None):
         self.dbname = 'ncaa_mbb_db'
@@ -66,68 +64,63 @@ class NcaaBballDb():
             self.scoreboard_name = 'scoreboard'
 
  
+    ## get attribute functions
+    def getLastDate(self):
+        '''
+        function to return the last date to include in the
+        various databases
+        '''    
+        return self.lastdate
 
+    def getYear(self):
+        '''
+        function to return the year to do when building the
+        various databases
+        '''    
+        return self.year
 
-# In[59]:
+    def getNhead(self):
+        '''
+        function to return the (max) number of rows when looking
+        at a SQL table. 
+        '''    
+        return self.nhead
 
-## get attribute functions
+    def getDbName(self):
+        '''
+        function to return the database name
+        '''    
+        return self.dbname
 
-def getLastDate(self):
-    '''
-    function to return the last date to include in the
-    various databases
-    '''    
-    return self.lastdate
+    def getUserName(self):
+        '''
+        function to return the database username
+        '''    
+        return self.username
 
-def getYear(self):
-    '''
-    function to return the year to do when building the
-    various databases
-    '''    
-    return self.year
+    def getTableNames(self):
+        '''
+        function to return the available database table names
+        '''    
+        return self.table_names
 
-def getNhead(self):
-    '''
-    function to return the (max) number of rows when looking
-    at a SQL table. 
-    '''    
-    return self.nhead
+    def getDbExist(self):
+        '''
+        function to return the status of the database engine
+        '''
+        return self.db_exist
 
-def getDbName(self):
-    '''
-    function to return the database name
-    '''    
-    return self.dbname
+    def getDbEngine(self):
+        '''
+        function to return the actual database engine
+        '''
+        return self.db_engine
 
-def getUserName(self):
-    '''
-    function to return the database username
-    '''    
-    return self.username
-
-def getTableNames(self):
-    '''
-    function to return the available database table names
-    '''    
-    return self.table_names
-
-def getDbExist(self):
-    '''
-    function to return the status of the database engine
-    '''
-    return self.db_exist
-
-def getDbEngine(self):
-    '''
-    function to return the actual database engine
-    '''
-    return self.db_engine
-
-def getScoreboardName(self):
-    '''
-    function to return the database table name for scoreboards
-    '''
-    return self.scoreboard_name
+    def getScoreboardName(self):
+        '''
+        function to return the database table name for scoreboards
+        '''
+        return self.scoreboard_name
 
 
 # In[60]:
@@ -433,11 +426,6 @@ def scoreboardTable(self):
 # In[67]:
 
 ### items between here and __main__() have not be brought into the class definition yet
-
-
-
-# In[ ]:
-
 
 
 
@@ -761,46 +749,6 @@ def main(find_tables=False, peek_tables=False,
     ### this function needs to be evalutated on how some it fits here to make and access the db
     ###  and some of if needs to go into the scoreboard class so that is can be built etc and then handed over
     
-    sys.exit(0)
-    ### below this line has not been migrated into the class definition yet
-    
-    
-    
-    
-    
-    #get available tables in the database
-    #if which_tables:
-    #    avail_tables = my_tables(username, dbname)
-    #    print avail_tables
-        
-    #get a peek at available tables
-    #if peek_tables:
-    #    chk = peek_at_tables(avail_tables, username, dbname)
-        
-    if make_test:
-        chk = do_test_scoreboard(username, dbname)
-
-       
-    #whether to work on the games table
-    if make_test:
-        chk = do_test_games(username, dbname)
-        
-        
-    #whether to work on the gamestats tables
-    if make_test:
-        chk = do_test_gamestats(username, dbname, year)
-
-    
-    #whether to work on winloss table
-    if make_winloss:
-        chk = winloss_table(username, dbname, engine)
-        if chk == 1:
-            print '    Table, winloss, successfully created!'
-        else:
-            print '    Table, winloss, NOT created!'
-    if make_test:
-        chk = do_test_winloss(username, dbname)
-
 
 
 # In[74]:
@@ -821,6 +769,48 @@ if __name__ == '__main__':
 
 # In[ ]:
 
+
+
+
+# # below this line has not been migrated into the class definition yet
+# 
+# 
+
+# In[ ]:
+
+
+#get available tables in the database
+#if which_tables:
+#    avail_tables = my_tables(username, dbname)
+#    print avail_tables
+    
+#get a peek at available tables
+#if peek_tables:
+#    chk = peek_at_tables(avail_tables, username, dbname)
+    
+if make_test:
+    chk = do_test_scoreboard(username, dbname)
+
+   
+#whether to work on the games table
+if make_test:
+    chk = do_test_games(username, dbname)
+    
+    
+#whether to work on the gamestats tables
+if make_test:
+    chk = do_test_gamestats(username, dbname, year)
+
+
+#whether to work on winloss table
+if make_winloss:
+    chk = winloss_table(username, dbname, engine)
+    if chk == 1:
+        print '    Table, winloss, successfully created!'
+    else:
+        print '    Table, winloss, NOT created!'
+if make_test:
+    chk = do_test_winloss(username, dbname)
 
 
 

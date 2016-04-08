@@ -2,16 +2,20 @@
 # coding: utf-8
 
 # 
-# # ESPN Scoreboard Page Data Grab
+# # ESPN Scoreboard Class notebook
+# 
+# ## Actions
+# - get which scoreboards need to be obtained
 # 
 # 
-# ## Available games back until 2002-2003 season
+# ## Notes
+#   * Available games back until 2002-2003 season
 #   * url format is pretty standard, is straight forward to get
-#   * formatting appears to be pretty standard
+#   * formatting for individual scoreboards also appears to be pretty standard
 #   * queries database on files that we don't have in hand yet and loop through them to try and get
 # 
 
-# In[1]:
+# In[95]:
 
 #import our libraries
 import sys
@@ -26,8 +30,11 @@ from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
 
+### other classes
+import ncaa_basketball_db 
 
-# In[2]:
+
+# In[65]:
 
 ## class defintion for the NCAA basketball scoreboard object
 '''
@@ -37,8 +44,107 @@ obtaining it, saving it, scraping info from it.
 
 class NcaaBballScoreboard():
     
-    def __init__():
-        a = 1
+    def __init__(self, baseurl=None, basedir=None, basefile=None, basealter=None):
+        if baseurl == None:
+            self.baseurl = 'http://scores.espn.go.com/mens-college-basketball/scoreboard/_/group/50/date/YYYYMMDD'
+        else:
+            self.baseurl = baseurl
+        if basedir == None:
+            self.basedir = 'scoreboard_pages/'
+        else:
+            self.basedir = basedir
+        if basefile == None:
+            self.basefile = 'ncaa_mbb_scoreboard_full_YYYYMMDD.txt'
+        else:
+            self.basefile = basefile   
+        if basealter == None:
+            self.basealter = 'YYYYMMDD'
+        else:
+            self.basealter = basealter
+
+            
+            
+
+
+# In[66]:
+
+## the class get functions
+
+def getBaseUrl(self):
+    '''
+    function to return the template url that needs to be slightly
+    modified by entering a data to get to the boxscore page for a
+    game.
+    '''
+    return self.baseurl
+
+def getBaseDir(self):
+    '''
+    function to return the base directory for storing the raw
+    scoreboard pages
+    '''
+    return self.basedir
+
+def getBaseFile(self):
+    '''
+    function to return the template file name for the stored
+    raw scoreboard pages
+    '''
+    return self.basefile
+
+def getBaseAlter(self):
+    '''
+    function to return the string that needs to be altered in
+    the basenames 
+    '''
+    return self.basealter
+
+
+# In[67]:
+
+def yesterday_date():
+    '''
+    funtion to get yesterday's date in format YYYYMMDD
+    
+    It takes into account months with variable number of days.
+    It takes into account leap years.
+    It takes into account Jan 1st. 
+    '''
+    
+    day = (time.strftime("%d"))
+    #day = '01'
+    month = (time.strftime("%m"))
+    #month = '03'
+    year = (time.strftime("%Y"))
+    #year = '2016'
+
+    if day != '01':
+        if day <= '10':
+            day = '0' + str(int(day) - 1)
+        else:
+            day = str(int(day) - 1)
+    else:
+        if month <= '10':
+            month = '0' + str(int(month) - 1)
+        else:
+            month = str(int(month) - 1)
+        if month in ['04','06','09','11']:
+            day = '30'
+        elif month in ['02']:
+            if (int(year)-2000) % 4 == 0:
+                day = '29'
+            else:
+                day = '28'
+        else:
+            if month == '00':
+                year = str(int(year) - 1)
+                month = '12'
+            day = '31'
+
+
+    alternate = year + month + day
+
+    return alternate
 
 
 # In[ ]:
@@ -46,7 +152,7 @@ class NcaaBballScoreboard():
 
 
 
-# In[ ]:
+# In[68]:
 
 ### items between here and __main__() have not be brought into the class definition yet
 
@@ -56,20 +162,27 @@ class NcaaBballScoreboard():
 
 
 
-# In[2]:
-
-def get_yester():
-    '''
-    funtion to get yesterday's date
-    '''
-    
-    yesterday = str(int(time.strftime("%d")) - 1)
-    alternate = time.strftime("%Y%m") + yesterday
-
-    return alternate
+# In[ ]:
 
 
-# In[3]:
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
+
+# In[69]:
 
 def get_yester_pandas(pandas_date):
     
@@ -90,7 +203,7 @@ def get_yester_pandas(pandas_date):
     return yester
 
 
-# In[4]:
+# In[70]:
 
 def get_yester_url(baseurl, alter, yester):
     '''
@@ -104,7 +217,7 @@ def get_yester_url(baseurl, alter, yester):
     return yesterurl
 
 
-# In[5]:
+# In[71]:
 
 def get_yester_filename(baseurl, alter, yester):
     
@@ -113,7 +226,7 @@ def get_yester_filename(baseurl, alter, yester):
     return yesterurl
 
 
-# In[6]:
+# In[72]:
 
 def get_yester_meddir(base_dir, this_date):
     
@@ -131,7 +244,7 @@ def get_yester_meddir(base_dir, this_date):
     return bit2
 
 
-# In[7]:
+# In[73]:
 
 def scoreboard_db_open(dbname, username):
     
@@ -144,7 +257,7 @@ def scoreboard_db_open(dbname, username):
     return con
 
 
-# In[8]:
+# In[74]:
 
 def scoreboard_db_query(my_con, scoreboard_table_name):
 
@@ -160,7 +273,7 @@ def scoreboard_db_query(my_con, scoreboard_table_name):
     return from_sql_query
 
 
-# In[60]:
+# In[75]:
 
 def scoreboard_db_query_most_recent(my_con, scoreboard_table_name):
 
@@ -184,7 +297,7 @@ def scoreboard_db_query_most_recent(my_con, scoreboard_table_name):
     return recent_date
 
 
-# In[61]:
+# In[76]:
 
 def get_yester_gamepage(yesterurl, my_con, udate, write=None, writedir=None):
 
@@ -223,62 +336,117 @@ def get_yester_gamepage(yesterurl, my_con, udate, write=None, writedir=None):
     return find
 
 
-# In[64]:
+# In[96]:
 
-def main(most_recent=False):
+def main(most_recent=False, 
+        baseurl=None, basedir=None, basefile=None, basealter=None):
    
     print 'Now running: ', sys.argv[0]
-   
-    ###input parameters
-    #baseurl = 'http://espn.go.com/mens-college-basketball/scoreboard/_/group/50/date/YYYYMMDD' #top 25 only
-    baseurl = 'http://scores.espn.go.com/mens-college-basketball/scoreboard/_/group/50/date/YYYYMMDD' # all games
-    #basefile = 'ncaa_mbb_scoreboard_YYYYMMDD.txt'  #top 25 only
-    basedir = 'scoreboard_pages/'
-    basefile = 'ncaa_mbb_scoreboard_full_YYYYMMDD.txt' # all games
-    alter = 'YYYYMMDD'
+    
+    
+    myscoreboard = NcaaBballScoreboard(baseurl=baseurl, basedir=basedir, 
+                                       basefile=basefile, basealter=basealter)
+    value = getBaseUrl(myscoreboard)
+    print value
+    value = getBaseDir(myscoreboard)
+    print value
+    value = getBaseFile(myscoreboard)
+    print value
+    value = getBaseAlter(myscoreboard)
+    print value
 
-    username = 'smaug'
-    dbname = 'ncaa_mbb_db'
-    scoreboard_table_name = 'scoreboard'
-
-    #open connection to database
-    my_con = scoreboard_db_open(dbname, username)
-    remaining_dates = scoreboard_db_query(my_con, scoreboard_table_name)
-    if most_recent is not False:
-        rec_date = scoreboard_db_query_most_recent(my_con, scoreboard_table_name)
-        print '  Most recent date (YYYY-MM-DD) in %s table is %s' % (scoreboard_table_name, rec_date)
-
-
-
-    ##try to get the remaining dates
-    print ''
-    #print remaining_dates['date']
-    remaining_dates = remaining_dates['date']
-    print '  %i dates need to be pulled.' % len(remaining_dates)
-    for remaining_date in reversed(remaining_dates):
-        this_dir = get_yester_meddir(basedir, remaining_date)
-        #print this_dir
-        yester = remaining_date.replace('-','')
-        url_yester_games = get_yester_url(baseurl, alter, yester)
-        #print '  ', url_yester_games
-        file_yester_gamepage = get_yester_filename(basefile, alter, yester)
-        #print file_yester_gamepage
-        yester_gamepage = get_yester_gamepage(url_yester_games, my_con, remaining_date, write=file_yester_gamepage, writedir=this_dir)
-        print '  Length of previous day page:', yester_gamepage
+    
+    ##database class instance
+    mydb = NcaaBballDb()
+    help(mydb)
+    
+    #print mydb.getUserName()
+    
 
 
-
-        #sql_query = "SELECT in_hand FROM %s WHERE date='%s';" % (scoreboard_table_name, remaining_date)
-        #print sql_query
-        #from_sql_query = pd.read_sql_query(sql_query, my_con)
-        #print from_sql_query
-
-
-# In[65]:
+# In[97]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
     main(most_recent=True)
+
+
+# In[ ]:
+
+
+
+
+# ## anything below this line hasnt been incorporated into the class yet
+# 
+# 
+
+# In[92]:
+
+
+   
+###input parameters
+#baseurl = 'http://espn.go.com/mens-college-basketball/scoreboard/_/group/50/date/YYYYMMDD' #top 25 only
+#baseurl = 'http://scores.espn.go.com/mens-college-basketball/scoreboard/_/group/50/date/YYYYMMDD' # all games
+#basefile = 'ncaa_mbb_scoreboard_YYYYMMDD.txt'  #top 25 only
+#basedir = 'scoreboard_pages/'
+#basefile = 'ncaa_mbb_scoreboard_full_YYYYMMDD.txt' # all games
+#alter = 'YYYYMMDD'
+
+username = 'smaug'
+dbname = 'ncaa_mbb_db'
+scoreboard_table_name = 'scoreboard'
+
+#open connection to database
+my_con = scoreboard_db_open(dbname, username)
+remaining_dates = scoreboard_db_query(my_con, scoreboard_table_name)
+if most_recent is not False:
+    rec_date = scoreboard_db_query_most_recent(my_con, scoreboard_table_name)
+    print '  Most recent date (YYYY-MM-DD) in %s table is %s' % (scoreboard_table_name, rec_date)
+
+
+
+##try to get the remaining dates
+print ''
+#print remaining_dates['date']
+remaining_dates = remaining_dates['date']
+print '  %i dates need to be pulled.' % len(remaining_dates)
+for remaining_date in reversed(remaining_dates):
+    this_dir = get_yester_meddir(basedir, remaining_date)
+    #print this_dir
+    yester = remaining_date.replace('-','')
+    url_yester_games = get_yester_url(baseurl, alter, yester)
+    #print '  ', url_yester_games
+    file_yester_gamepage = get_yester_filename(basefile, alter, yester)
+    #print file_yester_gamepage
+    yester_gamepage = get_yester_gamepage(url_yester_games, my_con, remaining_date, write=file_yester_gamepage, writedir=this_dir)
+    print '  Length of previous day page:', yester_gamepage
+
+
+
+    #sql_query = "SELECT in_hand FROM %s WHERE date='%s';" % (scoreboard_table_name, remaining_date)
+    #print sql_query
+    #from_sql_query = pd.read_sql_query(sql_query, my_con)
+    #print from_sql_query
+
+
+
+# In[ ]:
+
+
+
+
+# In[3]:
+
+
+
+from test_class_import import *
+
+mytest = TestImport()
+help(mytest)
+print mytest.getName()
+mytest.setName('newname')
+print mytest.getName()
+
 
 
 # In[ ]:
