@@ -15,7 +15,7 @@
 #   * queries database on files that we don't have in hand yet and loop through them to try and get
 # 
 
-# In[95]:
+# In[1]:
 
 #import our libraries
 import sys
@@ -31,10 +31,10 @@ from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
 
 ### other classes
-import ncaa_basketball_db 
+from ncaa_basketball_db import *
 
 
-# In[65]:
+# In[2]:
 
 ## class defintion for the NCAA basketball scoreboard object
 '''
@@ -66,7 +66,7 @@ class NcaaBballScoreboard():
             
 
 
-# In[66]:
+# In[3]:
 
 ## the class get functions
 
@@ -100,7 +100,7 @@ def getBaseAlter(self):
     return self.basealter
 
 
-# In[67]:
+# In[4]:
 
 def yesterday_date():
     '''
@@ -152,7 +152,7 @@ def yesterday_date():
 
 
 
-# In[68]:
+# In[5]:
 
 ### items between here and __main__() have not be brought into the class definition yet
 
@@ -182,7 +182,7 @@ def yesterday_date():
 
 
 
-# In[69]:
+# In[6]:
 
 def get_yester_pandas(pandas_date):
     
@@ -203,7 +203,7 @@ def get_yester_pandas(pandas_date):
     return yester
 
 
-# In[70]:
+# In[7]:
 
 def get_yester_url(baseurl, alter, yester):
     '''
@@ -217,7 +217,7 @@ def get_yester_url(baseurl, alter, yester):
     return yesterurl
 
 
-# In[71]:
+# In[8]:
 
 def get_yester_filename(baseurl, alter, yester):
     
@@ -226,7 +226,7 @@ def get_yester_filename(baseurl, alter, yester):
     return yesterurl
 
 
-# In[72]:
+# In[9]:
 
 def get_yester_meddir(base_dir, this_date):
     
@@ -244,7 +244,7 @@ def get_yester_meddir(base_dir, this_date):
     return bit2
 
 
-# In[73]:
+# In[10]:
 
 def scoreboard_db_open(dbname, username):
     
@@ -257,7 +257,7 @@ def scoreboard_db_open(dbname, username):
     return con
 
 
-# In[74]:
+# In[11]:
 
 def scoreboard_db_query(my_con, scoreboard_table_name):
 
@@ -273,7 +273,7 @@ def scoreboard_db_query(my_con, scoreboard_table_name):
     return from_sql_query
 
 
-# In[75]:
+# In[12]:
 
 def scoreboard_db_query_most_recent(my_con, scoreboard_table_name):
 
@@ -297,7 +297,7 @@ def scoreboard_db_query_most_recent(my_con, scoreboard_table_name):
     return recent_date
 
 
-# In[76]:
+# In[13]:
 
 def get_yester_gamepage(yesterurl, my_con, udate, write=None, writedir=None):
 
@@ -336,7 +336,7 @@ def get_yester_gamepage(yesterurl, my_con, udate, write=None, writedir=None):
     return find
 
 
-# In[96]:
+# In[14]:
 
 def main(most_recent=False, 
         baseurl=None, basedir=None, basefile=None, basealter=None):
@@ -358,13 +358,15 @@ def main(most_recent=False,
     
     ##database class instance
     mydb = NcaaBballDb()
-    help(mydb)
+    #help(mydb)
     
-    #print mydb.getUserName()
+    print mydb.getUserName()
+    print mydb.getDbName()
+    print mydb.connectDb()
     
 
 
-# In[97]:
+# In[15]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
@@ -380,7 +382,7 @@ if __name__ == '__main__':
 # 
 # 
 
-# In[92]:
+# In[16]:
 
 
    
@@ -432,20 +434,6 @@ for remaining_date in reversed(remaining_dates):
 
 # In[ ]:
 
-
-
-
-# In[3]:
-
-
-
-from test_class_import import *
-
-mytest = TestImport()
-help(mytest)
-print mytest.getName()
-mytest.setName('newname')
-print mytest.getName()
 
 
 
