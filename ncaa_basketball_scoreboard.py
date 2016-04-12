@@ -34,7 +34,7 @@ from sqlalchemy_utils import database_exists, create_database
 from ncaa_basketball_db import *
 
 
-# In[76]:
+# In[79]:
 
 ## class defintion for the NCAA basketball scoreboard object
 '''
@@ -93,6 +93,13 @@ class NcaaBballScoreboard():
         '''
         return self.basealter
 
+    def getNRemaining(self):
+        '''
+        function to return the number of scoreboard webpages not
+        yet obtained
+        '''
+        return self.remaining
+    
     
     ## other functions
     def yesterday_date():
@@ -339,9 +346,9 @@ def get_yester_gamepage(yesterurl, my_con, udate, write=None, writedir=None):
     return find
 
 
-# In[77]:
+# In[80]:
 
-def main(most_recent=False, 
+def main(find_most_recent=False, 
         baseurl=None, basedir=None, basefile=None, basealter=None,
         scoreboard_table_name=None):
    
@@ -373,16 +380,16 @@ def main(most_recent=False,
     
     ##do some checking on what we have already
     nremaining_dates = myscoreboard.sbDbQueryHm(mydb)
-    print '    Number of dates not yet obtained: %s' % nremaining_dates
+    print '    Number of dates not yet obtained: %s' % myscoreboard.getNRemaining()
 
     
 
 
-# In[78]:
+# In[81]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
-    main(most_recent=True)
+    main(find_most_recent=True)
 
 
 # In[ ]:

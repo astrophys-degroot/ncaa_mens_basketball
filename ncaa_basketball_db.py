@@ -692,7 +692,7 @@ def do_test_winloss(username, dbname):
     print ''
 
 
-# In[12]:
+# In[14]:
 
 def main(find_tables=False, peek_tables=False, 
          make_scoreboard=False, scoreboard_name=None,
@@ -728,12 +728,12 @@ def main(find_tables=False, peek_tables=False,
         chk = myncaabball.peekTables()
           
     #whether to work on scoreboard table    
-    if myncaabball.make_scoreboard:
-        chk = myncaabball.scoreboardTable()
-        if chk == 1:
-            print '    Table, scoreboard, successfully created!'
-        else:
-            print '    Table, scoreboard, NOT created!'
+    #if myncaabball.make_scoreboard:
+    #    chk = myncaabball.scoreboardTable()
+    #    if chk == 1:
+    #        print '    Table, scoreboard, successfully created!'
+    #    else:
+    #        print '    Table, scoreboard, NOT created!'
  
     
     ### task: add function to make the scoreboard table database 
@@ -742,7 +742,7 @@ def main(find_tables=False, peek_tables=False,
     
 
 
-# In[13]:
+# In[15]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
