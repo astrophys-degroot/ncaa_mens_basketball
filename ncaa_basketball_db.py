@@ -7,7 +7,7 @@
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[2]:
+# In[11]:
 
 #import packages
 
@@ -116,6 +116,12 @@ class NcaaBballDb():
         '''
         return self.db_engine
     
+    def getDbCon(self):
+        '''
+        function to return the connection to the database
+        '''
+        return self.con
+
     def getScoreboardName(self):
         '''
         function to return the database table name for scoreboards
@@ -196,7 +202,7 @@ class NcaaBballDb():
     def connectDb(self):
         '''
         function to establish connection with the PostgreSQL
-        database.
+        database and save it as a class attribute
         
         Note: all connections should be made through this
         function to ensure smooth usage
@@ -259,7 +265,7 @@ class NcaaBballDb():
                 tables_sql = pd.read_sql_query(sql_query, con)
                 if tables_sql is not None:
                     exists = True
-                    setTableNames(self, tables_sql['table_name'])
+                    self.setTableNames(tables_sql['table_name'])
             except:
                 exists = False
             return 0
@@ -686,7 +692,7 @@ def do_test_winloss(username, dbname):
     print ''
 
 
-# In[3]:
+# In[12]:
 
 def main(find_tables=False, peek_tables=False, 
          make_scoreboard=False, scoreboard_name=None,
@@ -736,7 +742,7 @@ def main(find_tables=False, peek_tables=False,
     
 
 
-# In[4]:
+# In[13]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
