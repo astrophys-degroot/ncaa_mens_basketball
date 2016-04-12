@@ -34,7 +34,7 @@ from sqlalchemy_utils import database_exists, create_database
 from ncaa_basketball_db import *
 
 
-# In[71]:
+# In[76]:
 
 ## class defintion for the NCAA basketball scoreboard object
 '''
@@ -140,25 +140,25 @@ class NcaaBballScoreboard():
     
     def sbDbQueryHm(self, dbobject):
     
-        #try:
-        table_name = dbobject.getScoreboardName()
-        print '  Table name:', table_name
-        sql_query = '''
-                    SELECT COUNT(date) 
-                      FROM %s
-                      WHERE in_hand ILIKE 'no'
-                    ''' % (table_name)
+        try:
+            table_name = dbobject.getScoreboardName()
+            print '  Table name:', table_name
+            sql_query = '''
+                        SELECT COUNT(date) 
+                          FROM %s
+                          WHERE in_hand ILIKE 'no'
+                        ''' % (table_name)
 
-        #try:
-        from_sql = pd.read_sql_query(sql_query, dbobject.getDbCon())
-        self.remaining = from_sql['count'].iloc[0]
-        return 1
-    #except:
-        print '  WARNING!! Error occured query number of dates not obtained'
-        self.remaining = None
-        return 0
-        #except:
-        #    return 0
+            try:
+                from_sql = pd.read_sql_query(sql_query, dbobject.getDbCon())
+                self.remaining = from_sql['count'].iloc[0]
+                return 1
+            except:
+                print '  WARNING!! Error occured query number of dates not obtained'
+                self.remaining = None
+                return 0
+        except:
+            return 0
 
 
 # In[ ]:
@@ -339,7 +339,7 @@ def get_yester_gamepage(yesterurl, my_con, udate, write=None, writedir=None):
     return find
 
 
-# In[74]:
+# In[77]:
 
 def main(most_recent=False, 
         baseurl=None, basedir=None, basefile=None, basealter=None,
@@ -378,7 +378,7 @@ def main(most_recent=False,
     
 
 
-# In[75]:
+# In[78]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
