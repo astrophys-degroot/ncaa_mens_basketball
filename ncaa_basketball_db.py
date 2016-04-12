@@ -7,7 +7,7 @@
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[79]:
+# In[2]:
 
 #import packages
 
@@ -205,10 +205,10 @@ class NcaaBballDb():
         dbname = self.getDbName()
         username = self.getUserName()
         
-        con = None
-        con = psycopg2.connect(database=dbname, user=username)
+        self.con = None
+        self.con = psycopg2.connect(database=dbname, user=username)
 
-        return con
+        return self.con
 
     
     def makeDbEngine(self):
@@ -686,7 +686,7 @@ def do_test_winloss(username, dbname):
     print ''
 
 
-# In[87]:
+# In[3]:
 
 def main(find_tables=False, peek_tables=False, 
          make_scoreboard=False, scoreboard_name=None,
@@ -736,7 +736,7 @@ def main(find_tables=False, peek_tables=False,
     
 
 
-# In[88]:
+# In[4]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':

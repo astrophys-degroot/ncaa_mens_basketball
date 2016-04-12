@@ -15,7 +15,7 @@
 #   * queries database on files that we don't have in hand yet and loop through them to try and get
 # 
 
-# In[1]:
+# In[2]:
 
 #import our libraries
 import sys
@@ -34,7 +34,7 @@ from sqlalchemy_utils import database_exists, create_database
 from ncaa_basketball_db import *
 
 
-# In[2]:
+# In[6]:
 
 ## class defintion for the NCAA basketball scoreboard object
 '''
@@ -63,88 +63,100 @@ class NcaaBballScoreboard():
             self.basealter = basealter
 
             
-            
+    ## the class get functions
+    def getBaseUrl(self):
+        '''
+        function to return the template url that needs to be slightly
+        modified by entering a data to get to the boxscore page for a
+        game.
+        '''
+        return self.baseurl
 
-
-# In[3]:
-
-## the class get functions
-
-def getBaseUrl(self):
-    '''
-    function to return the template url that needs to be slightly
-    modified by entering a data to get to the boxscore page for a
-    game.
-    '''
-    return self.baseurl
-
-def getBaseDir(self):
-    '''
-    function to return the base directory for storing the raw
-    scoreboard pages
-    '''
-    return self.basedir
-
-def getBaseFile(self):
-    '''
-    function to return the template file name for the stored
-    raw scoreboard pages
-    '''
-    return self.basefile
-
-def getBaseAlter(self):
-    '''
-    function to return the string that needs to be altered in
-    the basenames 
-    '''
-    return self.basealter
-
-
-# In[4]:
-
-def yesterday_date():
-    '''
-    funtion to get yesterday's date in format YYYYMMDD
+    def getBaseDir(self):
+        '''
+        function to return the base directory for storing the raw
+        scoreboard pages
+        '''
+        return self.basedir
     
-    It takes into account months with variable number of days.
-    It takes into account leap years.
-    It takes into account Jan 1st. 
-    '''
+    def getBaseFile(self):
+        '''
+        function to return the template file name for the stored
+        raw scoreboard pages
+        '''
+        return self.basefile
     
-    day = (time.strftime("%d"))
-    #day = '01'
-    month = (time.strftime("%m"))
-    #month = '03'
-    year = (time.strftime("%Y"))
-    #year = '2016'
+    def getBaseAlter(self):
+        '''
+        function to return the string that needs to be altered in
+        the basenames 
+        '''
+        return self.basealter
 
-    if day != '01':
-        if day <= '10':
-            day = '0' + str(int(day) - 1)
-        else:
-            day = str(int(day) - 1)
-    else:
-        if month <= '10':
-            month = '0' + str(int(month) - 1)
-        else:
-            month = str(int(month) - 1)
-        if month in ['04','06','09','11']:
-            day = '30'
-        elif month in ['02']:
-            if (int(year)-2000) % 4 == 0:
-                day = '29'
+    
+    ## other functions
+    def yesterday_date():
+        '''
+        funtion to get yesterday's date in format YYYYMMDD
+
+        It takes into account months with variable number of days.
+        It takes into account leap years.
+        It takes into account Jan 1st. 
+        '''
+
+        day = (time.strftime("%d"))
+        #day = '01'
+        month = (time.strftime("%m"))
+        #month = '03'
+        year = (time.strftime("%Y"))
+        #year = '2016'
+
+        if day != '01':
+            if day <= '10':
+                day = '0' + str(int(day) - 1)
             else:
-                day = '28'
+                day = str(int(day) - 1)
         else:
-            if month == '00':
-                year = str(int(year) - 1)
-                month = '12'
-            day = '31'
+            if month <= '10':
+                month = '0' + str(int(month) - 1)
+            else:
+                month = str(int(month) - 1)
+            if month in ['04','06','09','11']:
+                day = '30'
+            elif month in ['02']:
+                if (int(year)-2000) % 4 == 0:
+                    day = '29'
+                else:
+                    day = '28'
+            else:
+                if month == '00':
+                    year = str(int(year) - 1)
+                    month = '12'
+                day = '31'
 
+        alternate = year + month + day
+        return alternate
 
-    alternate = year + month + day
+    
+    def scoreboard_db_query(self, dbobject):
+    
+        print 'hello there'
+        table_name = dbobject.getScoreboardName()
+        print '  Table name:', table_name
+        sql_query = '''
+                    SELECT date 
+                      FROM %s
+                      WHERE in_hand ILIKE 'no'
+                    ''' % (table_name)
+        
+        print dbobject.con
+        try:
+            from_sql_query = pd.read_sql_query(sql_query, my_con)
+            #print from_sql_query
+        except:
+            print '  scoreboard_table does not exist' 
 
-    return alternate
+        return from_sql_query
 
 
 # In[ ]:
@@ -152,7 +164,17 @@ def yesterday_date():
 
 
 
-# In[5]:
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
 
 ### items between here and __main__() have not be brought into the class definition yet
 
@@ -182,7 +204,7 @@ def yesterday_date():
 
 
 
-# In[6]:
+# In[ ]:
 
 def get_yester_pandas(pandas_date):
     
@@ -203,7 +225,7 @@ def get_yester_pandas(pandas_date):
     return yester
 
 
-# In[7]:
+# In[ ]:
 
 def get_yester_url(baseurl, alter, yester):
     '''
@@ -217,7 +239,7 @@ def get_yester_url(baseurl, alter, yester):
     return yesterurl
 
 
-# In[8]:
+# In[ ]:
 
 def get_yester_filename(baseurl, alter, yester):
     
@@ -226,7 +248,7 @@ def get_yester_filename(baseurl, alter, yester):
     return yesterurl
 
 
-# In[9]:
+# In[ ]:
 
 def get_yester_meddir(base_dir, this_date):
     
@@ -243,9 +265,6 @@ def get_yester_meddir(base_dir, this_date):
  
     return bit2
 
-
-# In[10]:
-
 def scoreboard_db_open(dbname, username):
     
     print 'username:', username
@@ -255,25 +274,7 @@ def scoreboard_db_open(dbname, username):
     #print '  ', con
 
     return con
-
-
-# In[11]:
-
-def scoreboard_db_query(my_con, scoreboard_table_name):
-
-    print 'table name:', scoreboard_table_name
-    sql_query = "SELECT date FROM " + scoreboard_table_name + " WHERE in_hand = 'no'; "
-    #print sql_query
-    try:
-        from_sql_query = pd.read_sql_query(sql_query, my_con)
-        #print from_sql_query
-    except:
-        print '  scoreboard_table does not exist' 
-
-    return from_sql_query
-
-
-# In[12]:
+# In[ ]:
 
 def scoreboard_db_query_most_recent(my_con, scoreboard_table_name):
 
@@ -297,7 +298,7 @@ def scoreboard_db_query_most_recent(my_con, scoreboard_table_name):
     return recent_date
 
 
-# In[13]:
+# In[ ]:
 
 def get_yester_gamepage(yesterurl, my_con, udate, write=None, writedir=None):
 
@@ -336,37 +337,45 @@ def get_yester_gamepage(yesterurl, my_con, udate, write=None, writedir=None):
     return find
 
 
-# In[14]:
+# In[7]:
 
 def main(most_recent=False, 
-        baseurl=None, basedir=None, basefile=None, basealter=None):
+        baseurl=None, basedir=None, basefile=None, basealter=None,
+        scoreboard_table_name=None):
    
     print 'Now running: ', sys.argv[0]
     
     
     myscoreboard = NcaaBballScoreboard(baseurl=baseurl, basedir=basedir, 
                                        basefile=basefile, basealter=basealter)
-    value = getBaseUrl(myscoreboard)
+    
+    value = myscoreboard.getBaseUrl()
     print value
-    value = getBaseDir(myscoreboard)
+    value = myscoreboard.getBaseDir()
     print value
-    value = getBaseFile(myscoreboard)
+    value = myscoreboard.getBaseFile()
     print value
-    value = getBaseAlter(myscoreboard)
+    value = myscoreboard.getBaseAlter()
     print value
 
     
     ##database class instance
-    mydb = NcaaBballDb()
+    mydb = NcaaBballDb(scoreboard_name=scoreboard_table_name)
     #help(mydb)
+    #print mydb.getUserName()
+    #print mydb.getDbName()
+    #print mydb.connectDb()
+    #print mydb.getScoreboardName()
+
     
-    print mydb.getUserName()
-    print mydb.getDbName()
-    print mydb.connectDb()
+    ##do some checking on what we have already
+    remaining_dates = myscoreboard.scoreboard_db_query(mydb)
+
+
     
 
 
-# In[15]:
+# In[8]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
@@ -378,11 +387,36 @@ if __name__ == '__main__':
 
 
 
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
+
 # ## anything below this line hasnt been incorporated into the class yet
 # 
 # 
 
-# In[16]:
+# In[ ]:
 
 
    
@@ -394,13 +428,13 @@ if __name__ == '__main__':
 #basefile = 'ncaa_mbb_scoreboard_full_YYYYMMDD.txt' # all games
 #alter = 'YYYYMMDD'
 
-username = 'smaug'
-dbname = 'ncaa_mbb_db'
-scoreboard_table_name = 'scoreboard'
+#username = 'smaug'
+#dbname = 'ncaa_mbb_db'
+#scoreboard_table_name = 'scoreboard'
 
 #open connection to database
-my_con = scoreboard_db_open(dbname, username)
-remaining_dates = scoreboard_db_query(my_con, scoreboard_table_name)
+#my_con = scoreboard_db_open(dbname, username)
+#remaining_dates = scoreboard_db_query(my_con, scoreboard_table_name)
 if most_recent is not False:
     rec_date = scoreboard_db_query_most_recent(my_con, scoreboard_table_name)
     print '  Most recent date (YYYY-MM-DD) in %s table is %s' % (scoreboard_table_name, rec_date)
