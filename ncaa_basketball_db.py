@@ -244,8 +244,8 @@ class NcaaBballDb():
         '''
         try:
             #get values
-            con = connectDb(self)
-            dbname = getDbName(self)
+            con = self.connectDb()
+            dbname = self.getDbName()
 
             #do the SQL query
             sql_query = '''
