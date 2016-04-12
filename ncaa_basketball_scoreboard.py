@@ -15,7 +15,7 @@
 #   * queries database on files that we don't have in hand yet and loop through them to try and get
 # 
 
-# In[2]:
+# In[1]:
 
 #import our libraries
 import sys
@@ -34,7 +34,7 @@ from sqlalchemy_utils import database_exists, create_database
 from ncaa_basketball_db import *
 
 
-# In[6]:
+# In[71]:
 
 ## class defintion for the NCAA basketball scoreboard object
 '''
@@ -138,30 +138,27 @@ class NcaaBballScoreboard():
         return alternate
 
     
-    def scoreboard_db_query(self, dbobject):
+    def sbDbQueryHm(self, dbobject):
     
-        print 'hello there'
+        #try:
         table_name = dbobject.getScoreboardName()
         print '  Table name:', table_name
         sql_query = '''
-                    SELECT date 
+                    SELECT COUNT(date) 
                       FROM %s
                       WHERE in_hand ILIKE 'no'
                     ''' % (table_name)
-        
-        print dbobject.con
-        try:
-            from_sql_query = pd.read_sql_query(sql_query, my_con)
-            #print from_sql_query
-        except:
-            print '  scoreboard_table does not exist' 
 
-        return from_sql_query
-
-
-# In[ ]:
-
-
+        #try:
+        from_sql = pd.read_sql_query(sql_query, dbobject.getDbCon())
+        self.remaining = from_sql['count'].iloc[0]
+        return 1
+    #except:
+        print '  WARNING!! Error occured query number of dates not obtained'
+        self.remaining = None
+        return 0
+        #except:
+        #    return 0
 
 
 # In[ ]:
@@ -175,6 +172,11 @@ class NcaaBballScoreboard():
 
 
 # In[ ]:
+
+
+
+
+# In[37]:
 
 ### items between here and __main__() have not be brought into the class definition yet
 
@@ -204,7 +206,7 @@ class NcaaBballScoreboard():
 
 
 
-# In[ ]:
+# In[4]:
 
 def get_yester_pandas(pandas_date):
     
@@ -225,7 +227,7 @@ def get_yester_pandas(pandas_date):
     return yester
 
 
-# In[ ]:
+# In[5]:
 
 def get_yester_url(baseurl, alter, yester):
     '''
@@ -239,7 +241,7 @@ def get_yester_url(baseurl, alter, yester):
     return yesterurl
 
 
-# In[ ]:
+# In[6]:
 
 def get_yester_filename(baseurl, alter, yester):
     
@@ -248,7 +250,7 @@ def get_yester_filename(baseurl, alter, yester):
     return yesterurl
 
 
-# In[ ]:
+# In[7]:
 
 def get_yester_meddir(base_dir, this_date):
     
@@ -274,7 +276,7 @@ def scoreboard_db_open(dbname, username):
     #print '  ', con
 
     return con
-# In[ ]:
+# In[8]:
 
 def scoreboard_db_query_most_recent(my_con, scoreboard_table_name):
 
@@ -298,7 +300,7 @@ def scoreboard_db_query_most_recent(my_con, scoreboard_table_name):
     return recent_date
 
 
-# In[ ]:
+# In[9]:
 
 def get_yester_gamepage(yesterurl, my_con, udate, write=None, writedir=None):
 
@@ -337,7 +339,7 @@ def get_yester_gamepage(yesterurl, my_con, udate, write=None, writedir=None):
     return find
 
 
-# In[7]:
+# In[74]:
 
 def main(most_recent=False, 
         baseurl=None, basedir=None, basefile=None, basealter=None,
@@ -361,6 +363,7 @@ def main(most_recent=False,
     
     ##database class instance
     mydb = NcaaBballDb(scoreboard_name=scoreboard_table_name)
+    mydb.connectDb()
     #help(mydb)
     #print mydb.getUserName()
     #print mydb.getDbName()
@@ -369,17 +372,22 @@ def main(most_recent=False,
 
     
     ##do some checking on what we have already
-    remaining_dates = myscoreboard.scoreboard_db_query(mydb)
-
+    nremaining_dates = myscoreboard.sbDbQueryHm(mydb)
+    print '    Number of dates not yet obtained: %s' % nremaining_dates
 
     
 
 
-# In[8]:
+# In[75]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
     main(most_recent=True)
+
+
+# In[ ]:
+
+
 
 
 # In[ ]:
