@@ -1,47 +1,35 @@
-
-# coding: utf-8
-
-# # Notebook to make and test Postgres databases for NCAA_MBB project
-# 
-# 1. scoreboard table - table with all possible dates of men's college basketball games and whether that webpage has been obtained from ESPN
+# 1. scoreboard table - table with all possible dates of men's college basketball games and whether
+# that webpage has been obtained from ESPN
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[11]:
-
-#import packages
-
-#basic packages
+# import appropriate packages
 import sys
 import re
 import os
-
-#data analysis packages
 import numpy as np
 import pandas as pd
-
-#data visiualization packages
-import seaborn as sns
-
-#database packages
 from sqlalchemy import create_engine
-from sqlalchemy_utils import database_exists, create_database
 import psycopg2
+# import seaborn as sns
+# from sqlalchemy_utils import database_exists, create_database
 
 
-
-## class definition for the NCAA basketball database collection
-class NcaaBballDb():
-    '''
+# class definition for the NCAA basketball database collection
+class NcaaBballDb(object):
+    """
     This class if for organizing, access, setting and evaluating
     the databases that will be made for the NCAA basketball project
-    to predict winners of games from past peformances
-    '''
+    to predict winners of games from past performances
+    """
         
-    def __init__(self, find_tables=None, peek_tables=None, make_scoreboard=None, 
-                scoreboard_name=None):
+    def __init__(self, find_tables=None, peek_tables=None, make_scoreboard=None,
+                 scoreboard_name=None):
         self.dbname = 'ncaa_mbb_db'
         self.username = 'smaug'
+        self.con = None
+        self.db_engine = None
+        self.table_names = None
 
         if find_tables:
             self.find_tables = find_tables
@@ -61,86 +49,186 @@ class NcaaBballDb():
         else:
             self.scoreboard_name = 'scoreboard'
 
- 
+    # get attribute functions
+    def getdbname(self):
+        """
+        method to return the value stored in the attribute for the database name
+        :return: a string, the data base name
+        """
+        return self.dbname
 
-    ## get attribute functions
+    def getusername(self):
+        """
+        method to return the value stored in the attribute for the database username
+        :return: a string, the username for the database
+        """
+        return self.username
+
+    def get_connect_db(self):
+        """
+        method to return the value stored in the attribute for the database connection
+        :return: a connection object
+        """
+        return self.con
+
+    def get_engine_db(self):
+        """
+        method to return the value stored in the attribute for the database engine
+        :return: an engine object
+        """
+        return self.db_engine
+
+    def get_table_names(self):
+        """
+        method to return the value stored in the attribute table_names for the database class
+        :return: a list of strings where each entry is a table name
+        """
+        return self.table_names
+
+    # set attribute methods
+    def set_connect_db(self):
+        """
+        method to set the value of a PostgreSQL database connection into the attribute con
+        Note: all connections should be made through this function to ensure smooth usage
+        :return: None
+        """
+        try:
+            self.con = psycopg2.connect(database=self.getdbname(), user=self.getusername())
+            passing = True
+        except:
+            passing = False
+
+        return passing
+
+    def set_engine_db(self):
+        """
+        method to set the engine object in the attribute for database engine for later usage
+        :return: a boolean
+        """
+        try:
+            self.db_engine = create_engine('postgres://%s@localhost/%s' % (self.getusername(), self.getdbname()))
+            passing = True
+        except:
+            passing = False
+
+        return passing
+
+    def set_table_names(self, table_names):
+        """
+        method to set the value for the attribute table_names as the available database table names into the class
+        object
+        :param table_names: a list of strings to be stored
+        :return: None
+        """
+        self.table_names = table_names
+
+    # additional methods
+    def names_of_tables(self):
+        """
+        function to store and print all tables in the database
+        """
+        try:
+            # do the SQL query
+            sql_query = """
+                        SELECT table_schema, table_name
+                          FROM %s.information_schema.tables
+                          WHERE table_schema LIKE 'public'
+                          ORDER BY table_schema,table_name;
+                        """ % (self.getdbname())
+            # print(sql_query)
+            try:
+                tables_sql = pd.read_sql_query(sql_query, self.get_connect_db())
+                if tables_sql is not None:
+                    exists = True
+                    self.set_table_names(tables_sql['table_name'])
+            except:
+                exists = False
+        except:
+            exists = False
+
+        return exists
+
+
+
+
+
+
+    def test_exists_db(self):
+        # test if it exists
+        db_exist = database_exists(engine.url)
+        if not db_exist:
+            create_database(engine.url)
+        db_exist = database_exists(engine.url)
+        self.setDbExist(db_exist)
+        return passing
+        # except:
+        #     return 1
+
 
     def getLastDate(self):
-        '''
+        """
         function to return the last date to include in the
         various databases
-        '''    
+        """    
         return self.lastdate
 
     def getYear(self):
-        '''
+        """
         function to return the year to do when building the
         various databases
-        '''    
+        """    
         return self.year
 
     def getNhead(self):
-        '''
+        """
         function to return the (max) number of rows when looking
         at a SQL table. 
-        '''    
+        """    
         return self.nhead
 
-    def getDbName(self):
-        '''
-        function to return the database name
-        '''    
-        return self.dbname
-
-    def getUserName(self):
-        '''
-        function to return the database username
-        '''    
-        return self.username
-
     def getTableNames(self):
-        '''
+        """
         function to return the available database table names
-        '''    
+        """    
         return self.table_names
 
     def getDbExist(self):
-        '''
+        """
         function to return the status of the database engine
-        '''
+        """
         return self.db_exist
     
     def getDbEngine(self):
-        '''
+        """
         function to return the actual database engine
-        '''
+        """
         return self.db_engine
     
     def getDbCon(self):
-        '''
+        """
         function to return the connection to the database
-        '''
+        """
         return self.con
 
     def getScoreboardName(self):
-        '''
+        """
         function to return the database table name for scoreboards
-        '''
+        """
         return self.scoreboard_name
 
     
     ### set attribute functions
     def setDefaults(self, lastdate=None, year=None, nhead=None):
-        '''
+        """
         function to set some default values for this class
-        '''
+        """
         
         try:
             if lastdate is None:
                 self.lastdate = '20160204'
             else:
                 if len(lastdate) != 8:
-                    print 'Variable lastdate must be a string of form YYYYMMDD'
+                    print('Variable lastdate must be a string of form YYYYMMDD')
                 else:
                     self.lastdate = str(lastdate)
 
@@ -148,7 +236,7 @@ class NcaaBballDb():
                 self.year = '1516'
             else:
                 if len(year) != 4:
-                    print 'Variable year must be a string of form Y1Y1Y2Y2'
+                    print('Variable year must be a string of form Y1Y1Y2Y2')
                 else:
                     self.year = str(year)
 
@@ -160,124 +248,35 @@ class NcaaBballDb():
         except:
             return 1
     
-    def setTableNames(self, table_names):
-        '''
-        function to set the available database table names
-        into the class object
-        '''
-        self.table_names = table_names
 
-        
-    def setDbEngine(self, engine):
-        '''
-        function to set the database engine in the class attributes
-        '''
-        self.db_engine = engine
-        
     def setDbExist(self, exists):
-        '''
+        """
         function to set whether the database exists or not
-        '''
+        """
         self.db_exist = exists
 
-        
-    ### print attribute functions
+    # print attribute functions
     def printTableNames(self):
-        '''
+        """
         function to nicely print out database table names 
-        '''
+        """
         table_names = self.getTableNames()
-        print '    Tables available:'
+        print('    Tables available:')
         for table_name in table_names:
-            print '      ', table_name
+            print('      ', table_name)
 
     def printEngineStatus(self):
         engine_exist = self.getDbExist()
-        print '    Engine exists: %s' % (engine_exist)
+        print('    Engine exists: %s' % (engine_exist))
         engine = self.getDbEngine()
-        print '       The little engine that could: %s' % (engine) 
+        print('       The little engine that could: %s' % (engine))
 
-
-    ###other functions
-    def connectDb(self):
-        '''
-        function to establish connection with the PostgreSQL
-        database and save it as a class attribute
-        
-        Note: all connections should be made through this
-        function to ensure smooth usage
-        '''
-        
-        dbname = self.getDbName()
-        username = self.getUserName()
-        
-        self.con = None
-        self.con = psycopg2.connect(database=dbname, user=username)
-
-        return self.con
-
-    
-    def makeDbEngine(self):
-        '''
-        function to establish engine with PostgreSQl database
-        so that additional tables can be made 
-        '''
-        try:
-            ## connect to Postgres
-            dbname = self.getDbName()
-            username = self.getUserName()
-            print dbname
-            print username
-            
-            ## create and set 
-            engine = create_engine('postgres://%s@localhost/%s'%(username, dbname))
-            self.setDbEngine(engine)
-
-            ## test if it exists
-            db_exist = database_exists(engine.url)
-            if not db_exist:
-                create_database(engine.url)
-            db_exist = database_exists(engine.url)
-            self.setDbExist(db_exist)
-            return 0
-        except:
-            return 1
-
-        
-    def findTables(self):
-        '''
-        function to store and print all tables in the database 
-        '''
-        try:
-            #get values
-            con = self.connectDb()
-            dbname = self.getDbName()
-
-            #do the SQL query
-            sql_query = '''
-                        SELECT table_schema, table_name
-                          FROM %s.information_schema.tables
-                          WHERE table_schema LIKE 'public'
-                          ORDER BY table_schema,table_name;
-                        ''' % (dbname)
-            #print sql_query
-            try:
-                tables_sql = pd.read_sql_query(sql_query, con)
-                if tables_sql is not None:
-                    exists = True
-                    self.setTableNames(tables_sql['table_name'])
-            except:
-                exists = False
-            return 0
-        except:
-            return 1
-        
 
     def peekTables(self, nhead=False):
-        '''
+        """
         function to return the head of the SQL tables that exist
         
-        '''
+        """
         ## set values
         if nhead is False:
             nhead = self.getNhead()
@@ -294,18 +293,18 @@ class NcaaBballDb():
 
             ## print stuff
             for table_name in table_names:
-                sql_query = '''
+                sql_query = """
                             SELECT *
                               FROM %s
                               LIMIT %i;
-                            ''' % (table_name, nhead)
+                            """ % (table_name, nhead)
                 try:
                     table_peek = pd.read_sql_query(sql_query, con)
                     if table_peek is not None:
                         exists = True
-                    print '    Peek at the table named %r ' % table_name
-                    print table_peek
-                    print ''
+                    print('    Peek at the table named %r ' % table_name)
+                    print(table_peek)
+                    print('')
                 except:
                     exists = False
             return 0
@@ -315,16 +314,12 @@ class NcaaBballDb():
 
 # ## For creating, saving, testing the base scoreboard database
 #     * scoreboard database: info regarding the various ESPN scoreboard pages such as data and whether obtained
-# 
-# 
-
-# In[80]:
 
 def scoreboardTable(self):
     
     
     scoreboard_table_name = getScoreboardName(self)
-    print scoreboard_table_name
+    print(scoreboard_table_name)
     sys.exit(0)
     
     # needs to go to scoreboard class: scoreboard_dir = 'scoreboard_pages/'
@@ -523,26 +518,26 @@ def do_test_scoreboard(username, dbname):
             exists = True
     except:
         exists = False
-    print '    Table, %s, exists: %s' % (known_table, exists)
+    print('    Table, %s, exists: %s' % (known_table, exists))
 
     if exists is True:
-        print '      Total number of entries in %s: %i' % (known_table, count_sql.loc[0])
+        print('      Total number of entries in %s: %i' % (known_table, count_sql.loc[0]))
 
         sql_query = "SELECT * FROM %s;" % (known_table)
         try:
             all_sql = pd.read_sql_query(sql_query, con)
         except:
             a = 1
-        print '      First 5 entries of %s: ' % (known_table)
-        print all_sql.head(5)
+        print('      First 5 entries of %s: ' % (known_table))
+        print(all_sql.head(5))
 
         sql_query = "SELECT * FROM %s;" % (known_table)
         try:
             all_sql = pd.read_sql_query(sql_query, con)
         except:
             a = 1
-        print '      Last 10 entries of %s: ' % (known_table)
-        print all_sql.tail(10)
+        print('      Last 10 entries of %s: ' % (known_table))
+        print(all_sql.tail(10))
 
         sql_query = "SELECT DISTINCT(date) FROM %s;" % (known_table)
         try:
@@ -550,12 +545,12 @@ def do_test_scoreboard(username, dbname):
             ndistinct_date = len(distinct_sql)
         except:
             a = 1
-        print '     %s distinct entries in %s.' % (ndistinct_date, known_table)
+        print('     %s distinct entries in %s.' % (ndistinct_date, known_table))
         #if count_sql.loc[0] == ndistinct_date:
         #    print '        All entries appear to be unique'
 
 
-    print ''
+    print('')
 
 
 # ## For creating, testing the games database
@@ -578,17 +573,17 @@ def do_test_games(username, dbname):
             exists = True
     except:
         exists = False
-    print '    Table, %s, exists: %s' % (known_table, exists)
+    print('    Table, %s, exists: %s' % (known_table, exists))
 
     sql_query = "SELECT COUNT(id) FROM %s WHERE in_hand='%s' AND id >320000000;" % (known_table, 'no')
     try:
         count_to_get = pd.read_sql_query(sql_query, con)
     except:
-        print '  games table, %s, does not exist' % boxscore_table_name
-    print '    Still have %i game pages left to download.' % (count_to_get.iloc[0])
+        print('  games table, %s, does not exist' % boxscore_table_name)
+    print('    Still have %i game pages left to download.' % (count_to_get.iloc[0]))
         
 
-    print ''
+    print('')
 
 
 # ## For creating, testing the gamestats databases
@@ -608,27 +603,27 @@ def do_test_gamestats(username, dbname, year):
             exists = True
     except:
         exists = False
-    print '    Table, %s, exists: %s' % (known_table, exists)
+    print('    Table, %s, exists: %s' % (known_table, exists))
 
     sql_query = "SELECT DISTINCT(game_id) FROM %s;" % (known_table)
     try:
         count_to_get = pd.read_sql_query(sql_query, con)
-        print '    There are %s distinct games in the %s table' % (len(count_to_get), known_table)
+        print('    There are %s distinct games in the %s table' % (len(count_to_get), known_table))
     except:
-        print '  games table, %s, does not exist' % known_table
+        print('  games table, %s, does not exist' % known_table)
      
        
     sql_query = "SELECT * FROM %s;" % (known_table)
     try:
         all_sql = pd.read_sql_query(sql_query, con)
-        print '      First 5 entries of %s: ' % (known_table)
-        print all_sql.head(5)
-        print '      Last 10 entries of %s: ' % (known_table)
-        print all_sql.tail(10)
+        print('      First 5 entries of %s: ' % (known_table))
+        print(all_sql.head(5))
+        print('      Last 10 entries of %s: ' % (known_table))
+        print(all_sql.tail(10))
     except:
         a = 1
  
-    print ''
+    print('')
 
 
 # ## For creating, testing the winloss database
@@ -677,19 +672,19 @@ def do_test_winloss(username, dbname):
             exists = True
     except:
         exists = False
-    print '    Table, %s, exists: %s' % (known_table, exists)
+    print('    Table, %s, exists: %s' % (known_table, exists))
 
     if exists is True:
-        print '      Total number of entries in %s: %i' % (known_table, count_sql.loc[0])
+        print('      Total number of entries in %s: %i' % (known_table, count_sql.loc[0]))
 
         sql_query = "SELECT * FROM %s;" % (known_table)
         try:
             all_sql = pd.read_sql_query(sql_query, con)
         except:
             a = 1
-        print '      First 5 entries of %s: ' % (known_table)
-        print all_sql.head(5)
-    print ''
+        print('      First 5 entries of %s: ' % (known_table))
+        print(all_sql.head(5))
+    print('')
 
 
 # In[14]:
@@ -708,15 +703,15 @@ def main(find_tables=False, peek_tables=False,
     chk = myncaabball.setDefaults(lastdate=lastdate, year=year,
                      nhead=nhead)
     if chk !=0:
-        print 'Defaults may not be set correctly!!'
+        print('Defaults may not be set correctly!!')
     
     
     chk = myncaabball.makeDbEngine()
-    print chk
+    print(chk)
     if chk == 0:
-        print myncaabball.printEngineStatus()
+        print(myncaabball.printEngineStatus())
     else:
-        print 'Make sure you have Postgres started!!'
+        print('Make sure you have Postgres started!!')
         sys.exit(0)
 
     if myncaabball.find_tables:
@@ -806,13 +801,13 @@ if __name__ == '__main__':
 # # Everything below this line is a stand alone bit of code
 # # but should be run with caution. 
 
-# '''
+# """
 # credential and the three main databases info 
 #     2. games: 
 #     3. stats: database with info from all games played
 #         -filled with data scrapped from games pages
 # 
-# '''
+# """
 # 
 # 
 # username = 'smaug'
