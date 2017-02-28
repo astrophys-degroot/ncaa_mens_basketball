@@ -1,10 +1,9 @@
 # import appropriate modules
 import sys
-from ncaa_basketball_scoreboard import NcaaBballScoreboard
 from ncaa_basketball_db import NcaaBballDb
+from ncaa_basketball_scoreboard import NcaaBballScoreboard
 
 
-# a function to wrap around all the different functions that the project contains
 def main(baseurl=None, basedir=None, basefile=None, basealter=None,
          find_most_recent=False, scoreboard_table_name=None):
     """
@@ -34,10 +33,13 @@ def main(baseurl=None, basedir=None, basefile=None, basealter=None,
     print(mydb.get_engine_db())
 
     print(mydb.names_of_tables())
-    print(mydb.get_table_names())
+    tablenames = mydb.get_table_names()
+    print(tablenames[1])
+
+    for tablename in tablenames:
+        print(tablename)
+        print(mydb.table_head(tablename))
     # print(mydb.getScoreboardName())
-
-
 
     # create a scoreboard object
     # myscoreboard = NcaaBballScoreboard(baseurl=baseurl, basedir=basedir,
@@ -52,8 +54,7 @@ def main(baseurl=None, basedir=None, basefile=None, basealter=None,
     # value = myscoreboard.get_basealter()
     # print(value)
 
-
-    ##do some checking on what we have already
+    # do some checking on what we have already
     # nremaining_dates = myscoreboard.sbDbQueryHm(mydb)
     # print('    Number of dates not yet obtained: %s' % myscoreboard.getNRemaining())
 
@@ -83,7 +84,7 @@ if __name__ == '__main__':
 #     rec_date = scoreboard_db_query_most_recent(my_con, scoreboard_table_name)
 #     print('  Most recent date (YYYY-MM-DD) in %s table is %s' % (scoreboard_table_name, rec_date))
 
-##try to get the remaining dates
+# try to get the remaining dates
 # print remaining_dates['date']
 # remaining_dates = remaining_dates['date']
 # print('  %i dates need to be pulled.' % len(remaining_dates))

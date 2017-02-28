@@ -122,21 +122,20 @@ class NcaaBballDb(object):
         """
         self.table_names = table_names
 
-    # additional methods
     def names_of_tables(self):
         """
-        function to store and print all tables in the database
+        method to query the names of all tables in the database
         """
         try:
-            # do the SQL query
+            # SQL query text
             sql_query = """
                         SELECT table_schema, table_name
                           FROM %s.information_schema.tables
                           WHERE table_schema LIKE 'public'
                           ORDER BY table_schema,table_name;
                         """ % (self.getdbname())
-            # print(sql_query)
             try:
+                # do the SQL query
                 tables_sql = pd.read_sql_query(sql_query, self.get_connect_db())
                 if tables_sql is not None:
                     exists = True
@@ -148,10 +147,23 @@ class NcaaBballDb(object):
 
         return exists
 
+    def table_head(self, tablename, nhead=5):
 
+        # SQL query text
+        sql_query = """
+                     SELECT *
+                            FROM %s
+                        LIMIT %i;
+                     """ % (tablename, nhead)
+        try:
+            # do the SQL query
+            queryrslt = pd.read_sql_query(sql_query, self.get_connect_db())
+            if queryrslt is not None:
+                passed = True
+        except:
+            passed = False
 
-
-
+        return queryrslt
 
     def test_exists_db(self):
         # test if it exists
