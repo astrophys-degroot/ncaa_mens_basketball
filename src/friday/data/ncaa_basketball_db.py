@@ -606,11 +606,11 @@ def main(find_tables=False, peek_tables=False, make_scoreboard=False, scoreboard
     :return:
     """
 
-    myncaabball = NcaaBballDb(find_tables=find_tables, peek_tables=peek_tables, 
-                              make_scoreboard=make_scoreboard, scoreboard_name=scoreboard_name)
+    myncaabball = NcaaBballDb(find_tables=find_tables, peek_tables=peek_tables, make_scoreboard=make_scoreboard,
+                              scoreboard_name=scoreboard_name)
     
     chk = myncaabball.setDefaults(lastdate=lastdate, year=year, nhead=nhead)
-    if chk !=0:
+    if chk != 0:
         print('Defaults may not be set correctly!!')
 
     chk = myncaabball.makeDbEngine()
@@ -629,21 +629,18 @@ def main(find_tables=False, peek_tables=False, make_scoreboard=False, scoreboard
     if myncaabball.peek_tables:
         chk = myncaabball.peekTables()
           
-    #whether to work on scoreboard table    
-    #if myncaabball.make_scoreboard:
+    # whether to work on scoreboard table
+    # if myncaabball.make_scoreboard:
     #    chk = myncaabball.scoreboardTable()
     #    if chk == 1:
     #        print('    Table, scoreboard, successfully created!'
     #    else:
     #        print('    Table, scoreboard, NOT created!'
- 
-    
-    ### task: add function to make the scoreboard table database 
-    ### this function needs to be evalutated on how some it fits here to make and access the db
-    ###  and some of if needs to go into the scoreboard class so that is can be built etc and then handed over
-    
+    # task: add function to make the scoreboard table database
+    # this function needs to be evalutated on how some it fits here to make and access the db
+    #  and some of if needs to go into the scoreboard class so that is can be built etc and then handed over
 
-# boilerplate to execute call to main() function
+
 if __name__ == '__main__':
     main(find_tables=True, peek_tables=True, 
          make_scoreboard=True, make_winloss=False, 
