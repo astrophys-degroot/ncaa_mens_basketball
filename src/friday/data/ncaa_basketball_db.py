@@ -29,6 +29,8 @@ class NcaaBballDb:
                 scoreboard_name=None):
         self.dbname = 'ncaa_mbb_db'
         self.username = 'smaug'
+        self.lastdate = None
+        self.year = None
 
         if find_tables:
             self.find_tables = find_tables
@@ -48,7 +50,7 @@ class NcaaBballDb:
         else:
             self.scoreboard_name = 'scoreboard'
 
-    ### set attribute functions
+    # set attribute functions
     def setDefaults(self, lastdate=None, year=None, nhead=None):
         """
         function to set some default values for this class
@@ -59,7 +61,7 @@ class NcaaBballDb:
                 self.lastdate = '20160204'
             else:
                 if len(lastdate) != 8:
-                    print 'Variable lastdate must be a string of form YYYYMMDD'
+                    print('Variable lastdate must be a string of form YYYYMMDD')
                 else:
                     self.lastdate = str(lastdate)
 
@@ -67,7 +69,7 @@ class NcaaBballDb:
                 self.year = '1516'
             else:
                 if len(year) != 4:
-                    print 'Variable year must be a string of form Y1Y1Y2Y2'
+                    print('Variable year must be a string of form Y1Y1Y2Y2')
                 else:
                     self.year = str(year)
 
@@ -100,24 +102,24 @@ class NcaaBballDb:
         self.db_exist = exists
 
 
-    ### print attribute functions
+    ### print(attribute functions
     def printTableNames(self):
         """
-        function to nicely print out database table names
+        function to nicely print(out database table names
         """
         table_names = self.getTableNames()
-        print '    Tables available:'
+        print('    Tables available:')
         for table_name in table_names:
-            print '      ', table_name
+            print('      ', table_name)
 
     def printEngineStatus(self):
         engine_exist = self.getDbExist()
-        print '    Engine exists: %s' % engine_exist
+        print('    Engine exists: %s' % engine_exist)
         engine = self.getDbEngine()
-        print '       The little engine that could: %s' % engine
+        print('       The little engine that could: %s' % engine)
 
 
-    ###other functions
+    # other functions
     def connectDb(self):
         """
         function to establish connection with the PostgreSQL
@@ -145,8 +147,8 @@ class NcaaBballDb:
             ## connect to Postgres
             dbname = self.getDbName()
             username = self.getUserName()
-            print dbname
-            print username
+            print(dbname)
+            print(username)
             
             ## create and set 
             engine = create_engine('postgres://%s@localhost/%s'%(username, dbname))
@@ -165,7 +167,7 @@ class NcaaBballDb:
         
     def findTables(self):
         """
-        function to store and print all tables in the database
+        function to store and print(all tables in the database
         """
         try:
             #get values
@@ -179,7 +181,7 @@ class NcaaBballDb:
                           WHERE table_schema LIKE 'public'
                           ORDER BY table_schema,table_name;
                         ''' % dbname
-            #print sql_query
+            #print(sql_query)
             try:
                 tables_sql = pd.read_sql_query(sql_query, con)
                 if tables_sql is not None:
@@ -211,7 +213,7 @@ class NcaaBballDb:
             con = None
             con = psycopg2.connect(database=dbname, user=username)
 
-            ## print stuff
+            ## print(stuff
             for table_name in table_names:
                 sql_query = '''
                             SELECT *
@@ -222,9 +224,9 @@ class NcaaBballDb:
                     table_peek = pd.read_sql_query(sql_query, con)
                     if table_peek is not None:
                         exists = True
-                    print '    Peek at the table named %r ' % table_name
-                    print table_peek
-                    print ''
+                    print('    Peek at the table named %r ' % table_name)
+                    print(table_peek)
+                    print('')
                 except:
                     exists = False
             return 0
@@ -237,15 +239,12 @@ class NcaaBballDb:
 # 
 # 
 
-# In[80]:
-
 def scoreboardTable(self):
     
     
     scoreboard_table_name = getScoreboardName(self)
-    print scoreboard_table_name
-    sys.exit(0)
-    
+    print(scoreboard_table_name)
+
     # needs to go to scoreboard class: scoreboard_dir = 'scoreboard_pages/'
     # needs to go to scoreboard class: scoreboard_file = 'ncaa_mbb_scoreboard_full_YYYYMMDD.txt'
     # needs to go to scoreboard class: scoreboard_table_range = [['20021101','20030430'], 
@@ -294,23 +293,19 @@ def scoreboardTable(self):
             bit1 = bit1.replace('YYYY', my_years[ii])
             bit1 = bit1.replace('MM', my_months[ii])
             bit1 = bit1.replace('DD', my_days[ii])
-            #print bit1
 
             bit2 = scoreboard_dir  
             if int(my_months[ii]) > 7:
                 bit2 = str(my_years[ii]) + '-' + str(int(my_years[ii])+1) + '/'
             else:
                 bit2 = str(int(my_years[ii])-1) + '-' + str(my_years[ii]) + '/'
-            #print bit2
 
             line = 'ls ' + scoreboard_dir + bit2 + bit1
-            #print line
             f = os.popen(line)
             try:
                 f.readlines()[0]
                 in_hand.append('yes')
             except:
-                #print f.readlines()
                 in_hand.append('no')
 
         #make a data frame of our info
@@ -392,23 +387,19 @@ def scoreboard_table(username, dbname, engine, lastdate):
             bit1 = bit1.replace('YYYY', my_years[ii])
             bit1 = bit1.replace('MM', my_months[ii])
             bit1 = bit1.replace('DD', my_days[ii])
-            #print bit1
 
             bit2 = scoreboard_dir  
             if int(my_months[ii]) > 7:
                 bit2 = str(my_years[ii]) + '-' + str(int(my_years[ii])+1) + '/'
             else:
                 bit2 = str(int(my_years[ii])-1) + '-' + str(my_years[ii]) + '/'
-            #print bit2
 
             line = 'ls ' + scoreboard_dir + bit2 + bit1
-            #print line
             f = os.popen(line)
             try:
                 f.readlines()[0]
                 in_hand.append('yes')
             except:
-                #print f.readlines()
                 in_hand.append('no')
 
         #make a data frame of our info
@@ -427,7 +418,6 @@ def scoreboard_table(username, dbname, engine, lastdate):
         created = 0
         
     return created
-# In[82]:
 
 def do_test_scoreboard(username, dbname):
 
@@ -442,26 +432,26 @@ def do_test_scoreboard(username, dbname):
             exists = True
     except:
         exists = False
-    print '    Table, %s, exists: %s' % (known_table, exists)
+    print('    Table, %s, exists: %s' % (known_table, exists))
 
     if exists is True:
-        print '      Total number of entries in %s: %i' % (known_table, count_sql.loc[0])
+        print('      Total number of entries in %s: %i' % (known_table, count_sql.loc[0]))
 
         sql_query = "SELECT * FROM %s;" % known_table
         try:
             all_sql = pd.read_sql_query(sql_query, con)
         except:
             a = 1
-        print '      First 5 entries of %s: ' % known_table
-        print all_sql.head(5)
+        print('      First 5 entries of %s: ' % known_table)
+        print(all_sql.head(5))
 
         sql_query = "SELECT * FROM %s;" % known_table
         try:
             all_sql = pd.read_sql_query(sql_query, con)
         except:
             a = 1
-        print '      Last 10 entries of %s: ' % known_table
-        print all_sql.tail(10)
+        print('      Last 10 entries of %s: ' % known_table)
+        print(all_sql.tail(10))
 
         sql_query = "SELECT DISTINCT(date) FROM %s;" % known_table
         try:
@@ -469,12 +459,9 @@ def do_test_scoreboard(username, dbname):
             ndistinct_date = len(distinct_sql)
         except:
             a = 1
-        print '     %s distinct entries in %s.' % (ndistinct_date, known_table)
+        print('     %s distinct entries in %s.' % (ndistinct_date, known_table))
         #if count_sql.loc[0] == ndistinct_date:
-        #    print '        All entries appear to be unique'
-
-
-    print ''
+        #    print('        All entries appear to be unique'
 
 
 # ## For creating, testing the games database
@@ -497,22 +484,17 @@ def do_test_games(username, dbname):
             exists = True
     except:
         exists = False
-    print '    Table, %s, exists: %s' % (known_table, exists)
+    print('    Table, %s, exists: %s' % (known_table, exists))
 
     sql_query = "SELECT COUNT(id) FROM %s WHERE in_hand='%s' AND id >320000000;" % (known_table, 'no')
     try:
         count_to_get = pd.read_sql_query(sql_query, con)
     except:
-        print '  games table, %s, does not exist' % boxscore_table_name
-    print '    Still have %i game pages left to download.' % (count_to_get.iloc[0])
-        
-
-    print ''
+        print('  games table, %s, does not exist' % boxscore_table_name)
+    print('    Still have %i game pages left to download.' % (count_to_get.iloc[0]))
 
 
-# ## For creating, testing the gamestats databases
-
-# In[84]:
+# For creating, testing the gamestats databases
 
 def do_test_gamestats(username, dbname, year):
         
@@ -527,34 +509,30 @@ def do_test_gamestats(username, dbname, year):
             exists = True
     except:
         exists = False
-    print '    Table, %s, exists: %s' % (known_table, exists)
+    print('    Table, %s, exists: %s' % (known_table, exists))
 
     sql_query = "SELECT DISTINCT(game_id) FROM %s;" % known_table
     try:
         count_to_get = pd.read_sql_query(sql_query, con)
-        print '    There are %s distinct games in the %s table' % (len(count_to_get), known_table)
+        print('    There are %s distinct games in the %s table' % (len(count_to_get), known_table))
     except:
-        print '  games table, %s, does not exist' % known_table
+        print('  games table, %s, does not exist' % known_table)
      
        
     sql_query = "SELECT * FROM %s;" % known_table
     try:
         all_sql = pd.read_sql_query(sql_query, con)
-        print '      First 5 entries of %s: ' % known_table
-        print all_sql.head(5)
-        print '      Last 10 entries of %s: ' % known_table
-        print all_sql.tail(10)
+        print('      First 5 entries of %s: ' % known_table)
+        print(all_sql.head(5))
+        print('      Last 10 entries of %s: ' % known_table)
+        print(all_sql.tail(10))
     except:
         a = 1
  
-    print ''
 
 
-# ## For creating, testing the winloss database
+# For creating, testing the winloss database
 # * a simple table to turn string values of win(w) and loss(l) to intergers win(1) and loss(-1)
-
-# In[85]:
-
 def winloss_table(username, dbname, engine):
     
     winloss_table_name = 'winloss'
@@ -596,46 +574,51 @@ def do_test_winloss(username, dbname):
             exists = True
     except:
         exists = False
-    print '    Table, %s, exists: %s' % (known_table, exists)
+    print('    Table, %s, exists: %s' % (known_table, exists))
 
     if exists is True:
-        print '      Total number of entries in %s: %i' % (known_table, count_sql.loc[0])
+        print('      Total number of entries in %s: %i' % (known_table, count_sql.loc[0]))
 
         sql_query = "SELECT * FROM %s;" % known_table
         try:
             all_sql = pd.read_sql_query(sql_query, con)
         except:
             a = 1
-        print '      First 5 entries of %s: ' % known_table
-        print all_sql.head(5)
-    print ''
+        print('      First 5 entries of %s: ' % known_table)
+        print(all_sql.head(5))
 
 
-# In[14]:
+def main(find_tables=False, peek_tables=False, make_scoreboard=False, scoreboard_name=None, make_games=None,
+         make_gamestats=False, make_winloss=False, make_test=False, lastdate=None, year=None, nhead=None):
+    """
+    catch all function to do a lot of everything.
+    :param find_tables:
+    :param peek_tables:
+    :param make_scoreboard:
+    :param scoreboard_name:
+    :param make_games:
+    :param make_gamestats:
+    :param make_winloss:
+    :param make_test:
+    :param lastdate:
+    :param year:
+    :param nhead:
+    :return:
+    """
 
-def main(find_tables=False, peek_tables=False, 
-         make_scoreboard=False, scoreboard_name=None,
-         make_games=None, 
-         make_gamestats=False, make_winloss=False, 
-         make_test=False, 
-         lastdate=None, year=None, nhead=None):
-    
-    
     myncaabball = NcaaBballDb(find_tables=find_tables, peek_tables=peek_tables, 
-                             make_scoreboard=make_scoreboard, scoreboard_name=scoreboard_name)
+                              make_scoreboard=make_scoreboard, scoreboard_name=scoreboard_name)
     
-    chk = myncaabball.setDefaults(lastdate=lastdate, year=year,
-                     nhead=nhead)
+    chk = myncaabball.setDefaults(lastdate=lastdate, year=year, nhead=nhead)
     if chk !=0:
-        print 'Defaults may not be set correctly!!'
-    
-    
+        print('Defaults may not be set correctly!!')
+
     chk = myncaabball.makeDbEngine()
-    print chk
+    print(chk)
     if chk == 0:
-        print myncaabball.printEngineStatus()
+        print(myncaabball.printEngineStatus())
     else:
-        print 'Make sure you have Postgres started!!'
+        print('Make sure you have Postgres started!!')
         sys.exit(0)
 
     if myncaabball.find_tables:
@@ -650,18 +633,15 @@ def main(find_tables=False, peek_tables=False,
     #if myncaabball.make_scoreboard:
     #    chk = myncaabball.scoreboardTable()
     #    if chk == 1:
-    #        print '    Table, scoreboard, successfully created!'
+    #        print('    Table, scoreboard, successfully created!'
     #    else:
-    #        print '    Table, scoreboard, NOT created!'
+    #        print('    Table, scoreboard, NOT created!'
  
     
     ### task: add function to make the scoreboard table database 
     ### this function needs to be evalutated on how some it fits here to make and access the db
     ###  and some of if needs to go into the scoreboard class so that is can be built etc and then handed over
     
-
-
-# In[15]:
 
 # boilerplate to execute call to main() function
 if __name__ == '__main__':
@@ -672,25 +652,12 @@ if __name__ == '__main__':
          lastdate='20160323', year='1516')
 
 
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
 # # below this line has not been migrated into the class definition yet
-# 
-# 
 
-#     
 #     #get available tables in the database
 #     #if which_tables:
 #     #    avail_tables = my_tables(username, dbname)
-#     #    print avail_tables
+#     #    print(avail_tables
 #         
 #     #get a peek at available tables
 #     #if peek_tables:
@@ -714,9 +681,9 @@ if __name__ == '__main__':
 #     if make_winloss:
 #         chk = winloss_table(username, dbname, engine)
 #         if chk == 1:
-#             print '    Table, winloss, successfully created!'
+#             print('    Table, winloss, successfully created!'
 #         else:
-#             print '    Table, winloss, NOT created!'
+#             print('    Table, winloss, NOT created!'
 #     if make_test:
 #         chk = do_test_winloss(username, dbname)
 # 
@@ -752,24 +719,24 @@ if __name__ == '__main__':
 
 # con = None
 # con = psycopg2.connect(database=dbname, user=username)
-# print '  ', con
+# print('  ', con
 # 
 # 
 # sql_query = "SELECT COUNT(*) FROM %s;" % (scoreboard_table_name)
-# print sql_query
+# print(sql_query
 # try:
 #     from_sql_query = pd.read_sql_query(sql_query, con)
-#     print from_sql_query
+#     print(from_sql_query
 # except:
-#     print '  scoreboard_table does not exist' 
+#     print('  scoreboard_table does not exist' 
 # 
 # sql_query = "SELECT COUNT(*) FROM %s WHERE in_hand='%s';" % (scoreboard_table_name, 'no')
-# print sql_query
+# print(sql_query
 # try:
 #     from_sql_query = pd.read_sql_query(sql_query, con)
-#     print from_sql_query
+#     print(from_sql_query
 # except:
-#     print '  scoreboard_table does not exist' 
+#     print('  scoreboard_table does not exist' 
 # 
 # 
 # 
@@ -779,16 +746,16 @@ if __name__ == '__main__':
 
 # con = None
 # con = psycopg2.connect(database=dbname, user=username)
-# print '  ', con
+# print('  ', con
 # 
 # 
 # sql_query = "SELECT COUNT(*) FROM %s;" % (stats_table_name)
-# print sql_query
+# print(sql_query
 # try:
 #     from_sql_query = pd.read_sql_query(sql_query, con)
-#     print from_sql_query.head(5)
+#     print(from_sql_query.head(5)
 # except:
-#     print '  stats table, %s, does not exist' % stats_table_name
+#     print('  stats table, %s, does not exist' % stats_table_name
 # 
 # 
 # #sql_query = "select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='%s';" % (stats_table_name)
@@ -796,9 +763,9 @@ if __name__ == '__main__':
 # sql_query = "SELECT player, team_name, pf, pts, ftm, fta, fgm FROM %s;" % (stats_table_name)
 # try:
 #     from_sql_query = pd.read_sql_query(sql_query, con)
-#     print from_sql_query.head(10)
+#     print(from_sql_query.head(10)
 # except:
-#     print '  stats table, %s, does not exist' % stats_table_name
+#     print('  stats table, %s, does not exist' % stats_table_name
 # 
 # 
 #     
@@ -806,9 +773,9 @@ if __name__ == '__main__':
 # sql_query = "SELECT COUNT(*) FROM %s;" % (stats_table_name2)
 # try:
 #     from_sql_query = pd.read_sql_query(sql_query, con)
-#     print from_sql_query.head(5)
+#     print(from_sql_query.head(5)
 # except:
-#     print '  stats table, %s, does not exist' % stats_table_name2
+#     print('  stats table, %s, does not exist' % stats_table_name2
 # 
 # 
 # #sql_query = "select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='%s';" % (stats_table_name)
@@ -816,12 +783,12 @@ if __name__ == '__main__':
 # sql_query = "SELECT player, team_name, pf, pts, ftm, fta, fgm FROM %s;" % (stats_table_name2)
 # 
 # 
-# print sql_query
+# print(sql_query
 # try:
 #     from_sql_query = pd.read_sql_query(sql_query, con)
-#     print from_sql_query.head(30)
+#     print(from_sql_query.head(30)
 # except:
-#     print '  stats table, %s, does not exist' % stats_table_name2
+#     print('  stats table, %s, does not exist' % stats_table_name2
 # 
 # 
 # 
@@ -831,40 +798,30 @@ if __name__ == '__main__':
 
 # con = None
 # con = psycopg2.connect(database=dbname, user=username)
-# print '  ', con
+# print('  ', con
 # 
 # 
 # sql_query = "SELECT * FROM %s WHERE team_name = 'Texas Longhorns';" % (teams_1415)
-# print sql_query
+# print(sql_query
 # try:
 #     from_sql_query = pd.read_sql_query(sql_query, con)
-#     print from_sql_query.head(45)
+#     print(from_sql_query.head(45)
 # except:
-#     print '  teams table, %s, does not exist' % teams_1415
+#     print('  teams table, %s, does not exist' % teams_1415
 # 
 # 
 
 # con = None
 # con = psycopg2.connect(database=dbname, user=username)
-# print '  ', con
+# print('  ', con
 # 
 # 
 # sql_query = "SELECT * FROM %s;" % ('winloss')
-# print sql_query
+# print(sql_query
 # try:
 #     from_sql_query = pd.read_sql_query(sql_query, con)
-#     print from_sql_query.head(5)
+#     print(from_sql_query.head(5)
 # except:
-#     print '  stats table, %s, does not exist' % stats_table_name
+#     print('  stats table, %s, does not exist' % stats_table_name
 # 
-# 
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
 
