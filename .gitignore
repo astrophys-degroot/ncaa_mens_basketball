@@ -5,3 +5,6 @@
 models/*.p
 *.p
 *.png
+
+# pycharm
+*.idea*
