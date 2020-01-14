@@ -11,9 +11,6 @@ import os
 import numpy as np
 import pandas as pd
 
-# data visiualization packages
-import seaborn as sns
-
 # database packages
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
@@ -21,12 +18,12 @@ import psycopg2
 
 
 # class definition for the NCAA basketball database collection
-class NcaaBballDb():
-    '''
+class NcaaBballDb:
+    """
     This class if for organizing, access, setting and evaluating
     the databases that will be made for the NCAA basketball project
     to predict winners of games from past peformances
-    '''
+    """
         
     def __init__(self, find_tables=None, peek_tables=None, make_scoreboard=None, 
                 scoreboard_name=None):
@@ -51,79 +48,11 @@ class NcaaBballDb():
         else:
             self.scoreboard_name = 'scoreboard'
 
- 
-
-    ## get attribute functions
-
-    def getLastDate(self):
-        '''
-        function to return the last date to include in the
-        various databases
-        '''    
-        return self.lastdate
-
-    def getYear(self):
-        '''
-        function to return the year to do when building the
-        various databases
-        '''    
-        return self.year
-
-    def getNhead(self):
-        '''
-        function to return the (max) number of rows when looking
-        at a SQL table. 
-        '''    
-        return self.nhead
-
-    def getDbName(self):
-        '''
-        function to return the database name
-        '''    
-        return self.dbname
-
-    def getUserName(self):
-        '''
-        function to return the database username
-        '''    
-        return self.username
-
-    def getTableNames(self):
-        '''
-        function to return the available database table names
-        '''    
-        return self.table_names
-
-    def getDbExist(self):
-        '''
-        function to return the status of the database engine
-        '''
-        return self.db_exist
-    
-    def getDbEngine(self):
-        '''
-        function to return the actual database engine
-        '''
-        return self.db_engine
-    
-    def getDbCon(self):
-        '''
-        function to return the connection to the database
-        '''
-        return self.con
-
-    def getScoreboardName(self):
-        '''
-        function to return the database table name for scoreboards
-        '''
-        return self.scoreboard_name
-
-    
     ### set attribute functions
     def setDefaults(self, lastdate=None, year=None, nhead=None):
-        '''
+        """
         function to set some default values for this class
-        '''
+        """
         
         try:
             if lastdate is None:
@@ -151,31 +80,31 @@ class NcaaBballDb():
             return 1
     
     def setTableNames(self, table_names):
-        '''
+        """
         function to set the available database table names
         into the class object
-        '''
+        """
         self.table_names = table_names
 
-        
+
     def setDbEngine(self, engine):
-        '''
+        """
         function to set the database engine in the class attributes
-        '''
+        """
         self.db_engine = engine
-        
+
     def setDbExist(self, exists):
-        '''
+        """
         function to set whether the database exists or not
-        '''
+        """
         self.db_exist = exists
 
-        
+
     ### print attribute functions
     def printTableNames(self):
-        '''
-        function to nicely print out database table names 
-        '''
+        """
+        function to nicely print out database table names
+        """
         table_names = self.getTableNames()
         print '    Tables available:'
         for table_name in table_names:
@@ -183,20 +112,20 @@ class NcaaBballDb():
 
     def printEngineStatus(self):
         engine_exist = self.getDbExist()
-        print '    Engine exists: %s' % (engine_exist)
+        print '    Engine exists: %s' % engine_exist
         engine = self.getDbEngine()
-        print '       The little engine that could: %s' % (engine) 
+        print '       The little engine that could: %s' % engine
 
 
     ###other functions
     def connectDb(self):
-        '''
+        """
         function to establish connection with the PostgreSQL
         database and save it as a class attribute
-        
+
         Note: all connections should be made through this
         function to ensure smooth usage
-        '''
+        """
         
         dbname = self.getDbName()
         username = self.getUserName()
@@ -208,10 +137,10 @@ class NcaaBballDb():
 
     
     def makeDbEngine(self):
-        '''
+        """
         function to establish engine with PostgreSQl database
-        so that additional tables can be made 
-        '''
+        so that additional tables can be made
+        """
         try:
             ## connect to Postgres
             dbname = self.getDbName()
@@ -235,9 +164,9 @@ class NcaaBballDb():
 
         
     def findTables(self):
-        '''
-        function to store and print all tables in the database 
-        '''
+        """
+        function to store and print all tables in the database
+        """
         try:
             #get values
             con = self.connectDb()
@@ -249,7 +178,7 @@ class NcaaBballDb():
                           FROM %s.information_schema.tables
                           WHERE table_schema LIKE 'public'
                           ORDER BY table_schema,table_name;
-                        ''' % (dbname)
+                        ''' % dbname
             #print sql_query
             try:
                 tables_sql = pd.read_sql_query(sql_query, con)
@@ -264,10 +193,10 @@ class NcaaBballDb():
         
 
     def peekTables(self, nhead=False):
-        '''
+        """
         function to return the head of the SQL tables that exist
-        
-        '''
+
+        """
         ## set values
         if nhead is False:
             nhead = self.getNhead()
@@ -506,7 +435,7 @@ def do_test_scoreboard(username, dbname):
     con = psycopg2.connect(database=dbname, user=username)
     known_table = 'scoreboard'
     
-    sql_query = "SELECT COUNT(*) FROM %s;" % (known_table)
+    sql_query = "SELECT COUNT(*) FROM %s;" % known_table
     try:
         count_sql = pd.read_sql_query(sql_query, con)
         if count_sql is not None:
@@ -518,23 +447,23 @@ def do_test_scoreboard(username, dbname):
     if exists is True:
         print '      Total number of entries in %s: %i' % (known_table, count_sql.loc[0])
 
-        sql_query = "SELECT * FROM %s;" % (known_table)
+        sql_query = "SELECT * FROM %s;" % known_table
         try:
             all_sql = pd.read_sql_query(sql_query, con)
         except:
             a = 1
-        print '      First 5 entries of %s: ' % (known_table)
+        print '      First 5 entries of %s: ' % known_table
         print all_sql.head(5)
 
-        sql_query = "SELECT * FROM %s;" % (known_table)
+        sql_query = "SELECT * FROM %s;" % known_table
         try:
             all_sql = pd.read_sql_query(sql_query, con)
         except:
             a = 1
-        print '      Last 10 entries of %s: ' % (known_table)
+        print '      Last 10 entries of %s: ' % known_table
         print all_sql.tail(10)
 
-        sql_query = "SELECT DISTINCT(date) FROM %s;" % (known_table)
+        sql_query = "SELECT DISTINCT(date) FROM %s;" % known_table
         try:
             distinct_sql = pd.read_sql_query(sql_query, con)
             ndistinct_date = len(distinct_sql)
@@ -561,7 +490,7 @@ def do_test_games(username, dbname):
     con = psycopg2.connect(database=dbname, user=username)
     known_table = 'games'
 
-    sql_query = "SELECT COUNT(*) FROM %s;" % (known_table)
+    sql_query = "SELECT COUNT(*) FROM %s;" % known_table
     try:
         count_sql = pd.read_sql_query(sql_query, con)
         if count_sql is not None:
@@ -591,7 +520,7 @@ def do_test_gamestats(username, dbname, year):
     con = psycopg2.connect(database=dbname, user=username)
     known_table = 'teams' + year 
         
-    sql_query = "SELECT COUNT(*) FROM %s;" % (known_table)
+    sql_query = "SELECT COUNT(*) FROM %s;" % known_table
     try:
         count_sql = pd.read_sql_query(sql_query, con)
         if count_sql is not None:
@@ -600,7 +529,7 @@ def do_test_gamestats(username, dbname, year):
         exists = False
     print '    Table, %s, exists: %s' % (known_table, exists)
 
-    sql_query = "SELECT DISTINCT(game_id) FROM %s;" % (known_table)
+    sql_query = "SELECT DISTINCT(game_id) FROM %s;" % known_table
     try:
         count_to_get = pd.read_sql_query(sql_query, con)
         print '    There are %s distinct games in the %s table' % (len(count_to_get), known_table)
@@ -608,12 +537,12 @@ def do_test_gamestats(username, dbname, year):
         print '  games table, %s, does not exist' % known_table
      
        
-    sql_query = "SELECT * FROM %s;" % (known_table)
+    sql_query = "SELECT * FROM %s;" % known_table
     try:
         all_sql = pd.read_sql_query(sql_query, con)
-        print '      First 5 entries of %s: ' % (known_table)
+        print '      First 5 entries of %s: ' % known_table
         print all_sql.head(5)
-        print '      Last 10 entries of %s: ' % (known_table)
+        print '      Last 10 entries of %s: ' % known_table
         print all_sql.tail(10)
     except:
         a = 1
@@ -660,7 +589,7 @@ def do_test_winloss(username, dbname):
     con = psycopg2.connect(database=dbname, user=username)
     known_table = 'winloss'
     
-    sql_query = "SELECT COUNT(*) FROM %s;" % (known_table)
+    sql_query = "SELECT COUNT(*) FROM %s;" % known_table
     try:
         count_sql = pd.read_sql_query(sql_query, con)
         if count_sql is not None:
@@ -672,12 +601,12 @@ def do_test_winloss(username, dbname):
     if exists is True:
         print '      Total number of entries in %s: %i' % (known_table, count_sql.loc[0])
 
-        sql_query = "SELECT * FROM %s;" % (known_table)
+        sql_query = "SELECT * FROM %s;" % known_table
         try:
             all_sql = pd.read_sql_query(sql_query, con)
         except:
             a = 1
-        print '      First 5 entries of %s: ' % (known_table)
+        print '      First 5 entries of %s: ' % known_table
         print all_sql.head(5)
     print ''
 
