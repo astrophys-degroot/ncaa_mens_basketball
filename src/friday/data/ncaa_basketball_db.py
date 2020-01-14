@@ -1,36 +1,26 @@
-
-# coding: utf-8
-
-# # Notebook to make and test Postgres databases for NCAA_MBB project
-# 
+# Notebook to make and test Postgres databases for NCAA_MBB project
 # 1. scoreboard table - table with all possible dates of men's college basketball games and whether that webpage has been obtained from ESPN
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-# In[11]:
-
-#import packages
-
-#basic packages
 import sys
 import re
 import os
 
-#data analysis packages
+# data analysis packages
 import numpy as np
 import pandas as pd
 
-#data visiualization packages
+# data visiualization packages
 import seaborn as sns
 
-#database packages
+# database packages
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
 import psycopg2
 
 
-
-## class definition for the NCAA basketball database collection
+# class definition for the NCAA basketball database collection
 class NcaaBballDb():
     '''
     This class if for organizing, access, setting and evaluating
