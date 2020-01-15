@@ -6,12 +6,14 @@
 import sys
 import re
 import os
+import pdb
 
 # data analysis packages
 import numpy as np
 import pandas as pd
 
 # database packages
+import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
 import psycopg2
@@ -27,10 +29,13 @@ class NcaaBballDb:
         
     def __init__(self, find_tables=None, peek_tables=None, make_scoreboard=None, 
                 scoreboard_name=None):
-        self.dbname = 'ncaa_mbb_db'
+        self.database_name = 'ncaa_mbb_db'
         self.username = 'smaug'
-        self.lastdate = None
+        self.last_date = None
         self.year = None
+        self.nhead = None
+        self.con = None
+        self.database_engine = None
 
         if find_tables:
             self.find_tables = find_tables
@@ -50,37 +55,41 @@ class NcaaBballDb:
         else:
             self.scoreboard_name = 'scoreboard'
 
-    # set attribute functions
-    def setDefaults(self, lastdate=None, year=None, nhead=None):
+    def set_last_date(self, a_str):
+        """
+        method to set the value of attribute last_date, after making some checks
+        :return: 
+        """
+        if isinstance(a_str, str):
+            if a_str is None:
+                self.last_date = '20160204'
+            else:
+                if len(a_str) == 8:
+                    self.last_date = str(a_str)
+                else:
+                    raise RuntimeWarning('set_last_date input expected to be a string of form YYYYMMDD')
+        else:
+            raise RuntimeWarning("set_last_date expects a string for input")
+
+    def set_defaults(self, last_date=None, year=None, nhead=None):
         """
         function to set some default values for this class
         """
         
-        try:
-            if lastdate is None:
-                self.lastdate = '20160204'
+        self.set_last_date(last_date)
+        if year is None:
+            self.year = '1516'
+        else:
+            if len(year) != 4:
+                print('Variable year must be a string of form Y1Y1Y2Y2')
             else:
-                if len(lastdate) != 8:
-                    print('Variable lastdate must be a string of form YYYYMMDD')
-                else:
-                    self.lastdate = str(lastdate)
+                self.year = str(year)
 
-            if year is None:
-                self.year = '1516'
-            else:
-                if len(year) != 4:
-                    print('Variable year must be a string of form Y1Y1Y2Y2')
-                else:
-                    self.year = str(year)
+        if nhead is None:
+            self.nhead = 6
+        else:
+            self.nhead = nhead
 
-            if nhead is None:
-                self.nhead = 6
-            else:
-                self.nhead = nhead
-            return 0
-        except:
-            return 1
-    
     def setTableNames(self, table_names):
         """
         function to set the available database table names
@@ -88,21 +97,15 @@ class NcaaBballDb:
         """
         self.table_names = table_names
 
-
-    def setDbEngine(self, engine):
+    def set_database_engine(self, an_sqlalchemy):
         """
-        function to set the database engine in the class attributes
+        method to set value of attribute of database engine in the class attribute
         """
-        self.db_engine = engine
+        if isinstance(an_sqlalchemy, sqlalchemy.engine.base.Engine):
+            self.database_engine = an_sqlalchemy
+        else:
+            raise RuntimeWarning('set_database_engine expects an in stance of sqlalchemy engine an input')
 
-    def setDbExist(self, exists):
-        """
-        function to set whether the database exists or not
-        """
-        self.db_exist = exists
-
-
-    ### print(attribute functions
     def printTableNames(self):
         """
         function to nicely print(out database table names
@@ -117,7 +120,6 @@ class NcaaBballDb:
         print('    Engine exists: %s' % engine_exist)
         engine = self.getDbEngine()
         print('       The little engine that could: %s' % engine)
-
 
     # other functions
     def connectDb(self):
@@ -137,51 +139,61 @@ class NcaaBballDb:
 
         return self.con
 
-    
-    def makeDbEngine(self):
+    def make_database_engine(self):
         """
-        function to establish engine with PostgreSQl database
-        so that additional tables can be made
+        method to establish engine with local established PostgreSQl database allowing full complement of interactions
         """
-        try:
-            ## connect to Postgres
-            dbname = self.getDbName()
-            username = self.getUserName()
-            print(dbname)
-            print(username)
-            
-            ## create and set 
-            engine = create_engine('postgres://%s@localhost/%s'%(username, dbname))
-            self.setDbEngine(engine)
+        if getattr(self, "database_name") is not None:
+            database_name = getattr(self, "database_name")
+        else:
+            raise RuntimeWarning("make_database_engine cant create the engine because there is no database name")
+        print(database_name)
 
-            ## test if it exists
-            db_exist = database_exists(engine.url)
-            if not db_exist:
-                create_database(engine.url)
-            db_exist = database_exists(engine.url)
-            self.setDbExist(db_exist)
-            return 0
-        except:
-            return 1
+        if getattr(self, "username") is not None:
+            username = getattr(self, "username")
+        else:
+            raise RuntimeWarning("make_database_engine cant create the engine because there is no username")
+        print(username)
 
-        
+        # create and set
+        engine = create_engine('postgres://%s@localhost/%s' % (username, database_name))
+        self.set_database_engine(engine)
+
+    def check_database_engine(self):
+        """
+        method to run a check on the database engine
+        :return:
+        """
+        if database_exists(getattr(self, 'database_engine').url):
+            pass
+        else:
+            raise RuntimeWarning("check_database_engine failed to find the database")
+
+    def create_database(self):
+        """
+        method to create the database if it doesnt exist
+        :return:
+        """
+        if not database_exists(getattr(self, 'database_engine').url):
+            create_database(getattr(self, 'database_engine').url)
+
     def findTables(self):
         """
         function to store and print(all tables in the database
         """
         try:
-            #get values
+            # get values
             con = self.connectDb()
             dbname = self.getDbName()
 
-            #do the SQL query
+            # do the SQL query
             sql_query = '''
                         SELECT table_schema, table_name
                           FROM %s.information_schema.tables
                           WHERE table_schema LIKE 'public'
                           ORDER BY table_schema,table_name;
                         ''' % dbname
-            #print(sql_query)
+            # print(sql_query)
             try:
                 tables_sql = pd.read_sql_query(sql_query, con)
                 if tables_sql is not None:
@@ -192,28 +204,27 @@ class NcaaBballDb:
             return 0
         except:
             return 1
-        
 
     def peekTables(self, nhead=False):
         """
         function to return the head of the SQL tables that exist
 
         """
-        ## set values
+        # set values
         if nhead is False:
             nhead = self.getNhead()
         else:
             nhead = nhead
         
         try:
-            ## database stuff
+            # database stuff
             dbname = self.getDbName()
             username = self.getUserName()
             table_names = self.getTableNames()
             con = None
             con = psycopg2.connect(database=dbname, user=username)
 
-            ## print(stuff
+            # print(stuff
             for table_name in table_names:
                 sql_query = '''
                             SELECT *
@@ -234,14 +245,11 @@ class NcaaBballDb:
             return 1
 
 
-# ## For creating, saving, testing the base scoreboard database
+#  For creating, saving, testing the base scoreboard database
 #     * scoreboard database: info regarding the various ESPN scoreboard pages such as data and whether obtained
 # 
-# 
-
+#
 def scoreboardTable(self):
-    
-    
     scoreboard_table_name = getScoreboardName(self)
     print(scoreboard_table_name)
 
@@ -260,23 +268,23 @@ def scoreboardTable(self):
                               #['20121101','20130430'],
                               #['20131101','20140430'],
                               #['20141101','20150430'],
-                              #['20151101',lastdate],
+                              #['20151101',last_date],
                               # ] 
 
     try:
-        #fire up the database engine
+        # fire up the database engine
         engine = create_engine('postgres://%s@localhost/%s'%(username, dbname))
         db_exist = database_exists(engine.url)
         if not db_exist:
             create_database(engine.url)
 
-        #create empty arrays to fill
+        # create empty arrays to fill
         my_dates = []
         my_years = []
         my_months = []
         my_days = []
 
-        #loop over the date ranges
+        # loop over the date ranges
         for scoreboard in scoreboard_table_range:
             dates_range = pd.date_range(start=scoreboard[0], end=scoreboard[1], freq='D')
             for date_range in dates_range:
@@ -286,7 +294,7 @@ def scoreboardTable(self):
                 my_months.append(match.group(2))
                 my_days.append(match.group(3))
 
-        #find which files have already been downloaded
+        # find which files have already been downloaded
         in_hand = []
         for ii in np.arange(len(my_dates)):
             bit1 = scoreboard_file
@@ -308,7 +316,7 @@ def scoreboardTable(self):
             except:
                 in_hand.append('no')
 
-        #make a data frame of our info
+        # make a data frame of our info
         scoreboard_df = pd.DataFrame({'date':my_dates, 
                                       'year':my_years, 
                                       'month':my_months,
@@ -316,7 +324,7 @@ def scoreboardTable(self):
                                       'in_hand':in_hand,        
                                     })
         ##################################################################
-        ###are you really sure you want to rebuild the entire scoreboard database???
+        # are you really sure you want to rebuild the entire scoreboard database???
         scoreboard_df.to_sql(scoreboard_table_name, engine, if_exists='replace')
         ##################################################################
         created = 1
@@ -326,17 +334,8 @@ def scoreboardTable(self):
     return created
 
 
-# In[81]:
-
-### items between here and __main__() have not be brought into the class definition yet
-
-
-
-# In[ ]:
-
-
-
-def scoreboard_table(username, dbname, engine, lastdate):
+# items between here and __main__() have not be brought into the class definition yet
+def scoreboard_table(username, dbname, engine, last_date):
         
     scoreboard_table_name = 'scoreboard'
     scoreboard_dir = 'scoreboard_pages/'
@@ -354,7 +353,7 @@ def scoreboard_table(username, dbname, engine, lastdate):
                               ['20121101','20130430'],
                               ['20131101','20140430'],
                               ['20141101','20150430'],
-                              ['20151101',lastdate],
+                              ['20151101',last_date],
                                ] 
     
     try:
@@ -528,7 +527,6 @@ def do_test_gamestats(username, dbname, year):
         print(all_sql.tail(10))
     except:
         a = 1
- 
 
 
 # For creating, testing the winloss database
@@ -589,7 +587,7 @@ def do_test_winloss(username, dbname):
 
 
 def main(find_tables=False, peek_tables=False, make_scoreboard=False, scoreboard_name=None, make_games=None,
-         make_gamestats=False, make_winloss=False, make_test=False, lastdate=None, year=None, nhead=None):
+         make_gamestats=False, make_winloss=False, make_test=False, last_date=None, year=None, nhead=None):
     """
     catch all function to do a lot of everything.
     :param find_tables:
@@ -600,7 +598,7 @@ def main(find_tables=False, peek_tables=False, make_scoreboard=False, scoreboard
     :param make_gamestats:
     :param make_winloss:
     :param make_test:
-    :param lastdate:
+    :param last_date:
     :param year:
     :param nhead:
     :return:
@@ -609,26 +607,23 @@ def main(find_tables=False, peek_tables=False, make_scoreboard=False, scoreboard
     myncaabball = NcaaBballDb(find_tables=find_tables, peek_tables=peek_tables, make_scoreboard=make_scoreboard,
                               scoreboard_name=scoreboard_name)
     
-    chk = myncaabball.setDefaults(lastdate=lastdate, year=year, nhead=nhead)
-    if chk != 0:
-        print('Defaults may not be set correctly!!')
+    myncaabball.set_defaults(last_date=last_date, year=year, nhead=nhead)
 
-    chk = myncaabball.makeDbEngine()
-    print(chk)
-    if chk == 0:
-        print(myncaabball.printEngineStatus())
-    else:
-        print('Make sure you have Postgres started!!')
-        sys.exit(0)
-
-    if myncaabball.find_tables:
-        chk = myncaabball.findTables()
-        if chk == 0:
-            myncaabball.printTableNames()
-    
-    if myncaabball.peek_tables:
-        chk = myncaabball.peekTables()
-          
+    myncaabball.make_database_engine()
+    myncaabball.check_database_engine()
+    # if chk == 0:
+    #     print(myncaabball.printEngineStatus())
+    # else:
+    #     print('Make sure you have Postgres started!!')
+    #     sys.exit(0)
+    #
+    # if myncaabball.find_tables:
+    #     chk = myncaabball.findTables()
+    #     if chk == 0:
+    #         myncaabball.printTableNames()
+    #
+    # if myncaabball.peek_tables:
+    #     chk = myncaabball.peekTables()
     # whether to work on scoreboard table
     # if myncaabball.make_scoreboard:
     #    chk = myncaabball.scoreboardTable()
@@ -646,7 +641,7 @@ if __name__ == '__main__':
          make_scoreboard=True, make_winloss=False, 
          make_games=False, make_gamestats=False, 
          make_test=False, 
-         lastdate='20160323', year='1516')
+         last_date='20160323', year='1516')
 
 
 # # below this line has not been migrated into the class definition yet
