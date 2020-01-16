@@ -27,7 +27,7 @@ class NcaaBballDb:
     to predict winners of games from past peformances
     """
         
-    def __init__(self, find_tables=None, peek_tables=None, make_scoreboard=None, 
+    def __init__(self, peek_tables=None, make_scoreboard=None,
                 scoreboard_name=None):
         self.database_name = 'ncaa_mbb_db'
         self.username = 'smaug'
@@ -36,11 +36,8 @@ class NcaaBballDb:
         self.nhead = None
         self.con = None
         self.database_engine = None
+        self.table_names = None
 
-        if find_tables:
-            self.find_tables = find_tables
-        else:
-            self.find_tables = False
         if peek_tables:
             self.peek_tables = peek_tables
         else:
@@ -90,12 +87,15 @@ class NcaaBballDb:
         else:
             self.nhead = nhead
 
-    def setTableNames(self, table_names):
+    def set_table_names(self, table_names):
         """
-        function to set the available database table names
-        into the class object
+        method to set the available database table names as class attribute after some checks
         """
-        self.table_names = table_names
+
+        if isinstance(table_names, pd.core.series.Series):
+            self.table_names = table_names
+        else:
+            raise RuntimeWarning('set_table_names expects a pandas series for table_names')
 
     def set_database_engine(self, an_sqlalchemy):
         """
@@ -106,38 +106,20 @@ class NcaaBballDb:
         else:
             raise RuntimeWarning('set_database_engine expects an in stance of sqlalchemy engine an input')
 
-    def printTableNames(self):
+    def print_table_names(self):
         """
-        function to nicely print(out database table names
+        method to nicely print out database table names
         """
-        table_names = self.getTableNames()
-        print('    Tables available:')
+        table_names = getattr(self, 'table_names')
+        print('Tables available:')
         for table_name in table_names:
-            print('      ', table_name)
+            print(' ', table_name)
 
     def printEngineStatus(self):
         engine_exist = self.getDbExist()
         print('    Engine exists: %s' % engine_exist)
         engine = self.getDbEngine()
         print('       The little engine that could: %s' % engine)
-
-    # other functions
-    def connectDb(self):
-        """
-        function to establish connection with the PostgreSQL
-        database and save it as a class attribute
-
-        Note: all connections should be made through this
-        function to ensure smooth usage
-        """
-        
-        dbname = self.getDbName()
-        username = self.getUserName()
-        
-        self.con = None
-        self.con = psycopg2.connect(database=dbname, user=username)
-
-        return self.con
 
     def make_database_engine(self):
         """
@@ -177,33 +159,35 @@ class NcaaBballDb:
         if not database_exists(getattr(self, 'database_engine').url):
             create_database(getattr(self, 'database_engine').url)
 
-    def findTables(self):
+    def connect_database(self):
         """
-        function to store and print(all tables in the database
+        function to establish connection with the PostgreSQL database and save it as a class attribute
+
+        Note: all connections should be made through this function to ensure smooth usage
         """
         try:
-            # get values
-            con = self.connectDb()
-            dbname = self.getDbName()
+            self.con = psycopg2.connect(database=getattr(self, 'database_name'), user=getattr(self, 'username'))
+        except RuntimeError:
+            raise RuntimeError('connect_database was unable to connect')
 
-            # do the SQL query
-            sql_query = '''
-                        SELECT table_schema, table_name
-                          FROM %s.information_schema.tables
-                          WHERE table_schema LIKE 'public'
-                          ORDER BY table_schema,table_name;
-                        ''' % dbname
-            # print(sql_query)
-            try:
-                tables_sql = pd.read_sql_query(sql_query, con)
-                if tables_sql is not None:
-                    exists = True
-                    self.setTableNames(tables_sql['table_name'])
-            except:
-                exists = False
-            return 0
-        except:
-            return 1
+    def find_tables(self, type="'public'"):
+        """
+        method to store and print all tables in the database
+        :param type: str, type of table to find 'public', 'private', etc
+        """
+        # do the SQL query
+        sql_query = '''
+                    SELECT table_schema, table_name
+                        FROM %s.information_schema.tables
+                      WHERE table_schema LIKE %s
+                      ORDER BY table_schema,table_name;
+                    ''' % (getattr(self, 'database_name'), type)
+        try:
+            tables_sql = pd.read_sql_query(sql_query, getattr(self, 'con'))
+            if tables_sql is not None:
+                self.set_table_names(tables_sql['table_name'])
+        except RuntimeError:
+            raise RuntimeError('find_tables encountered RuntimeError')
 
     def peekTables(self, nhead=False):
         """
@@ -604,24 +588,20 @@ def main(find_tables=False, peek_tables=False, make_scoreboard=False, scoreboard
     :return:
     """
 
-    myncaabball = NcaaBballDb(find_tables=find_tables, peek_tables=peek_tables, make_scoreboard=make_scoreboard,
+    myncaabball = NcaaBballDb(peek_tables=peek_tables, make_scoreboard=make_scoreboard,
                               scoreboard_name=scoreboard_name)
     
     myncaabball.set_defaults(last_date=last_date, year=year, nhead=nhead)
 
     myncaabball.make_database_engine()
     myncaabball.check_database_engine()
-    # if chk == 0:
-    #     print(myncaabball.printEngineStatus())
-    # else:
-    #     print('Make sure you have Postgres started!!')
-    #     sys.exit(0)
-    #
-    # if myncaabball.find_tables:
-    #     chk = myncaabball.findTables()
-    #     if chk == 0:
-    #         myncaabball.printTableNames()
-    #
+    myncaabball.connect_database()
+
+    if find_tables:
+        myncaabball.find_tables()
+        if getattr(myncaabball, 'table_names') is not None:
+            myncaabball.print_table_names()
+
     # if myncaabball.peek_tables:
     #     chk = myncaabball.peekTables()
     # whether to work on scoreboard table
@@ -637,7 +617,7 @@ def main(find_tables=False, peek_tables=False, make_scoreboard=False, scoreboard
 
 
 if __name__ == '__main__':
-    main(find_tables=True, peek_tables=True, 
+    main(find_tables=True, peek_tables=True,
          make_scoreboard=True, make_winloss=False, 
          make_games=False, make_gamestats=False, 
          make_test=False, 
