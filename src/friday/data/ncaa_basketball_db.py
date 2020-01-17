@@ -36,7 +36,6 @@ class NcaaBballDb:
         self.nhead = None
         self.con = None
         self.database_engine = None
-        self.table_names = None
 
         if peek_tables:
             self.peek_tables = peek_tables
@@ -86,16 +85,6 @@ class NcaaBballDb:
             self.nhead = 6
         else:
             self.nhead = nhead
-
-    def set_table_names(self, table_names):
-        """
-        method to set the available database table names as class attribute after some checks
-        """
-
-        if isinstance(table_names, pd.core.series.Series):
-            self.table_names = table_names
-        else:
-            raise RuntimeWarning('set_table_names expects a pandas series for table_names')
 
     def set_database_engine(self, an_sqlalchemy):
         """
@@ -169,25 +158,6 @@ class NcaaBballDb:
             self.con = psycopg2.connect(database=getattr(self, 'database_name'), user=getattr(self, 'username'))
         except RuntimeError:
             raise RuntimeError('connect_database was unable to connect')
-
-    def find_tables(self, type="'public'"):
-        """
-        method to store and print all tables in the database
-        :param type: str, type of table to find 'public', 'private', etc
-        """
-        # do the SQL query
-        sql_query = '''
-                    SELECT table_schema, table_name
-                        FROM %s.information_schema.tables
-                      WHERE table_schema LIKE %s
-                      ORDER BY table_schema,table_name;
-                    ''' % (getattr(self, 'database_name'), type)
-        try:
-            tables_sql = pd.read_sql_query(sql_query, getattr(self, 'con'))
-            if tables_sql is not None:
-                self.set_table_names(tables_sql['table_name'])
-        except RuntimeError:
-            raise RuntimeError('find_tables encountered RuntimeError')
 
     def peekTables(self, nhead=False):
         """
