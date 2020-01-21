@@ -1,18 +1,14 @@
 # Notebook to make and test Postgres databases for NCAA_MBB project
-# 1. scoreboard table - table with all possible dates of men's college basketball games and whether that webpage has been obtained from ESPN
+# 1. scoreboard table - table with all possible dates of men's college basketball games and whether that webpage has
+# been obtained from ESPN
 # 2. games table - created in ncaa_basketball_games notebook currently but tests still offered here
 # 3. winloss table - simple table to make wins (1) and losses (-1) numerical
 
-import sys
+# import appropriate packages
 import re
 import os
-import pdb
-
-# data analysis packages
 import numpy as np
 import pandas as pd
-
-# database packages
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
@@ -162,7 +158,6 @@ class NcaaBballDb:
     def peekTables(self, nhead=False):
         """
         function to return the head of the SQL tables that exist
-
         """
         # set values
         if nhead is False:
@@ -180,11 +175,11 @@ class NcaaBballDb:
 
             # print(stuff
             for table_name in table_names:
-                sql_query = '''
+                sql_query = """
                             SELECT *
                               FROM %s
                               LIMIT %i;
-                            ''' % (table_name, nhead)
+                            """ % (table_name, nhead)
                 try:
                     table_peek = pd.read_sql_query(sql_query, con)
                     if table_peek is not None:
@@ -201,8 +196,7 @@ class NcaaBballDb:
 
 #  For creating, saving, testing the base scoreboard database
 #     * scoreboard database: info regarding the various ESPN scoreboard pages such as data and whether obtained
-# 
-#
+
 def scoreboardTable(self):
     scoreboard_table_name = getScoreboardName(self)
     print(scoreboard_table_name)
@@ -414,15 +408,12 @@ def do_test_scoreboard(username, dbname):
             a = 1
         print('     %s distinct entries in %s.' % (ndistinct_date, known_table))
         #if count_sql.loc[0] == ndistinct_date:
-        #    print('        All entries appear to be unique'
-
 
 # ## For creating, testing the games database
 # * currently performed in the ncaa_basketball_games notebook
 # * database with info regarding all games played
 #         -filled with data scraped from scoreboard pages 
 
-# In[83]:
 
 def do_test_games(username, dbname):
     
@@ -445,7 +436,6 @@ def do_test_games(username, dbname):
     except:
         print('  games table, %s, does not exist' % boxscore_table_name)
     print('    Still have %i game pages left to download.' % (count_to_get.iloc[0]))
-
 
 # For creating, testing the gamestats databases
 
@@ -482,7 +472,6 @@ def do_test_gamestats(username, dbname, year):
     except:
         a = 1
 
-
 # For creating, testing the winloss database
 # * a simple table to turn string values of win(w) and loss(l) to intergers win(1) and loss(-1)
 def winloss_table(username, dbname, engine):
@@ -509,9 +498,6 @@ def winloss_table(username, dbname, engine):
         created = 0
         
     return created
-
-
-# In[86]:
 
 def do_test_winloss(username, dbname):
 
@@ -562,15 +548,14 @@ def main(find_tables=False, peek_tables=False, make_scoreboard=False, scoreboard
                               scoreboard_name=scoreboard_name)
     
     myncaabball.set_defaults(last_date=last_date, year=year, nhead=nhead)
-
     myncaabball.make_database_engine()
     myncaabball.check_database_engine()
     myncaabball.connect_database()
 
-    if find_tables:
-        myncaabball.find_tables()
-        if getattr(myncaabball, 'table_names') is not None:
-            myncaabball.print_table_names()
+    # if find_tables:
+    #     myncaabball.find_tables()
+    #     if getattr(myncaabball, 'table_names') is not None:
+    #         myncaabball.print_table_names()
 
     # if myncaabball.peek_tables:
     #     chk = myncaabball.peekTables()
@@ -634,13 +619,13 @@ if __name__ == '__main__':
 # # Everything below this line is a stand alone bit of code
 # # but should be run with caution. 
 
-# '''
+# """
 # credential and the three main databases info 
 #     2. games: 
 #     3. stats: database with info from all games played
 #         -filled with data scrapped from games pages
 # 
-# '''
+# """
 # 
 # 
 # username = 'smaug'
