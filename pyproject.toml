@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "friday"
+version = "0.1.0"
+description = "friday; the college basketball predictor"
+authors = ["Andrew DeGroot <andrew_degroot@goodyear.com>"]
+
+[tool.poetry.dependcies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^3.0"
+
+[build-system]
+requires = ["poetry>=1.0"]
+build-backend = "poetry.masonry.api"
