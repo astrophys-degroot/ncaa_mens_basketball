@@ -1,25 +1,41 @@
 
-# import packages
-import numpy as np
-import pandas as pd
+
+import logging
 import sys
 import os
 import time
 import re
+
+import numpy as np
+import pandas as pd
+
 # import urllib2
 import psycopg2
 from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
 
+from ncaa_basketball_db import NcaaBballDb
 
-def get_med_dir(year, month):
-    if int(month) > 7:
-        med_dir = str(year) + '-' + str(int(year)+1) + '/'
-    else:
-        med_dir = str(int(year)-1) + '-' + str(year) + '/'
 
-    return med_dir
+class GatherESPNData:
+
+    def __init__(self, ):
+        self.a = 1
+
+    def get_med_dir(self, year, month):
+        """
+        method to grab the middle part of the directory structure based on year and month
+        :param year:
+        :param month:
+        :return:
+        """
+        if int(month) > 7:
+            med_dir = str(year) + '-' + str(int(year)+1) + '/'
+        else:
+            med_dir = str(int(year)-1) + '-' + str(year) + '/'
+
+        return med_dir
 
 # def start_games_db(dbname, username):
 #     print '  Firing up the data base.'
@@ -177,61 +193,43 @@ def get_med_dir(year, month):
   #           target = open(file_name, 'w'),
   #           target.write(score_page)  #save to file,
   #           target.close,
-  #           ,
   #       return find
-  #  ]
-  # ,
-  #
-  #  cell_type: code,
-  #  execution_count: null,
-  #  metadata:
-  #   collapsed: true
-  #  ,
-  #  outputs: [],
-  #  source: []
-  # ,
-  #
-  #  cell_type: code,
-  #  execution_count: 39,
-  #  metadata:
-  #   collapsed: false
-  #  ,
-  #  outputs: [],
-  #  source: [
-  #   def main(indir=None, remake_db=False, get_games=False):,
-  #   ,
-  #       ''',
-  #       program to create the full games database from the full,
-  #       complement of available games.,
-  #   ,
-  #   ,
-  #       Data scraped from the scoreboard pages, after querying the ,
-  #       scoreboard database. ,
-  #       ,
-  #       ''',
-  #       ,
-  #       if indir is None:,
-  #           indir = 'scoreboard_pages/',
-  #       else:,
-  #           indir = str(indir),
-  #       dbname = 'ncaa_mbb_db',
-  #       username = 'smaug',
-  #   ,
-  #       scoreboard_file = 'ncaa_mbb_scoreboard_full_YYYYMMDD.txt',
-  #   ,
-  #       boxscore_dir = 'boxscore_pages/',
-  #       boxscore_file = 'ncaa_mbb_boxscore_DDDDDDDDD.txt',
-  #       boxscore_table_name = 'games',
-  #       boxscore_dict = 'dir':boxscore_dir, 'file':boxscore_file, 'table':boxscore_table_name,
-  #   ,
-  #       ,
-  #       #start up Postgres db,
-  #       if remake_db:,
-  #           print '  Now remaking games database.',
-  #           reset = 1 #do we append (0) or restart (1) the database,
-  #           cnt = 1 #silly database index counter since we give it one at a time,
-  #           scoreboard_table_name = 'scoreboard',
-  #           print dbname, username,
+
+
+    def execute(self, indir=None, remake_db=False, scoreboard_table_name='scoreboard', get_games=False):
+        """
+        program to create the full games database from the full complement of available games.
+        Data scraped from the scoreboard pages, after querying the scoreboard database.
+        :param remake_db:
+        :param get_games:
+        :return:
+        """
+
+        myncaabball = NcaaBballDb()
+        myncaabball.make_database_engine()
+        myncaabball.check_database_engine()
+        myncaabball.connect_database()
+
+        if indir is None:
+            indir = 'scoreboard_pages/'
+        else:
+            indir = str(indir)
+
+        scoreboard_file = 'ncaa_mbb_scoreboard_full_YYYYMMDD.txt'
+        boxscore_dir = 'boxscore_pages/'
+        boxscore_file = 'ncaa_mbb_boxscore_DDDDDDDDD.txt',
+        boxscore_table_name = 'games'
+        boxscore_dict = {'dir': boxscore_dir, 'file': boxscore_file, 'table': boxscore_table_name}
+
+        if remake_db:
+            print('  Now remaking games database.')
+
+            reset = 1  # do we append (0) or restart (1) the database
+            cnt = 1  # silly database index counter since we give it one at a time
+
+
+
+
   #           db_connect = start_games_db(dbname, username),
   #   ,
   #           #connect to the database and query the scoreboard table,
@@ -337,8 +335,9 @@ def get_med_dir(year, month):
   #               if cnt >= 100000:,
   #                   sys.exit(0),
 
-    # boilerplate to execute call to main() function
-    if __name__ == '__main__':
-        #main(remake_db=True)   
-        main(remake_db=True, get_games=True)
- 
+
+# boilerplate to execute call to main() function
+if __name__ == '__main__':
+    instance = GatherESPNData()
+    instance.execute()
+    # main(remake_db=True, get_games=True)

@@ -1,7 +1,8 @@
 
 import argparse
+import logging
 
-from src.friday.data.ncaa_basketball_db import NcaaBballDb
+from ncaa_basketball_db import NcaaBballDb
 
 
 def do_status_check():
